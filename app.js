@@ -82,14 +82,21 @@ startBtn.addEventListener('click', () => {
 });
 
 // ─── Раздел 2: тариф ─────────────────────────────────────────────────────
-// Копия и цены зеркалят concierge-bot/index.js (PLANS.PRO / PLANS.CRAZY) —
-// это не новая цена, это тот же тариф, показанный формой вместо чата.
+// Копия и цены зеркалят concierge-bot/index.js (PLANS.PRO / PLANS.CRAZY).
+// «Премиум» — не отдельный серверный тариф, а маркетинговый пакет:
+// под капотом это тот же Crazy (8 ГБ, все допы требуют именно его), но
+// со всеми 9 допфункциями включёнными сразу. Раздел допфункций (3 из 6)
+// ещё не построен — когда он появится, он должен прочитать
+// wizardState.plan === 'PREMIUM' и сразу отметить все допы, а не
+// заставлять премиум-покупателя выбирать их вручную.
+const wizardState = { plan: null };
 
 const planInputs = document.querySelectorAll('input[name="plan"]');
 const planNextBtn = document.getElementById('plan-next-btn');
 
 planInputs.forEach((input) => {
   input.addEventListener('change', () => {
+    wizardState.plan = input.value;
     document.querySelectorAll('.plan-option').forEach((option) => {
       const checked = option.querySelector('input').checked;
       option.classList.toggle('plan-option--selected', checked);

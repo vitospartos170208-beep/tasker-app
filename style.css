@@ -313,6 +313,29 @@ body::before {
 
 .plan-option__price {
   flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+  text-align: right;
+}
+
+/* Пара «старая / новая цена» — единственный случай в системе, где рядом
+   стоят два значения одного поля; зачёркнутая сумма мельче и приглушённее,
+   не спорит с настоящей ценой за внимание. */
+.plan-option__price-old {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  text-decoration: line-through;
+}
+
+.plan-option__price-new {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 1rem;
@@ -321,7 +344,7 @@ body::before {
 
 .plan-option__spec {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
   font-family: var(--font-mono);
   font-size: 0.78rem;
