@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-15T19:30:00Z",
+  "title": "Design System: Tasker — Паспорт изделия",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Крафт-бумага", "canonical": "#EDE6D6", "tonalRamp": ["#2A2620", "#4A4438", "#6E6656", "#948B76", "#B8AF98", "#D6CDB8", "#EDE6D6", "#F8F4EB"] },
+      "paper-deep": { "role": "neutral", "displayName": "Крафт тёмный", "canonical": "#E3DAC5", "tonalRamp": ["#26221C", "#453F32", "#685F4C", "#8C8267", "#B0A587", "#CBC0A5", "#E3DAC5", "#F2EBDD"] },
+      "ink": { "role": "neutral", "displayName": "Чернила", "canonical": "#1A1A18", "tonalRamp": ["#0A0A09", "#1A1A18", "#2E2E2A", "#47473F", "#666658", "#8C8C78", "#B8B8A0", "#E4E4D8"] },
+      "ink-soft": { "role": "neutral", "displayName": "Чернила приглушённые", "canonical": "#4A463C", "tonalRamp": ["#151310", "#2A2721", "#3C3830", "#4A463C", "#69644F", "#8B8468", "#B0A886", "#D6CFB2"] },
+      "stamp": { "role": "primary", "displayName": "Штамп", "canonical": "#C8401E", "tonalRamp": ["#3D1408", "#5C1E0C", "#822B11", "#A6351A", "#C8401E", "#DD6440", "#EA9578", "#F5C5B4"] },
+      "stamp-deep": { "role": "primary", "displayName": "Печать (глубокая)", "canonical": "#A6351A", "tonalRamp": ["#331005", "#4D1808", "#6D220C", "#A6351A", "#C24726", "#D6714E", "#E7A186", "#F4CBBC"] },
+      "seal": { "role": "tertiary", "displayName": "Схематический синий", "canonical": "#35586E", "tonalRamp": ["#0F1A21", "#1C2E39", "#294454", "#35586E", "#456F89", "#6890A6", "#95B4C6", "#C7DBE5"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Единственный <h1> экрана — заголовок документа верхнего уровня." },
+      "title": { "displayName": "Title", "purpose": "Значения документных полей (например, название изделия)." },
+      "body": { "displayName": "Body", "purpose": "Вступительный абзац и основной читаемый текст." },
+      "label": { "displayName": "Label", "purpose": "Служебные подписи: лейблы полей, серия, номер шага, номер раздела." }
+    },
+    "shadows": [
+      { "name": "button-rest", "value": "0 8px 16px -6px rgba(26,26,24,.4), 0 2px 5px -1px rgba(26,26,24,.35)", "purpose": "Базовое парение primary-кнопки над бумагой." },
+      { "name": "button-hover", "value": "0 12px 20px -6px rgba(26,26,24,.45), 0 3px 6px -1px rgba(26,26,24,.4)", "purpose": "Усиление тени на наведении." },
+      { "name": "button-active", "value": "0 3px 8px -3px rgba(26,26,24,.4)", "purpose": "Сжатая тень при нажатии — эффект вдавливания штампа." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "120ms ease", "purpose": "Переходы transform/box-shadow/background у кнопки." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "360px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Штампованная вкладка — основной CTA визарда.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\"><span>НАЧАТЬ НАСТРОЙКУ</span><svg class=\"ds-btn-primary__arrow\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 20px; border: 1.5px solid #1A1A18; border-radius: 3px; background: #C8401E; color: #EDE6D6; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.03em; cursor: pointer; box-shadow: 0 8px 16px -6px rgba(26,26,24,.4), 0 2px 5px -1px rgba(26,26,24,.35); transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease; } .ds-btn-primary__arrow { width: 19px; height: 19px; flex: none; } .ds-btn-primary:hover { background: #A6351A; transform: translateY(-1px); box-shadow: 0 12px 20px -6px rgba(26,26,24,.45), 0 3px 6px -1px rgba(26,26,24,.4); } .ds-btn-primary:active { transform: translateY(1px); box-shadow: 0 3px 8px -3px rgba(26,26,24,.4); } .ds-btn-primary:focus-visible { outline: 2px solid #35586E; outline-offset: 3px; }"
+    },
+    {
+      "name": "Diagram Node",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Пронумерованный узел схемы устройства агента — иконка, рисованный номер-круг, подпись.",
+      "html": "<div class=\"ds-diagram-node\"><svg class=\"ds-diagram-node__icon\" viewBox=\"0 0 40 40\" fill=\"none\" aria-hidden=\"true\"><rect x=\"9\" y=\"6\" width=\"22\" height=\"9\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"/><rect x=\"9\" y=\"17\" width=\"22\" height=\"9\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"/><rect x=\"9\" y=\"28\" width=\"22\" height=\"6\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg><svg class=\"ds-diagram-node__num\" viewBox=\"0 0 20 20\" role=\"img\" aria-label=\"Шаг 2\"><circle cx=\"10\" cy=\"10\" r=\"8.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"10\" y=\"10.5\" text-anchor=\"middle\" dominant-baseline=\"central\">2</text></svg><p class=\"ds-diagram-node__cap\">Работает на вашем сервере</p></div>",
+      "css": ".ds-diagram-node { display: flex; flex-direction: column; align-items: center; text-align: center; width: 108px; } .ds-diagram-node__icon { width: 40px; height: 40px; color: #1A1A18; } .ds-diagram-node__num { margin-top: 6px; width: 20px; height: 20px; color: #1A1A18; } .ds-diagram-node__num text { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 9px; fill: currentColor; } .ds-diagram-node__cap { margin: 4px 0 0; font-size: 0.78rem; line-height: 1.3; color: #4A463C; }"
+    },
+    {
+      "name": "Stamp Badge",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Угловая печать документа — единственный чисто декоративный элемент системы.",
+      "html": "<div class=\"ds-stamp-badge\"><svg viewBox=\"0 0 64 64\" class=\"ds-stamp-badge__ring\"><circle cx=\"32\" cy=\"32\" r=\"29\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.8\"/></svg><span class=\"ds-stamp-badge__text\">TASKER<br>СЕР.&nbsp;01</span></div>",
+      "css": ".ds-stamp-badge { position: relative; width: 78px; height: 78px; transform: rotate(9deg); color: #A6351A; opacity: 0.92; } .ds-stamp-badge__ring { position: absolute; inset: 0; width: 100%; height: 100%; } .ds-stamp-badge__text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.62rem; line-height: 1.35; letter-spacing: 0.03em; }"
+    },
+    {
+      "name": "Document Field",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Лейбл + значение — паттерн для полей документа, основа будущих экранов ввода данных.",
+      "html": "<p class=\"ds-doc-field\"><span class=\"ds-doc-field__label\">ИЗДЕЛИЕ</span>Персональный агент «Tasker»</p>",
+      "css": ".ds-doc-field { margin: 0; display: flex; flex-direction: column; gap: 3px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 1rem; color: #1A1A18; } .ds-doc-field__label { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.09em; color: #4A463C; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Паспорт изделия (The Product Passport)",
+    "overview": "Онбординг оформлен как официальный технический документ — паспорт изделия или инструкция по эксплуатации, знакомая каждому, кто хоть раз распаковывал бытовую технику. Это сознательный отказ от стандарта категории (тёмный градиент, светящийся блоб, кнопка-пилюля, «Знакомьтесь — ваш ассистент»): вместо обещания AI-магии система честно показывает, что происходит на самом деле — пронумерованная схема, документные поля, единственный штампованный акцент.\n\nПлотность средняя: разделы разграничены тонкими линиями (не карточками с тенями), внутри — щедрые отступы, как в печатном документе. Материал — крафт-бумага и чёрные чернила, а не стекло и свечение. Единственный носитель тепла и срочности — штампованный красно-оранжевый акцент, и он намеренно редок.",
+    "keyCharacteristics": [
+      "Документ, не приложение: границы-линии вместо карточек-теней",
+      "Один акцентный цвет на весь экран, вне его — только чернила и бумага",
+      "Рисованная line-art графика вместо иконочных шрифтов и эмодзи",
+      "Моноширинный шрифт зарезервирован за «документными» данными, не декоративен"
+    ],
+    "rules": [
+      { "name": "The Single Accent Rule", "body": "Штампованный красно-оранжевый живёт только на угловом штампе и первичной кнопке. Любой другой цветной акцент на экране — ошибка.", "section": "colors" },
+      { "name": "The Document-Field Rule", "body": "Лейбл всегда стоит под или рядом со своим значением, никогда — отдельной декоративной строкой прямо над заголовком.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Разделение — линиями, не тенями и не карточками. Тень появляется только у интерактивного элемента как реакция на состояние.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do держать акцентный цвет только на угловом штампе и primary-кнопке.",
+      "Do рисовать иконки и номера как SVG с единым весом обводки, никогда — Unicode-глифами или эмодзи.",
+      "Do разделять разделы тонкой линией, а не карточкой с тенью.",
+      "Do ставить лейбл документного поля под/рядом со значением, никогда над заголовком."
+    ],
+    "donts": [
+      "Don't использовать градиент, свечение или кнопку-пилюлю.",
+      "Don't добавлять kicker-строку над заголовком.",
+      "Don't использовать жёсткую тень без блюра.",
+      "Don't вводить второй акцентный цвет даже для предупреждений или успеха."
+    ]
+  }
+}

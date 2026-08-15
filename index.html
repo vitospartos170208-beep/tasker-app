@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tasker — паспорт изделия</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!--
+  THESIS: Онбординг как официальный паспорт изделия — не очередное AI-свечение.
+  Отказ от тёмного градиента, светящегося блоба и кнопки-пилюли — стандарта
+  категории.
+  OWN-WORLD: крафт-бумага (#EDE6D6), почти-чёрные чернила (#1A1A18), один
+  штампованный акцент (#C8401E), приглушённый схематический синий (#35586E).
+  Чёрная линейная графика с пронумерованными выносками, IBM Plex Mono для
+  серийных/документных подписей, IBM Plex Sans для текста. Кнопки — штампы-
+  вкладки; поля — окантованные технические поля формы.
+  STORY: посетитель понимает, что это настоящая, честно задокументированная
+  настройка его личного агента — не общая, не магия — и нажимает штампованную
+  вкладку, чтобы начать.
+  FIRST VIEWPORT: обрамлённая обложка паспорта: заголовочный блок «ПАСПОРТ
+  ИЗДЕЛИЯ», пронумерованная схема агента (Telegram–Сервер–Claude, выносные
+  линии), вступительный абзац голосом ИппвА как текст инструкции, штампованная
+  вкладка «НАЧАТЬ →» внизу.
+  FORM: назначенное направление, кандидат 4 из 6 в списке, seed key c3906520.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the
+  finish review, the verdict, and DESIGN.md.
+-->
+
+<main class="passport" id="passport">
+
+  <header class="passport__header">
+    <div class="stamp-badge" aria-hidden="true">
+      <svg viewBox="0 0 64 64" class="stamp-badge__ring">
+        <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="0.8"/>
+      </svg>
+      <span class="stamp-badge__text">TASKER<br>СЕР.&nbsp;01</span>
+    </div>
+    <h1 class="passport__title">Паспорт изделия</h1>
+    <p class="passport__subtitle">Инструкция по подключению</p>
+    <p class="passport__field"><span class="doc-label">ИЗДЕЛИЕ</span>Персональный агент «Tasker»</p>
+  </header>
+
+  <section class="diagram" aria-label="Схема устройства агента">
+    <svg class="diagram__lines" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M 62 40 L 62 75 L 160 75" class="diagram__lead" />
+      <path d="M 160 75 L 160 40" class="diagram__lead" />
+      <path d="M 258 40 L 258 75 L 160 75" class="diagram__lead" />
+    </svg>
+
+    <div class="diagram__node" style="--x:62px">
+      <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M11 20.5 L17 26 L29.5 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg class="diagram__num" viewBox="0 0 20 20" role="img" aria-label="Шаг 1">
+        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <text x="10" y="10.5" text-anchor="middle" dominant-baseline="central">1</text>
+      </svg>
+      <p class="diagram__cap">Живёт в вашем Telegram</p>
+    </div>
+
+    <div class="diagram__node" style="--x:160px">
+      <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <rect x="9" y="6" width="22" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+        <rect x="9" y="17" width="22" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+        <rect x="9" y="28" width="22" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="13.5" cy="10.5" r="1.2" fill="currentColor"/>
+        <circle cx="13.5" cy="21.5" r="1.2" fill="currentColor"/>
+      </svg>
+      <svg class="diagram__num" viewBox="0 0 20 20" role="img" aria-label="Шаг 2">
+        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <text x="10" y="10.5" text-anchor="middle" dominant-baseline="central">2</text>
+      </svg>
+      <p class="diagram__cap">Работает на вашем сервере</p>
+    </div>
+
+    <div class="diagram__node" style="--x:258px">
+      <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 6 L20 34 M8 20 L32 20 M11.5 11.5 L28.5 28.5 M28.5 11.5 L11.5 28.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <circle cx="20" cy="20" r="4.5" stroke="currentColor" stroke-width="1.6" fill="var(--paper)"/>
+      </svg>
+      <svg class="diagram__num" viewBox="0 0 20 20" role="img" aria-label="Шаг 3">
+        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <text x="10" y="10.5" text-anchor="middle" dominant-baseline="central">3</text>
+      </svg>
+      <p class="diagram__cap">Работает через вашу подписку Claude</p>
+    </div>
+  </section>
+
+  <section class="intro">
+    <span class="doc-label">НАЗНАЧЕНИЕ</span>
+    <p class="intro__text">
+      Здравствуйте. Я — Инструктор По Подключению Вашего Агента, или просто
+      «ИппвА». Сегодня я помогу вам подключить своего первого персонального
+      агента — шаг за шагом, без единой команды в терминале.
+    </p>
+  </section>
+
+  <footer class="passport__footer">
+    <p class="passport__note">Раздел 1 из 6 — знакомство</p>
+    <button class="stamp-btn" id="start-btn" type="button">
+      <span>НАЧАТЬ НАСТРОЙКУ</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </footer>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
