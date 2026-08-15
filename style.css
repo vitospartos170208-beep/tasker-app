@@ -53,10 +53,21 @@ body::before {
   padding: 20px 18px calc(20px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 24px;
   border-left: var(--edge);
   border-right: var(--edge);
+}
+
+/* Каждый .screen — один раздел визарда; router (app.js) переключает
+   [hidden], а не local display, поэтому display объявлен только для
+   видимого состояния — иначе author-правило display:flex перебивает
+   браузерное [hidden]{display:none} независимо от специфичности
+   (нормальные author-правила всегда старше normal UA-правил). */
+.screen:not([hidden]) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 /* На высоких вьюпортах justify-content: space-between распределяет лишнее
@@ -64,7 +75,8 @@ body::before {
    пустым провалом перед футером (см. finish review). */
 .passport__header,
 .diagram,
-.intro {
+.intro,
+.plan-options {
   flex: none;
 }
 
@@ -139,6 +151,16 @@ body::before {
   font-size: 0.62rem;
   line-height: 1.35;
   letter-spacing: 0.03em;
+}
+
+/* Заголовок раздела без углового штампа — печать принадлежит только
+   обложке (первому экрану), остальные разделы про форму, не про фасад. */
+.passport__header--plain {
+  padding: 22px 4px 20px;
+}
+
+.passport__title--compact {
+  font-size: clamp(1.35rem, 6vw, 1.6rem);
 }
 
 /* ── Diagram ────────────────────────────────────────────────────────── */
@@ -235,6 +257,96 @@ body::before {
   max-width: 62ch;
 }
 
+/* ── Plan options (Раздел 2 — тариф) ───────────────────────────────── */
+
+.plan-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.plan-option {
+  position: relative;
+  display: block;
+  padding: 16px 44px 16px 16px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.plan-option--selected {
+  background: var(--paper-deep);
+}
+
+.plan-option:focus-within {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+.plan-option__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plan-option__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plan-option__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.plan-option__name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.plan-option__price {
+  flex: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.plan-option__spec {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.plan-option__spec .doc-label {
+  margin-bottom: 0;
+}
+
+.plan-option__check {
+  position: absolute;
+  top: 15px;
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.plan-option--selected .plan-option__check {
+  opacity: 1;
+}
+
 /* ── Footer / CTA ───────────────────────────────────────────────────── */
 
 .passport__footer {
@@ -306,10 +418,11 @@ body::before {
 /* ── Small screens ──────────────────────────────────────────────────── */
 
 @media (max-width: 360px) {
-  .passport { padding-left: 14px; padding-right: 14px; gap: 24px; }
+  .passport { padding-left: 14px; padding-right: 14px; }
   .passport__header { padding-right: 84px; }
   .stamp-badge { width: 68px; height: 68px; }
   .diagram > .diagram__node { width: 92px; }
+  .plan-option { padding: 14px 40px 14px 14px; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────── */

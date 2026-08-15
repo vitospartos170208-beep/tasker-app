@@ -62,6 +62,14 @@
       "description": "Лейбл + значение — паттерн для полей документа, основа будущих экранов ввода данных.",
       "html": "<p class=\"ds-doc-field\"><span class=\"ds-doc-field__label\">ИЗДЕЛИЕ</span>Персональный агент «Tasker»</p>",
       "css": ".ds-doc-field { margin: 0; display: flex; flex-direction: column; gap: 3px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 1rem; color: #1A1A18; } .ds-doc-field__label { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.09em; color: #4A463C; }"
+    },
+    {
+      "name": "Plan Option",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Окантованная выбираемая карточка (radio) для полей выбора вида «один из нескольких» — тариф и последующие разделы визарда.",
+      "html": "<label class=\"ds-plan-option\"><input class=\"ds-plan-option__input\" type=\"radio\" name=\"plan\"><span class=\"ds-plan-option__body\"><span class=\"ds-plan-option__head\"><span class=\"ds-plan-option__name\">Обычное использование</span><span class=\"ds-plan-option__price\">500 ₽/мес</span></span><span class=\"ds-plan-option__spec\"><span class=\"ds-doc-field__label\">СЕРВЕР</span>4 ГБ ОЗУ</span></span><svg class=\"ds-plan-option__check\" viewBox=\"0 0 20 20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 10.5 L8 14.5 L16 5.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></label>",
+      "css": ".ds-plan-option { position: relative; display: block; padding: 16px 44px 16px 16px; border: 1.5px solid #1A1A18; border-radius: 3px; cursor: pointer; transition: background 120ms ease; } .ds-plan-option--selected { background: #E3DAC5; } .ds-plan-option:focus-within { outline: 2px solid #35586E; outline-offset: 2px; } .ds-plan-option__input { position: absolute; opacity: 0; pointer-events: none; } .ds-plan-option__check { position: absolute; top: 15px; right: 14px; width: 20px; height: 20px; color: #1A1A18; opacity: 0; transition: opacity 120ms ease; } .ds-plan-option--selected .ds-plan-option__check { opacity: 1; }"
     }
   ],
   "narrative": {
@@ -82,7 +90,8 @@
       "Do держать акцентный цвет только на угловом штампе и primary-кнопке.",
       "Do рисовать иконки и номера как SVG с единым весом обводки, никогда — Unicode-глифами или эмодзи.",
       "Do разделять разделы тонкой линией, а не карточкой с тенью.",
-      "Do ставить лейбл документного поля под/рядом со значением, никогда над заголовком."
+      "Do ставить лейбл документного поля под/рядом со значением, никогда над заголовком.",
+      "Do заполнять разрежённые разделы реальным пояснительным текстом перед тем, как полагаться на space-between для высоты."
     ],
     "donts": [
       "Don't использовать градиент, свечение или кнопку-пилюлю.",
