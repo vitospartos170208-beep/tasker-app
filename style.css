@@ -76,7 +76,11 @@ body::before {
 .passport__header,
 .diagram,
 .intro,
-.plan-options {
+.plan-options,
+.addon-options,
+.steps,
+.field,
+.stamp-btn--outline {
   flex: none;
 }
 
@@ -370,6 +374,225 @@ body::before {
   opacity: 1;
 }
 
+/* ── Addon options (Раздел 3 — допфункции) ─────────────────────────── */
+
+.addon-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.addon-option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 44px 14px 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 120ms ease, opacity 120ms ease;
+}
+
+.addon-option--selected {
+  background: var(--paper-deep);
+}
+
+.addon-option--locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.addon-option:focus-within {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+.addon-option__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.addon-option__icon {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin-top: 2px;
+  color: var(--ink);
+}
+
+.addon-option__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.addon-option__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.addon-option__name {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.addon-option__price {
+  flex: none;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.addon-option__tagline {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.addon-option__lock {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.addon-option__check {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 20px;
+  height: 20px;
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.addon-option--selected .addon-option__check {
+  opacity: 1;
+}
+
+/* ── Numbered steps (BotFather / установка) ────────────────────────── */
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0;
+  list-style: none;
+  margin: 0;
+}
+
+.steps__item {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.steps__num {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1.4px solid var(--ink);
+  border-radius: 50%;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: var(--ink);
+  transform: translateY(4px);
+}
+
+.steps__text {
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.steps__text code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--paper-deep);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* ── Form field (токен / IP / порт / пароль) ───────────────────────── */
+
+.field {
+  display: block;
+}
+
+.field + .field {
+  margin-top: 14px;
+}
+
+.field__input {
+  display: block;
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  transition: border-color 120ms ease;
+}
+
+.field__input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.6;
+}
+
+.field__input:focus-visible {
+  outline: 2px solid var(--seal);
+  outline-offset: 2px;
+}
+
+.field--invalid .field__input {
+  border-width: 2px;
+}
+
+/* .field__error переключается через [hidden] из JS — display объявлен
+   только для видимого состояния, тем же приёмом, что и .screen:not([hidden])
+   выше: author-правило display:block иначе перебивает встроенное
+   [hidden]{display:none} независимо от специфичности. */
+.field__error:not([hidden]),
+.field__hint {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+/* ── Closing note (Раздел 6 — конец документа) ─────────────────────── */
+
+.closing-note {
+  margin: 0;
+  padding-top: 14px;
+  border-top: var(--edge);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
 /* ── Footer / CTA ───────────────────────────────────────────────────── */
 
 .passport__footer {
@@ -436,6 +659,28 @@ body::before {
   border-color: var(--ink-soft);
   box-shadow: none;
   cursor: default;
+}
+
+/* Второстепенное действие (уходит из приложения, не продолжает раздел) —
+   без заливки и без тени: та единственная тень принадлежит только
+   первичному переходу (см. The Flat-By-Default Rule). */
+.stamp-btn--outline {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.stamp-btn--outline:hover {
+  background: var(--paper-deep);
+  transform: none;
+  box-shadow: none;
+}
+
+.stamp-btn--outline:active {
+  background: var(--paper-deep);
+  transform: none;
+  box-shadow: none;
 }
 
 /* ── Small screens ──────────────────────────────────────────────────── */

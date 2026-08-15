@@ -70,6 +70,22 @@
       "description": "Окантованная выбираемая карточка (radio) для полей выбора вида «один из нескольких» — тариф и последующие разделы визарда. Опционально несёт пару «старая/новая цена» (.plan-option__price-old зачёркнутый ink-soft моно, .plan-option__price-new обычная цена) для anchor-pricing карточек вроде «Премиум».",
       "html": "<label class=\"ds-plan-option\"><input class=\"ds-plan-option__input\" type=\"radio\" name=\"plan\"><span class=\"ds-plan-option__body\"><span class=\"ds-plan-option__head\"><span class=\"ds-plan-option__name\">Обычное использование</span><span class=\"ds-plan-option__price\">500 ₽/мес</span></span><span class=\"ds-plan-option__spec\"><span class=\"ds-doc-field__label\">СЕРВЕР</span>4 ГБ ОЗУ</span></span><svg class=\"ds-plan-option__check\" viewBox=\"0 0 20 20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 10.5 L8 14.5 L16 5.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></label>",
       "css": ".ds-plan-option { position: relative; display: block; padding: 16px 44px 16px 16px; border: 1.5px solid #1A1A18; border-radius: 3px; cursor: pointer; transition: background 120ms ease; } .ds-plan-option--selected { background: #E3DAC5; } .ds-plan-option:focus-within { outline: 2px solid #35586E; outline-offset: 2px; } .ds-plan-option__input { position: absolute; opacity: 0; pointer-events: none; } .ds-plan-option__check { position: absolute; top: 15px; right: 14px; width: 20px; height: 20px; color: #1A1A18; opacity: 0; transition: opacity 120ms ease; } .ds-plan-option--selected .ds-plan-option__check { opacity: 1; }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": null,
+      "description": "Окантованное текстовое поле формы. Невалидное состояние — утолщение рамки, не цвет; ошибка/подсказка — мелкий моно-текст под полем.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">IP-АДРЕС СЕРВЕРА</span><input class=\"ds-field__input\" type=\"text\" placeholder=\"203.0.113.10\"><span class=\"ds-field__error\">Похоже, это не IP-адрес.</span></label>",
+      "css": ".ds-field__input { display: block; width: 100%; padding: 13px 14px; border: 1.5px solid #1A1A18; border-radius: 3px; background: #EDE6D6; color: #1A1A18; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.96rem; } .ds-field--invalid .ds-field__input { border-width: 2px; } .ds-field__error:not([hidden]), .ds-field__hint { display: block; margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: #4A463C; }"
+    },
+    {
+      "name": "Steps",
+      "kind": "list",
+      "refersTo": null,
+      "description": "Нумерованная инструкция — окантованный CSS-кругляш с моно-цифрой вместо SVG (текст переменной длины), тот же визуальный язык, что у схемы первого экрана.",
+      "html": "<ol class=\"ds-steps\"><li class=\"ds-steps__item\"><span class=\"ds-steps__num\">1</span><span class=\"ds-steps__text\">Откройте <strong>@BotFather</strong></span></li></ol>",
+      "css": ".ds-steps { display: flex; flex-direction: column; gap: 14px; list-style: none; margin: 0; padding: 4px 0; } .ds-steps__item { display: flex; align-items: baseline; gap: 12px; } .ds-steps__num { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1.4px solid #1A1A18; border-radius: 50%; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.72rem; }"
     }
   ],
   "narrative": {
