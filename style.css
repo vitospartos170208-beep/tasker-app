@@ -113,19 +113,40 @@ body {
   color: transparent;
 }
 
-/* Первый экран: только символ бренд-марки (без леттеринга и слогана),
-   в левом верхнем углу шапки — крупнее, чем компактная версия в шапках
-   остальных разделов (.brand-mark__icon, 36px). Оба — один и тот же
-   растровый файл icon-proha.png: реальный кадр, вырезанный и обесцвечен
-   по альфа-каналу из настоящего logo-proha.jpg (не рисованная
-   реконструкция) — высота задаётся, ширина следует естественной
-   пропорции файла (378×449), чтобы не искажать значок. */
+/* Первый экран: символ + словесный знак «PROha» в строку, в левом
+   верхнем углу шапки — как в .brand-mark компактных шапок, но крупнее
+   (hero-версия wordmark из DESIGN.md). Значок — тот же растровый файл
+   icon-proha.png, что и .brand-mark__icon: реальный кадр, вырезанный и
+   обесцвеченный по альфа-каналу из настоящего logo-proha.jpg (не
+   рисованная реконструкция). Высота задаётся, ширина следует
+   естественной пропорции файла (378×449), чтобы не искажать значок. */
+.hero-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 2px;
+}
+
 .hero-icon {
   display: block;
   flex: none;
-  height: 56px;
+  height: clamp(42px, 12vw, 52px);
   width: auto;
-  margin: 0 0 2px;
+}
+
+.hero-mark__word {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 6.5vw, 1.7rem);
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.hero-mark__word .grad {
+  background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* ── Header ─────────────────────────────────────────────────────────── */
@@ -767,7 +788,6 @@ body {
 @media (max-width: 360px) {
   .passport { padding-left: 14px; padding-right: 14px; }
   .diagram > .diagram__node { width: 92px; }
-  .hero-icon { height: 48px; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────── */

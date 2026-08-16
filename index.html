@@ -25,10 +25,10 @@
   STORY: посетитель узнаёт бренд по логотипу с первого экрана и понимает —
   это дружелюбный личный ассистент, а не корпоративная форма; салатовая
   кнопка явно зовёт продолжить.
-  FIRST VIEWPORT: символ бренд-марки в левом верхнем углу шапки (без
-  леттеринга и слогана — только значок), заголовок раздела, схема из трёх
-  карточек-иконок (Telegram–Сервер–Claude), карточка с приветственным
-  текстом, салатовая кнопка «НАЧАТЬ НАСТРОЙКУ →» внизу.
+  FIRST VIEWPORT: бренд-марка (значок + словесный знак «PROha») в строку
+  в левом верхнем углу шапки, без слогана, заголовок раздела, схема из
+  трёх карточек-иконок (Telegram–Сервер–Claude), карточка с
+  приветственным текстом, салатовая кнопка «НАЧАТЬ НАСТРОЙКУ →» внизу.
   FORM: направление зафиксировано брифом пользователя напрямую (логотип +
   явное указание цвета кнопок), без броска кубика по правилам скилла.
   FINISH: unreviewed and undocumented is unfinished; this build ends with the
@@ -40,7 +40,10 @@
 <section class="screen" data-screen="intro">
 
   <header class="passport__header">
-    <img class="hero-icon" src="icon-proha.png" alt="PROha" width="378" height="449">
+    <div class="hero-mark">
+      <img class="hero-icon" src="icon-proha.png" alt="" width="378" height="449">
+      <p class="hero-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
     <h1 class="passport__title">Знакомство</h1>
   </header>
 
