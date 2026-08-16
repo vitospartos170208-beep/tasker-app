@@ -780,13 +780,6 @@ body {
   gap: 14px;
 }
 
-.passport__note {
-  margin: 0;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--ink-soft);
-}
-
 .closing-note {
   margin: 0;
   padding: 16px 18px;
