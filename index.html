@@ -25,10 +25,10 @@
   STORY: посетитель узнаёт бренд по логотипу с первого экрана и понимает —
   это дружелюбный личный ассистент, а не корпоративная форма; салатовая
   кнопка явно зовёт продолжить.
-  FIRST VIEWPORT: центрированная бренд-марка (иконка + «PROha» + слоган),
-  заголовок раздела, схема из трёх карточек-иконок (Telegram–Сервер–Claude),
-  карточка с приветственным текстом, салатовая кнопка «НАЧАТЬ НАСТРОЙКУ →»
-  внизу.
+  FIRST VIEWPORT: символ бренд-марки в левом верхнем углу шапки (без
+  леттеринга и слогана — только значок), заголовок раздела, схема из трёх
+  карточек-иконок (Telegram–Сервер–Claude), карточка с приветственным
+  текстом, салатовая кнопка «НАЧАТЬ НАСТРОЙКУ →» внизу.
   FORM: направление зафиксировано брифом пользователя напрямую (логотип +
   явное указание цвета кнопок), без броска кубика по правилам скилла.
   FINISH: unreviewed and undocumented is unfinished; this build ends with the
@@ -52,9 +52,19 @@
 <section class="screen" data-screen="intro">
 
   <header class="passport__header">
-    <div class="hero-brand">
-      <img class="hero-brand__logo" src="logo-proha.jpg" alt="PROha — твой личный AI ассистент" width="1254" height="1254">
-    </div>
+    <svg class="hero-icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <rect x="24" y="7" width="52" height="86" rx="15" stroke="#12193A" stroke-width="3.2"/>
+      <path d="M43 15h14" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M46 85h8" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z" stroke="url(#proha-grad)" stroke-width="3.2" stroke-linejoin="round"/>
+      <rect x="38" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+      <rect x="54" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+      <path d="M39 47c3 3 11 3 14 0" stroke="url(#proha-grad)" stroke-width="2.8" stroke-linecap="round"/>
+      <path d="M68 29h9M68 37h13M68 45h9" stroke="url(#proha-grad)" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="79" cy="29" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      <circle cx="83" cy="37" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      <circle cx="79" cy="45" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+    </svg>
     <h1 class="passport__title">Знакомство</h1>
   </header>
 
