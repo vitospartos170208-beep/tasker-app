@@ -311,6 +311,10 @@ body {
   max-width: 62ch;
 }
 
+.intro__text + .intro__text {
+  margin-top: 12px;
+}
+
 /* ── Plan options (Раздел 2 — тариф) ───────────────────────────────── */
 
 .plan-options {
