@@ -39,7 +39,7 @@
       "kind": "button",
       "refersTo": "button-primary",
       "description": "Салатовая кнопка — единственный цвет первичного действия во всей системе, текст тёмно-синий (не белый) для контраста ~8:1.",
-      "html": "<button class=\"ds-btn-primary\" type=\"button\"><span>НАЧАТЬ НАСТРОЙКУ</span><svg class=\"ds-btn-primary__arrow\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\"><span>ПОЕХАЛИ</span><svg class=\"ds-btn-primary__arrow\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
       "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 20px; border: none; border-radius: 16px; background: #84C641; color: #12193A; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 0.96rem; cursor: pointer; box-shadow: 0 10px 22px -8px rgba(111,174,49,.55), 0 2px 6px -1px rgba(18,25,58,.1); transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease; } .ds-btn-primary:hover { background: #6FAE31; transform: translateY(-1px); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:disabled { background: #E8EDF8; color: #5C6480; box-shadow: none; }"
     },
     {
