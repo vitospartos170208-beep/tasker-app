@@ -296,8 +296,27 @@ serverNextBtn.addEventListener('click', () => {
     password: passwordInput.value,
   };
   tap();
-  goToScreenByName('done');
+
+  // sendData() закрывает Mini App немедленно — это поведение платформы, не
+  // баг: после вызова управление возвращается в чат с ботом, и дальнейший
+  // прогресс установки идёт уже там (bot.on('message:web_app_data', ...)
+  // подхватывает эти же данные и запускает provisionServer()). Раздел
+  // «Что произойдёт дальше» в реальном Telegram поэтому не увидят — он
+  // остаётся как честный фолбэк для проверки визарда вне Telegram (в
+  // обычном браузере), где sendData недоступен.
+  if (tg && typeof tg.sendData === 'function') {
+    const payload = {
+      plan: wizardState.plan,
+      addons: [...wizardState.addons],
+      botToken: wizardState.botToken,
+      server: wizardState.server,
+    };
+    tg.sendData(JSON.stringify(payload));
+  } else {
+    goToScreenByName('done');
+  }
+
   // Пароль был нужен только для передачи дальше — не оставляем его в поле
-  // формы дольше, чем до перехода на следующий раздел.
+  // формы дольше, чем до перехода/отправки.
   passwordInput.value = '';
 });
