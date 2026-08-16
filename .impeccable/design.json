@@ -46,8 +46,8 @@
       "name": "Brand Mark",
       "kind": "custom",
       "refersTo": null,
-      "description": "Иконка PROha — навигационно-синий силуэт телефона с градиентной речевой мордочкой-персонажем, коннектор-точками и искрой. Один и тот же SVG-значок в двух размерах: hero (56px, экран 1, символ один, без леттеринга, в левом верхнем углу шапки) и compact (36px, остальные экраны, значок + словесный знак «PROha» рядом). Растровый логотип пользователя в интерфейсе не используется.",
-      "html": "<div class=\"ds-brand-mark\"><svg viewBox=\"0 0 100 100\" fill=\"none\" aria-hidden=\"true\"><rect x=\"24\" y=\"7\" width=\"52\" height=\"86\" rx=\"15\" stroke=\"#12193A\" stroke-width=\"3.2\"/><path d=\"M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z\" stroke=\"url(#g)\" stroke-width=\"3.2\"/></svg><p class=\"ds-brand-mark__word\">PRO<span class=\"grad\">ha</span></p></div>",
+      "description": "Иконка PROha — навигационно-синий силуэт телефона с градиентной речевой мордочкой-персонажем, коннектор-точками и искрой. Реальный кроп из logo-proha.jpg (icon-proha.png, альфа-матирован, фон убран), не рисованная реконструкция. Один файл в двух размерах: hero (высота 56px, экран 1, символ один, без леттеринга, в левом верхнем углу шапки) и compact (высота 36px, остальные экраны, значок + словесный знак «PROha» рядом, леттеринг — CSS-текст).",
+      "html": "<div class=\"ds-brand-mark\"><img src=\"icon-proha.png\" alt=\"\" width=\"378\" height=\"449\" style=\"height:36px;width:auto;display:block\"><p class=\"ds-brand-mark__word\">PRO<span class=\"grad\">ha</span></p></div>",
       "css": ".ds-brand-mark { display: flex; align-items: center; gap: 10px; } .ds-brand-mark__word { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.2rem; color: #12193A; } .ds-brand-mark__word .grad { background: linear-gradient(135deg, #2F6FED, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }"
     },
     {

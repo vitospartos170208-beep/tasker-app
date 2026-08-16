@@ -92,9 +92,10 @@ body {
 }
 
 .brand-mark__icon {
+  display: block;
   flex: none;
-  width: 36px;
   height: 36px;
+  width: auto;
 }
 
 .brand-mark__word {
@@ -114,13 +115,16 @@ body {
 
 /* Первый экран: только символ бренд-марки (без леттеринга и слогана),
    в левом верхнем углу шапки — крупнее, чем компактная версия в шапках
-   остальных разделов (.brand-mark__icon, 36px), но та же самая рисованная
-   SVG-реконструкция значка, не растровый файл логотипа. */
+   остальных разделов (.brand-mark__icon, 36px). Оба — один и тот же
+   растровый файл icon-proha.png: реальный кадр, вырезанный и обесцвечен
+   по альфа-каналу из настоящего logo-proha.jpg (не рисованная
+   реконструкция) — высота задаётся, ширина следует естественной
+   пропорции файла (378×449), чтобы не искажать значок. */
 .hero-icon {
   display: block;
   flex: none;
-  width: 56px;
   height: 56px;
+  width: auto;
   margin: 0 0 2px;
 }
 
@@ -763,7 +767,7 @@ body {
 @media (max-width: 360px) {
   .passport { padding-left: 14px; padding-right: 14px; }
   .diagram > .diagram__node { width: 92px; }
-  .hero-icon { width: 48px; height: 48px; }
+  .hero-icon { height: 48px; }
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────── */
