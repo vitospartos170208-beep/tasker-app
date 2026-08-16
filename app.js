@@ -1,8 +1,9 @@
-// Визард «Паспорт изделия», все 6 разделов построены. Раздел 6 (установка)
-// намеренно остаётся документацией «что произойдёт», а не фейковым живым
-// прогрессом — бэкенда, который реально ставит сервер, здесь ещё нет, и
-// притворяться, что он есть, было бы менее честно, чем прямо это сказать
-// (см. PRODUCT.md → Product Principles → Placeholder-honest).
+// Визард PROha, 5 разделов (тариф выбирать больше не нужно — один
+// серверный вариант на всех). Последний раздел («Что произойдёт дальше»)
+// в реальном Telegram почти никто не увидит: sendData() закрывает Mini App
+// сразу после отправки формы, и дальше идёт настоящая установка через
+// concierge-bot (SSH, provisionServer()) — этот раздел виден только как
+// честный фолбэк вне Telegram, где sendData недоступен (см. ниже).
 
 const tg = window.Telegram && window.Telegram.WebApp;
 
@@ -25,19 +26,23 @@ if (tg) {
 // ─── Общее состояние визарда ─────────────────────────────────────────────
 // Ничего отсюда пока никуда не отправляется (backend не существует — см.
 // PRODUCT.md → Operating Context) — но копится по-настоящему, чтобы разделы
-// друг на друга ссылались (допы читают plan, сервер — тариф для подсказки)
-// и чтобы будущему backend-подключению не пришлось переписывать форму.
+// друг на друга ссылались и чтобы будущему backend-подключению не пришлось
+// переписывать форму.
+//
+// plan зафиксирован на CRAZY — раздел выбора тарифа убран (у продукта
+// теперь один серверный вариант, каждый клиент покупает его), но само
+// поле в payload осталось: concierge-bot/index.js по-прежнему валидирует
+// plan через ['PRO','CRAZY','PREMIUM'].includes(...), значение 'CRAZY'
+// для него — обычный валидный тариф, менять бота не пришлось.
 const wizardState = {
-  plan: null, // 'PRO' | 'CRAZY' | 'PREMIUM'
+  plan: 'CRAZY',
   addons: new Set(),
   botToken: null,
   server: { ip: null, port: null, password: null },
 };
 
 const PLAN_INFO = {
-  PRO: { ram: '4 ГБ', price: 500 },
   CRAZY: { ram: '8 ГБ', price: 700 },
-  PREMIUM: { ram: '8 ГБ', price: 3990 },
 };
 
 const TOKEN_RE = /^\d+:[A-Za-z0-9_-]+$/;
@@ -54,7 +59,7 @@ function formatRub(n) {
 // а не серия перезагрузок. Порядок здесь совпадает с шагами из
 // concierge-bot/index.js и PRODUCT.md → Capabilities and Constraints.
 
-const screenOrder = ['intro', 'plan', 'addons', 'botfather', 'server', 'done'];
+const screenOrder = ['intro', 'addons', 'botfather', 'server', 'done'];
 let currentIndex = 0;
 
 // Некоторые разделы зависят от состояния, накопленного раньше (тариф из
@@ -107,99 +112,36 @@ function tap() {
 
 document.getElementById('start-btn').addEventListener('click', () => {
   tap();
-  goToScreenByName('plan');
-});
-
-// ─── Раздел 2: тариф ─────────────────────────────────────────────────────
-// Копия и цены зеркалят concierge-bot/index.js (PLANS.PRO / PLANS.CRAZY).
-// «Премиум» — не отдельный серверный тариф, а маркетинговый пакет: под
-// капотом это тот же Crazy (8 ГБ, все допы требуют именно его), но со всеми
-// 9 допфункциями включёнными сразу — раздел допфункций читает
-// wizardState.plan === 'PREMIUM' и сразу отмечает все допы вместо того,
-// чтобы заставлять премиум-покупателя выбирать их вручную.
-
-const planNextBtn = document.getElementById('plan-next-btn');
-
-document.querySelectorAll('input[name="plan"]').forEach((input) => {
-  input.addEventListener('change', () => {
-    wizardState.plan = input.value;
-    document.querySelectorAll('.plan-option').forEach((option) => {
-      option.classList.toggle('plan-option--selected', option.querySelector('input').checked);
-    });
-    planNextBtn.disabled = false;
-    if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
-  });
-});
-
-planNextBtn.addEventListener('click', () => {
-  if (planNextBtn.disabled) return;
-  tap();
   goToScreenByName('addons');
 });
 
-// ─── Раздел 3: допфункции ────────────────────────────────────────────────
-// Все 9 функций в concierge-bot/index.js требуют тариф Crazy (requiresCrazy:
-// true у каждой) — на PRO они видны, но заблокированы; на «Премиум» уже
-// включены и заблокированы в другую сторону (нечего выбирать, всё есть).
+// ─── Раздел 2: допфункции ────────────────────────────────────────────────
+// Тариф больше не выбирается (один серверный вариант на всех, см.
+// wizardState.plan) — значит, допфункции никогда не блокируются и не
+// включаются автоматически, всегда обычный чекбокс-список.
 
 const addonsNote = document.getElementById('addons-note');
 const totalPriceEl = document.getElementById('total-price');
 const addonsNextBtn = document.getElementById('addons-next-btn');
 
 function renderAddonsScreen() {
-  const plan = wizardState.plan || 'CRAZY';
-
   document.querySelectorAll('.addon-option').forEach((option) => {
     const input = option.querySelector('.addon-option__input');
     const priceEl = option.querySelector('.addon-option__price');
-    const lockEl = option.querySelector('.addon-option__lock');
-    const basePrice = Number(option.dataset.price);
-
-    option.classList.remove('addon-option--locked', 'addon-option--included');
-    lockEl.hidden = true;
-
-    if (plan === 'PREMIUM') {
-      input.checked = true;
-      input.disabled = true;
-      wizardState.addons.add(input.value);
-      option.classList.add('addon-option--included', 'addon-option--selected');
-      priceEl.textContent = 'Включено';
-    } else if (plan === 'PRO') {
-      input.checked = false;
-      input.disabled = true;
-      wizardState.addons.delete(input.value);
-      option.classList.add('addon-option--locked');
-      option.classList.remove('addon-option--selected');
-      lockEl.hidden = false;
-      priceEl.textContent = formatRub(basePrice);
-    } else {
-      input.disabled = false;
-      option.classList.toggle('addon-option--selected', input.checked);
-      priceEl.textContent = formatRub(basePrice);
-    }
+    input.disabled = false;
+    option.classList.toggle('addon-option--selected', input.checked);
+    priceEl.textContent = formatRub(Number(option.dataset.price));
   });
-
-  if (plan === 'PRO') {
-    addonsNote.textContent =
-      'Эти функции требуют тариф «Активное использование». На вашем текущем тарифе их можно посмотреть, но не подключить — вернитесь на предыдущий раздел, чтобы сменить тариф.';
-  } else if (plan === 'PREMIUM') {
-    addonsNote.textContent = 'Все функции уже включены в «Премиум» — здесь нечего выбирать, просто справочный список.';
-  } else {
-    addonsNote.textContent = 'Выберите любые функции — они добавятся к ежемесячной оплате тарифа «Активное использование».';
-  }
 
   updateTotal();
 }
 
 function updateTotal() {
-  const plan = wizardState.plan || 'CRAZY';
-  const base = PLAN_INFO[plan]?.price ?? 0;
+  const base = PLAN_INFO.CRAZY.price;
   let addonsSum = 0;
-  if (plan === 'CRAZY') {
-    document.querySelectorAll('.addon-option__input:checked').forEach((input) => {
-      addonsSum += Number(input.closest('.addon-option').dataset.price);
-    });
-  }
+  document.querySelectorAll('.addon-option__input:checked').forEach((input) => {
+    addonsSum += Number(input.closest('.addon-option').dataset.price);
+  });
   totalPriceEl.textContent = formatRub(base + addonsSum);
 }
 
@@ -222,7 +164,7 @@ addonsNextBtn.addEventListener('click', () => {
   goToScreenByName('botfather');
 });
 
-// ─── Раздел 4: свой бот через BotFather ──────────────────────────────────
+// ─── Раздел 3: свой бот через BotFather ──────────────────────────────────
 
 const tokenInput = document.getElementById('token-input');
 const tokenField = document.getElementById('token-field');
@@ -245,7 +187,7 @@ botfatherNextBtn.addEventListener('click', () => {
   goToScreenByName('server');
 });
 
-// ─── Раздел 5: сервер ────────────────────────────────────────────────────
+// ─── Раздел 4: сервер ────────────────────────────────────────────────────
 
 const ipInput = document.getElementById('ip-input');
 const ipError = document.getElementById('ip-error');

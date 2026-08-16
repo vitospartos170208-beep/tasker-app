@@ -91,7 +91,6 @@ body {
 .diagram,
 .intro,
 .intro-media,
-.plan-options,
 .addon-options,
 .steps-card,
 .field,
@@ -390,153 +389,7 @@ body {
   text-align: center;
 }
 
-/* ── Plan options (Раздел 2 — тариф) ───────────────────────────────── */
-
-.plan-options {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 2px 0;
-}
-
-.plan-option {
-  position: relative;
-  display: block;
-  padding: 16px 44px 16px 16px;
-  background: var(--card);
-  border: 1.5px solid var(--line);
-  border-radius: var(--r-md);
-  box-shadow: var(--shadow-card);
-  cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
-}
-
-.plan-option--selected {
-  border-color: var(--brand-blue);
-  background: #F1F6FF;
-  box-shadow: 0 0 0 3px rgba(47,111,237,0.14), var(--shadow-card);
-}
-
-.plan-option:focus-within {
-  outline: 2px solid var(--brand-blue);
-  outline-offset: 2px;
-}
-
-.plan-option__input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.plan-option__body {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.plan-option__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.plan-option__name {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--ink);
-}
-
-.plan-option__price {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--ink);
-  text-align: right;
-}
-
-.plan-option__price-old {
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: var(--ink-soft);
-  text-decoration: line-through;
-}
-
-.plan-option__price-new {
-  color: var(--accent-deep);
-}
-
-.plan-option__ram {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  font-weight: 600;
-}
-
-.plan-option__spec {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  font-weight: 600;
-}
-
-.plan-option__spec .doc-label {
-  display: inline;
-  margin: 0 6px 0 0;
-  font-size: 0.68rem;
-}
-
-.plan-option__perks {
-  margin: 2px 0 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.plan-option__perks li {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  font-weight: 600;
-  padding-left: 18px;
-  position: relative;
-}
-
-.plan-option__perks li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.5em;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--brand-blue);
-  opacity: 0.35;
-}
-
-.plan-option__check {
-  position: absolute;
-  top: 15px;
-  right: 14px;
-  width: 22px;
-  height: 22px;
-  color: var(--brand-blue);
-  opacity: 0;
-  transition: opacity 120ms ease, transform 120ms ease;
-  transform: scale(0.7);
-}
-
-.plan-option--selected .plan-option__check {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* ── Addon options (Раздел 3 — допфункции) ─────────────────────────── */
+/* ── Addon options ──────────────────────────────────────────────────── */
 
 .addon-options {
   display: flex;
@@ -562,21 +415,6 @@ body {
 .addon-option--selected {
   border-color: var(--brand-blue);
   background: #F1F6FF;
-}
-
-/* Не opacity на всю карточку (роняет контраст текста ниже читаемого) —
-   приглушаем конкретные части конкретными цветами, текст остаётся
-   различимым (см. finish review). */
-.addon-option--locked {
-  cursor: not-allowed;
-  background: var(--paper-deep);
-  border-color: var(--paper-deep);
-}
-
-.addon-option--locked .addon-option__icon,
-.addon-option--locked .addon-option__name,
-.addon-option--locked .addon-option__price {
-  color: var(--ink-soft);
 }
 
 .addon-option:focus-within {
@@ -625,21 +463,11 @@ body {
   color: var(--ink);
 }
 
-.addon-option--included .addon-option__price {
-  color: var(--accent-deep);
-}
-
 .addon-option__tagline {
   font-size: 0.82rem;
   line-height: 1.4;
   color: var(--ink-soft);
   font-weight: 500;
-}
-
-.addon-option__lock {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--ink-soft);
 }
 
 .addon-option__check {
