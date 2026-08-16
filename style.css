@@ -93,6 +93,7 @@ body {
 .intro-media,
 .addon-options,
 .payment-stub,
+.pricing-card,
 .steps-card,
 .field,
 .btn-primary--outline {
@@ -377,6 +378,64 @@ body {
   font-size: 0.82rem;
   color: var(--ink-soft);
   text-align: center;
+}
+
+/* ── Pricing explainer (экран между интро и допфункциями) ─────────────
+   Два .pricing-card подряд — тот же Card-компонент, что и .intro, только
+   с doc-label сверху (ОДИН РАЗ / КАЖДЫЙ МЕСЯЦ). Строки .pricing-list__row
+   на --paper-deep — тот же приглушённый фон, что у .payment-stub, для
+   единообразия «информационных» блоков, не карточек-опций. */
+.pricing-card {
+  background: var(--card);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px 20px;
+}
+
+.pricing-card__text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.pricing-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pricing-list__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--paper-deep);
+  border-radius: var(--r-sm);
+}
+
+.pricing-list__name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pricing-list__price {
+  flex: none;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.pricing-card__note {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
 }
 
 /* ── Payment stub (заглушка приёма оплаты) ────────────────────────────

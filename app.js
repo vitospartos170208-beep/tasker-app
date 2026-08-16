@@ -1,7 +1,8 @@
-// Визард PROha, 6 разделов (тариф выбирать больше не нужно — один
-// серверный вариант на всех; раздел «Оплата» пока заглушка, реальный
-// приём платежей ещё не подключён). Последний раздел («Что произойдёт
-// дальше»)
+// Визард PROha, 7 разделов (тариф выбирать больше не нужно — один
+// серверный вариант на всех; раздел «Как это оплачивается» — статичное
+// объяснение модели цен перед выбором допфункций; раздел «Оплата» пока
+// заглушка, реальный приём платежей ещё не подключён). Последний раздел
+// («Что произойдёт дальше»)
 // в реальном Telegram почти никто не увидит: sendData() закрывает Mini App
 // сразу после отправки формы, и дальше идёт настоящая установка через
 // concierge-bot (SSH, provisionServer()) — этот раздел виден только как
@@ -64,7 +65,7 @@ function formatRub(n) {
 // а не серия перезагрузок. Порядок здесь совпадает с шагами из
 // concierge-bot/index.js и PRODUCT.md → Capabilities and Constraints.
 
-const screenOrder = ['intro', 'addons', 'payment', 'botfather', 'server', 'done'];
+const screenOrder = ['intro', 'pricing', 'addons', 'payment', 'botfather', 'server', 'done'];
 let currentIndex = 0;
 
 // Некоторые разделы зависят от состояния, накопленного раньше (тариф из
@@ -118,10 +119,21 @@ function tap() {
 
 document.getElementById('start-btn').addEventListener('click', () => {
   tap();
+  goToScreenByName('pricing');
+});
+
+// ─── Раздел 2: как это оплачивается (объяснение, без сумм визарда) ───────
+// Статический экран — ничего не считает и не зависит от выбора допфункций
+// на следующем шаге, просто объясняет модель до того, как человек начнёт
+// выбирать: разовая оплата (допфункции) отдельно от двух ежемесячных
+// платежей (сервер — нам, подписка на ИИ — напрямую её разработчику).
+
+document.getElementById('pricing-next-btn').addEventListener('click', () => {
+  tap();
   goToScreenByName('addons');
 });
 
-// ─── Раздел 2: допфункции ────────────────────────────────────────────────
+// ─── Раздел 3: допфункции ────────────────────────────────────────────────
 // Тариф больше не выбирается (один серверный вариант на всех, см.
 // wizardState.plan) — значит, допфункции никогда не блокируются и не
 // включаются автоматически, всегда обычный чекбокс-список.
@@ -146,13 +158,17 @@ function updateTotal() {
   totalPriceEl.textContent = formatRub(computeTotal());
 }
 
+// Допфункции — библиотеки навыков, разовая оплата (см. экран «Как это
+// оплачивается»). PLAN_INFO.CRAZY.price сюда больше не входит — это цена
+// аренды сервера, ежемесячный платёж, к разовой сумме допфункций
+// отношения не имеет (раньше складывались в одну сумму под неверной
+// подписью «ИТОГО В МЕСЯЦ» — исправлено).
 function computeTotal() {
-  const base = PLAN_INFO.CRAZY.price;
   let addonsSum = 0;
   document.querySelectorAll('.addon-option__input:checked').forEach((input) => {
     addonsSum += Number(input.closest('.addon-option').dataset.price);
   });
-  return base + addonsSum;
+  return addonsSum;
 }
 
 document.querySelectorAll('.addon-option__input').forEach((input) => {
@@ -201,7 +217,7 @@ addonsNextBtn.addEventListener('click', () => {
   goToScreenByName('payment');
 });
 
-// ─── Раздел 3: оплата (заглушка) ─────────────────────────────────────────
+// ─── Раздел 4: оплата (заглушка) ─────────────────────────────────────────
 // Реального приёма платежей ещё нет — экран честно помечен «скоро»
 // (см. .payment-stub в index.html). Сумма пересчитывается из тех же
 // допфункций, что и на предыдущем экране, кнопка «Далее» просто ведёт
@@ -219,7 +235,7 @@ paymentNextBtn.addEventListener('click', () => {
   goToScreenByName('botfather');
 });
 
-// ─── Раздел 4: свой бот через BotFather ───────────────────────────────────
+// ─── Раздел 5: свой бот через BotFather ───────────────────────────────────
 
 const tokenInput = document.getElementById('token-input');
 const tokenField = document.getElementById('token-field');
@@ -242,7 +258,7 @@ botfatherNextBtn.addEventListener('click', () => {
   goToScreenByName('server');
 });
 
-// ─── Раздел 5: сервер ────────────────────────────────────────────────────
+// ─── Раздел 6: сервер ────────────────────────────────────────────────────
 
 const ipInput = document.getElementById('ip-input');
 const ipError = document.getElementById('ip-error');
