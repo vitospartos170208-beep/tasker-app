@@ -1,30 +1,33 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-15T19:30:00Z",
-  "title": "Design System: Tasker — Паспорт изделия",
+  "generatedAt": "2026-08-16T15:30:00Z",
+  "title": "Design System: PROha — дружелюбный ассистент",
   "extensions": {
     "colorMeta": {
-      "paper": { "role": "neutral", "displayName": "Крафт-бумага", "canonical": "#EDE6D6", "tonalRamp": ["#2A2620", "#4A4438", "#6E6656", "#948B76", "#B8AF98", "#D6CDB8", "#EDE6D6", "#F8F4EB"] },
-      "paper-deep": { "role": "neutral", "displayName": "Крафт тёмный", "canonical": "#E3DAC5", "tonalRamp": ["#26221C", "#453F32", "#685F4C", "#8C8267", "#B0A587", "#CBC0A5", "#E3DAC5", "#F2EBDD"] },
-      "ink": { "role": "neutral", "displayName": "Чернила", "canonical": "#1A1A18", "tonalRamp": ["#0A0A09", "#1A1A18", "#2E2E2A", "#47473F", "#666658", "#8C8C78", "#B8B8A0", "#E4E4D8"] },
-      "ink-soft": { "role": "neutral", "displayName": "Чернила приглушённые", "canonical": "#4A463C", "tonalRamp": ["#151310", "#2A2721", "#3C3830", "#4A463C", "#69644F", "#8B8468", "#B0A886", "#D6CFB2"] },
-      "stamp": { "role": "primary", "displayName": "Штамп", "canonical": "#C8401E", "tonalRamp": ["#3D1408", "#5C1E0C", "#822B11", "#A6351A", "#C8401E", "#DD6440", "#EA9578", "#F5C5B4"] },
-      "stamp-deep": { "role": "primary", "displayName": "Печать (глубокая)", "canonical": "#A6351A", "tonalRamp": ["#331005", "#4D1808", "#6D220C", "#A6351A", "#C24726", "#D6714E", "#E7A186", "#F4CBBC"] },
-      "seal": { "role": "tertiary", "displayName": "Схематический синий", "canonical": "#35586E", "tonalRamp": ["#0F1A21", "#1C2E39", "#294454", "#35586E", "#456F89", "#6890A6", "#95B4C6", "#C7DBE5"] }
+      "paper": { "role": "neutral", "displayName": "Фон", "canonical": "#F4F7FC", "tonalRamp": ["#0C1024", "#1B2340", "#2C3760", "#465180", "#6C77A0", "#9BA5C4", "#CBD3E8", "#F4F7FC"] },
+      "card": { "role": "neutral", "displayName": "Карточка", "canonical": "#FFFFFF", "tonalRamp": ["#0C1024", "#20263F", "#3A4160", "#5C6480", "#8890A8", "#B8C0D4", "#E3E9F5", "#FFFFFF"] },
+      "paper-deep": { "role": "neutral", "displayName": "Приглушённая поверхность", "canonical": "#E8EDF8", "tonalRamp": ["#0C1024", "#1E2440", "#333D60", "#4E5880", "#7580A0", "#A5AFC8", "#CDD5E8", "#E8EDF8"] },
+      "ink": { "role": "neutral", "displayName": "Чернила", "canonical": "#12193A", "tonalRamp": ["#050710", "#12193A", "#232C55", "#3A4570", "#5C6480", "#8890A8", "#B8C0D4", "#E3E9F5"] },
+      "ink-soft": { "role": "neutral", "displayName": "Чернила приглушённые", "canonical": "#5C6480", "tonalRamp": ["#12193A", "#232C55", "#3A4570", "#5C6480", "#7B84A0", "#9EA6BC", "#C4CADA", "#E8EBF3"] },
+      "brand-blue": { "role": "secondary", "displayName": "Фирменный синий", "canonical": "#2F6FED", "tonalRamp": ["#0A1C4D", "#123072", "#1B489E", "#2358C4", "#2F6FED", "#5B8FF2", "#8FB3F7", "#C7DAFB"] },
+      "brand-purple": { "role": "secondary", "displayName": "Фирменный фиолетовый", "canonical": "#8B5CF6", "tonalRamp": ["#2C1466", "#3F1E92", "#5730BC", "#7247E0", "#8B5CF6", "#A984F8", "#C6AEFA", "#E3D8FD"] },
+      "accent": { "role": "primary", "displayName": "Салатовый (CTA)", "canonical": "#84C641", "tonalRamp": ["#1D2C0E", "#2E4616", "#446620", "#588A2A", "#6FAE31", "#84C641", "#A6D876", "#CDEBB0"] },
+      "accent-deep": { "role": "primary", "displayName": "Салатовый (нажатие)", "canonical": "#6FAE31", "tonalRamp": ["#182408", "#263A0F", "#385518", "#4A7020", "#5C8F28", "#6FAE31", "#8FC65C", "#B8DE92"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Единственный <h1> экрана — заголовок документа верхнего уровня." },
-      "title": { "displayName": "Title", "purpose": "Значения документных полей (например, название изделия)." },
-      "body": { "displayName": "Body", "purpose": "Вступительный абзац и основной читаемый текст." },
-      "label": { "displayName": "Label", "purpose": "Служебные подписи: лейблы полей, серия, номер шага, номер раздела." }
+      "wordmark": { "displayName": "Wordmark", "purpose": "Словесный знак «PROha» — единственное место с градиентным текстом в системе." },
+      "display": { "displayName": "Display", "purpose": "Заголовок раздела (<h1>), один на экран." },
+      "body": { "displayName": "Body", "purpose": "Основной читаемый текст внутри карточек." },
+      "label": { "displayName": "Label", "purpose": "Лейблы полей формы и служебные подписи." }
     },
     "shadows": [
-      { "name": "button-rest", "value": "0 8px 16px -6px rgba(26,26,24,.4), 0 2px 5px -1px rgba(26,26,24,.35)", "purpose": "Базовое парение primary-кнопки над бумагой." },
-      { "name": "button-hover", "value": "0 12px 20px -6px rgba(26,26,24,.45), 0 3px 6px -1px rgba(26,26,24,.4)", "purpose": "Усиление тени на наведении." },
-      { "name": "button-active", "value": "0 3px 8px -3px rgba(26,26,24,.4)", "purpose": "Сжатая тень при нажатии — эффект вдавливания штампа." }
+      { "name": "card", "value": "0 1px 2px rgba(18,25,58,.04), 0 8px 24px -10px rgba(18,25,58,.12)", "purpose": "Базовая тень всех карточек — контакт + мягкое парение." },
+      { "name": "button-rest", "value": "0 10px 22px -8px rgba(111,174,49,.55), 0 2px 6px -1px rgba(18,25,58,.1)", "purpose": "Цветная тень под первичной кнопкой, в тон салатовому." },
+      { "name": "button-hover", "value": "0 14px 26px -8px rgba(111,174,49,.6), 0 3px 8px -1px rgba(18,25,58,.14)", "purpose": "Усиление на наведении." },
+      { "name": "button-active", "value": "0 4px 10px -4px rgba(111,174,49,.5)", "purpose": "Сжатая тень при нажатии." }
     ],
     "motion": [
-      { "name": "ease-standard", "value": "120ms ease", "purpose": "Переходы transform/box-shadow/background у кнопки." }
+      { "name": "ease-standard", "value": "120ms ease", "purpose": "Переходы transform/box-shadow/background у кнопок и карточек." }
     ],
     "breakpoints": [
       { "name": "narrow", "value": "360px" }
@@ -35,85 +38,61 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Штампованная вкладка — основной CTA визарда.",
+      "description": "Салатовая кнопка — единственный цвет первичного действия во всей системе, текст тёмно-синий (не белый) для контраста ~8:1.",
       "html": "<button class=\"ds-btn-primary\" type=\"button\"><span>НАЧАТЬ НАСТРОЙКУ</span><svg class=\"ds-btn-primary__arrow\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
-      "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 20px; border: 1.5px solid #1A1A18; border-radius: 3px; background: #C8401E; color: #EDE6D6; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.03em; cursor: pointer; box-shadow: 0 8px 16px -6px rgba(26,26,24,.4), 0 2px 5px -1px rgba(26,26,24,.35); transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease; } .ds-btn-primary__arrow { width: 19px; height: 19px; flex: none; } .ds-btn-primary:hover { background: #A6351A; transform: translateY(-1px); box-shadow: 0 12px 20px -6px rgba(26,26,24,.45), 0 3px 6px -1px rgba(26,26,24,.4); } .ds-btn-primary:active { transform: translateY(1px); box-shadow: 0 3px 8px -3px rgba(26,26,24,.4); } .ds-btn-primary:focus-visible { outline: 2px solid #35586E; outline-offset: 3px; }"
+      "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 17px 20px; border: none; border-radius: 16px; background: #84C641; color: #12193A; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 0.96rem; cursor: pointer; box-shadow: 0 10px 22px -8px rgba(111,174,49,.55), 0 2px 6px -1px rgba(18,25,58,.1); transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease; } .ds-btn-primary:hover { background: #6FAE31; transform: translateY(-1px); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:disabled { background: #E8EDF8; color: #5C6480; box-shadow: none; }"
     },
     {
-      "name": "Diagram Node",
+      "name": "Brand Mark",
       "kind": "custom",
       "refersTo": null,
-      "description": "Пронумерованный узел схемы устройства агента — иконка, рисованный номер-круг, подпись.",
-      "html": "<div class=\"ds-diagram-node\"><svg class=\"ds-diagram-node__icon\" viewBox=\"0 0 40 40\" fill=\"none\" aria-hidden=\"true\"><rect x=\"9\" y=\"6\" width=\"22\" height=\"9\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"/><rect x=\"9\" y=\"17\" width=\"22\" height=\"9\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"/><rect x=\"9\" y=\"28\" width=\"22\" height=\"6\" rx=\"1.5\" stroke=\"currentColor\" stroke-width=\"1.6\"/></svg><svg class=\"ds-diagram-node__num\" viewBox=\"0 0 20 20\" role=\"img\" aria-label=\"Шаг 2\"><circle cx=\"10\" cy=\"10\" r=\"8.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"10\" y=\"10.5\" text-anchor=\"middle\" dominant-baseline=\"central\">2</text></svg><p class=\"ds-diagram-node__cap\">Работает на вашем сервере</p></div>",
-      "css": ".ds-diagram-node { display: flex; flex-direction: column; align-items: center; text-align: center; width: 108px; } .ds-diagram-node__icon { width: 40px; height: 40px; color: #1A1A18; } .ds-diagram-node__num { margin-top: 6px; width: 20px; height: 20px; color: #1A1A18; } .ds-diagram-node__num text { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 9px; fill: currentColor; } .ds-diagram-node__cap { margin: 4px 0 0; font-size: 0.78rem; line-height: 1.3; color: #4A463C; }"
+      "description": "Иконка PROha — навигационно-синий силуэт телефона с градиентной речевой мордочкой-персонажем, коннектор-точками и искрой. Два размера: hero (72px, экран 1) и compact (36px, остальные экраны).",
+      "html": "<div class=\"ds-brand-mark\"><svg viewBox=\"0 0 100 100\" fill=\"none\" aria-hidden=\"true\"><rect x=\"24\" y=\"7\" width=\"52\" height=\"86\" rx=\"15\" stroke=\"#12193A\" stroke-width=\"3.2\"/><path d=\"M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z\" stroke=\"url(#g)\" stroke-width=\"3.2\"/></svg><p class=\"ds-brand-mark__word\">PRO<span class=\"grad\">ha</span></p></div>",
+      "css": ".ds-brand-mark { display: flex; align-items: center; gap: 10px; } .ds-brand-mark__word { font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 1.2rem; color: #12193A; } .ds-brand-mark__word .grad { background: linear-gradient(135deg, #2F6FED, #8B5CF6); -webkit-background-clip: text; background-clip: text; color: transparent; }"
     },
     {
-      "name": "Stamp Badge",
-      "kind": "custom",
-      "refersTo": null,
-      "description": "Угловая печать документа — единственный чисто декоративный элемент системы.",
-      "html": "<div class=\"ds-stamp-badge\"><svg viewBox=\"0 0 64 64\" class=\"ds-stamp-badge__ring\"><circle cx=\"32\" cy=\"32\" r=\"29\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\"/><circle cx=\"32\" cy=\"32\" r=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"0.8\"/></svg><span class=\"ds-stamp-badge__text\">TASKER<br>СЕР.&nbsp;01</span></div>",
-      "css": ".ds-stamp-badge { position: relative; width: 78px; height: 78px; transform: rotate(9deg); color: #A6351A; opacity: 0.92; } .ds-stamp-badge__ring { position: absolute; inset: 0; width: 100%; height: 100%; } .ds-stamp-badge__text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.62rem; line-height: 1.35; letter-spacing: 0.03em; }"
+      "name": "Card",
+      "kind": "container",
+      "refersTo": "card",
+      "description": "Базовая единица композиции — вся система построена на этой карточке, не на hairline-разделителях прежней системы.",
+      "html": "<section class=\"ds-card\"><p>Содержимое карточки</p></section>",
+      "css": ".ds-card { background: #FFFFFF; border-radius: 22px; box-shadow: 0 1px 2px rgba(18,25,58,.04), 0 8px 24px -10px rgba(18,25,58,.12); padding: 20px 20px 22px; }"
     },
     {
-      "name": "Document Field",
-      "kind": "custom",
-      "refersTo": null,
-      "description": "Лейбл + значение — паттерн для полей документа, основа будущих экранов ввода данных.",
-      "html": "<p class=\"ds-doc-field\"><span class=\"ds-doc-field__label\">ИЗДЕЛИЕ</span>Персональный агент «Tasker»</p>",
-      "css": ".ds-doc-field { margin: 0; display: flex; flex-direction: column; gap: 3px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 1rem; color: #1A1A18; } .ds-doc-field__label { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.68rem; letter-spacing: 0.09em; color: #4A463C; }"
-    },
-    {
-      "name": "Plan Option",
-      "kind": "custom",
-      "refersTo": null,
-      "description": "Окантованная выбираемая карточка (radio) для полей выбора вида «один из нескольких» — тариф и последующие разделы визарда. Опционально несёт пару «старая/новая цена» (.plan-option__price-old зачёркнутый ink-soft моно, .plan-option__price-new обычная цена) для anchor-pricing карточек вроде «Премиум».",
-      "html": "<label class=\"ds-plan-option\"><input class=\"ds-plan-option__input\" type=\"radio\" name=\"plan\"><span class=\"ds-plan-option__body\"><span class=\"ds-plan-option__head\"><span class=\"ds-plan-option__name\">Обычное использование</span><span class=\"ds-plan-option__price\">500 ₽/мес</span></span><span class=\"ds-plan-option__spec\"><span class=\"ds-doc-field__label\">СЕРВЕР</span>4 ГБ ОЗУ</span></span><svg class=\"ds-plan-option__check\" viewBox=\"0 0 20 20\" fill=\"none\" aria-hidden=\"true\"><path d=\"M4 10.5 L8 14.5 L16 5.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></label>",
-      "css": ".ds-plan-option { position: relative; display: block; padding: 16px 44px 16px 16px; border: 1.5px solid #1A1A18; border-radius: 3px; cursor: pointer; transition: background 120ms ease; } .ds-plan-option--selected { background: #E3DAC5; } .ds-plan-option:focus-within { outline: 2px solid #35586E; outline-offset: 2px; } .ds-plan-option__input { position: absolute; opacity: 0; pointer-events: none; } .ds-plan-option__check { position: absolute; top: 15px; right: 14px; width: 20px; height: 20px; color: #1A1A18; opacity: 0; transition: opacity 120ms ease; } .ds-plan-option--selected .ds-plan-option__check { opacity: 1; }"
-    },
-    {
-      "name": "Field",
+      "name": "Option Card",
       "kind": "input",
       "refersTo": null,
-      "description": "Окантованное текстовое поле формы. Невалидное состояние — утолщение рамки, не цвет; ошибка/подсказка — мелкий моно-текст под полем.",
-      "html": "<label class=\"ds-field\"><span class=\"ds-field__label\">IP-АДРЕС СЕРВЕРА</span><input class=\"ds-field__input\" type=\"text\" placeholder=\"203.0.113.10\"><span class=\"ds-field__error\">Похоже, это не IP-адрес.</span></label>",
-      "css": ".ds-field__input { display: block; width: 100%; padding: 13px 14px; border: 1.5px solid #1A1A18; border-radius: 3px; background: #EDE6D6; color: #1A1A18; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.96rem; } .ds-field--invalid .ds-field__input { border-width: 2px; } .ds-field__error:not([hidden]), .ds-field__hint { display: block; margin-top: 6px; font-family: 'IBM Plex Mono', monospace; font-size: 0.76rem; color: #4A463C; }"
-    },
-    {
-      "name": "Steps",
-      "kind": "list",
-      "refersTo": null,
-      "description": "Нумерованная инструкция — окантованный CSS-кругляш с моно-цифрой вместо SVG (текст переменной длины), тот же визуальный язык, что у схемы первого экрана.",
-      "html": "<ol class=\"ds-steps\"><li class=\"ds-steps__item\"><span class=\"ds-steps__num\">1</span><span class=\"ds-steps__text\">Откройте <strong>@BotFather</strong></span></li></ol>",
-      "css": ".ds-steps { display: flex; flex-direction: column; gap: 14px; list-style: none; margin: 0; padding: 4px 0; } .ds-steps__item { display: flex; align-items: baseline; gap: 12px; } .ds-steps__num { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border: 1.4px solid #1A1A18; border-radius: 50%; font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 0.72rem; }"
+      "description": "Карточка-радио/чекбокс (тариф, допфункция). Выбрано — синяя обводка + мягкая синяя заливка + синяя галочка (никогда зелёная — зелёный зарезервирован за CTA).",
+      "html": "<label class=\"ds-option\"><input type=\"radio\" class=\"ds-option__input\"><span class=\"ds-option__name\">Название</span><svg class=\"ds-option__check\" viewBox=\"0 0 20 20\"><path d=\"M4 10.5 L8 14.5 L16 5.5\" stroke=\"currentColor\" stroke-width=\"1.8\" fill=\"none\"/></svg></label>",
+      "css": ".ds-option { position: relative; background: #FFFFFF; border: 1.5px solid #E3E9F5; border-radius: 16px; box-shadow: 0 1px 2px rgba(18,25,58,.04), 0 8px 24px -10px rgba(18,25,58,.12); padding: 16px 44px 16px 16px; cursor: pointer; } .ds-option--selected { border-color: #2F6FED; background: #F1F6FF; } .ds-option__check { color: #2F6FED; }"
     }
   ],
   "narrative": {
-    "northStar": "Паспорт изделия (The Product Passport)",
-    "overview": "Онбординг оформлен как официальный технический документ — паспорт изделия или инструкция по эксплуатации, знакомая каждому, кто хоть раз распаковывал бытовую технику. Это сознательный отказ от стандарта категории (тёмный градиент, светящийся блоб, кнопка-пилюля, «Знакомьтесь — ваш ассистент»): вместо обещания AI-магии система честно показывает, что происходит на самом деле — пронумерованная схема, документные поля, единственный штампованный акцент.\n\nПлотность средняя: разделы разграничены тонкими линиями (не карточками с тенями), внутри — щедрые отступы, как в печатном документе. Материал — крафт-бумага и чёрные чернила, а не стекло и свечение. Единственный носитель тепла и срочности — штампованный красно-оранжевый акцент, и он намеренно редок.",
+    "northStar": "PROha (Friendly Assistant Redesign)",
+    "overview": "Редизайн по прямому брифу пользователя (готовый логотип + явное указание цвета кнопок) — направление не выбиралось броском кубика, оно было задано напрямую. Полный отказ от прежней «Паспорт изделия» системы (крафт-бумага, штамп, официальный документ, почти-прямые углы) в пользу дружелюбного мобильного SaaS: белые скруглённые карточки с мягкой тенью на холодно-белом фоне, фирменная градиентная бренд-марка, один шрифт Manrope.\n\nТри цвета — три роли, не размыты: синий→фиолетовый градиент строго в бренд-марке и словесном знаке; сплошной синий — выбор/фокус/навигация; салатовый — строго первичное действие (кнопки), отдельно от бренд-градиента по явному требованию пользователя.",
     "keyCharacteristics": [
-      "Документ, не приложение: границы-линии вместо карточек-теней",
-      "Один акцентный цвет на весь экран, вне его — только чернила и бумага",
-      "Рисованная line-art графика вместо иконочных шрифтов и эмодзи",
-      "Моноширинный шрифт зарезервирован за «документными» данными, не декоративен"
+      "Карточки, а не линии-разделители — вся композиция построена на приподнятых белых карточках с мягкой тенью",
+      "Градиент только в бренд-марке — нигде больше в интерфейсе, ни в заголовках, ни в ценах",
+      "Салатовый только на CTA — сознательно отделён от бренд-градиента",
+      "Заблокированное состояние — конкретные приглушённые цвета, никогда opacity (контраст должен оставаться читаемым)"
     ],
     "rules": [
-      { "name": "The Single Accent Rule", "body": "Штампованный красно-оранжевый живёт только на угловом штампе и первичной кнопке. Любой другой цветной акцент на экране — ошибка.", "section": "colors" },
-      { "name": "The Document-Field Rule", "body": "Лейбл всегда стоит под или рядом со своим значением, никогда — отдельной декоративной строкой прямо над заголовком.", "section": "typography" },
-      { "name": "The Flat-By-Default Rule", "body": "Разделение — линиями, не тенями и не карточками. Тень появляется только у интерактивного элемента как реакция на состояние.", "section": "elevation" }
+      { "name": "The Gradient-Confinement Rule", "body": "Синий→фиолетовый градиент живёт только в бренд-марке и словесном знаке «PROha». Нигде больше.", "section": "colors" },
+      { "name": "The CTA-Green Rule", "body": "Салатовый принадлежит исключительно первичным кнопкам действия — отдельно от бренд-градиента, по явному требованию пользователя.", "section": "colors" },
+      { "name": "The Muted-Not-Faded Rule", "body": "Заблокированное/неактивное состояние — конкретные приглушённые цвета, никогда снижение opacity целого блока (роняет контраст текста ниже читаемого).", "section": "elevation" }
     ],
     "dos": [
-      "Do держать акцентный цвет только на угловом штампе и primary-кнопке.",
-      "Do рисовать иконки и номера как SVG с единым весом обводки, никогда — Unicode-глифами или эмодзи.",
-      "Do разделять разделы тонкой линией, а не карточкой с тенью.",
-      "Do ставить лейбл документного поля под/рядом со значением, никогда над заголовком.",
-      "Do заполнять разрежённые разделы реальным пояснительным текстом перед тем, как полагаться на space-between для высоты."
+      "Do держать градиент только в бренд-марке и словесном знаке.",
+      "Do держать салатовый только на первичных кнопках и слове «Включено».",
+      "Do оборачивать каждый смысловой блок в карточку с мягкой тенью.",
+      "Do передавать disabled/locked состояние конкретными приглушёнными цветами, не opacity.",
+      "Do давать заголовку раздела говорить самому — без кикер-лейбла над карточкой."
     ],
     "donts": [
-      "Don't использовать градиент, свечение или кнопку-пилюлю.",
-      "Don't добавлять kicker-строку над заголовком.",
-      "Don't использовать жёсткую тень без блюра.",
-      "Don't вводить второй акцентный цвет даже для предупреждений или успеха."
+      "Don't использовать градиент вне бренд-марки.",
+      "Don't использовать зелёный где-либо, кроме CTA и слова «Включено».",
+      "Don't снижать opacity целого блока ради неактивного вида.",
+      "Don't возвращать линии-разделители и почти-прямые углы прежней системы."
     ]
   }
 }

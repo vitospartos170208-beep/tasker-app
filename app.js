@@ -259,7 +259,7 @@ function renderServerScreen() {
   const plan = wizardState.plan || 'CRAZY';
   const info = PLAN_INFO[plan] ?? PLAN_INFO.CRAZY;
   serverIntroText.textContent =
-    `Купите сервер (VPS) под тариф — ${info.ram} ОЗУ, обязательно Ubuntu 24, локация любая. ` +
+    `Купите сервер (VPS) под тариф: ${info.ram} ОЗУ, обязательно Ubuntu 24, локация любая. ` +
     'Когда сервер готов, впишите его данные из панели хостинга ниже.';
   validateServerForm();
 }

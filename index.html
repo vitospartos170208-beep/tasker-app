@@ -3,50 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Tasker — паспорт изделия</title>
+<title>PROha — твой личный AI ассистент</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <!--
-  THESIS: Онбординг как официальный паспорт изделия — не очередное AI-свечение.
-  Отказ от тёмного градиента, светящегося блоба и кнопки-пилюли — стандарта
-  категории.
-  OWN-WORLD: крафт-бумага (#EDE6D6), почти-чёрные чернила (#1A1A18), один
-  штампованный акцент (#C8401E), приглушённый схематический синий (#35586E).
-  Чёрная линейная графика с пронумерованными выносками, IBM Plex Mono для
-  серийных/документных подписей, IBM Plex Sans для текста. Кнопки — штампы-
-  вкладки; поля — окантованные технические поля формы.
-  STORY: посетитель понимает, что это настоящая, честно задокументированная
-  настройка его личного агента — не общая, не магия — и нажимает штампованную
-  вкладку, чтобы начать.
-  FIRST VIEWPORT: обрамлённая обложка паспорта: заголовочный блок «ПАСПОРТ
-  ИЗДЕЛИЯ», пронумерованная схема агента (Telegram–Сервер–Claude, выносные
-  линии), вступительный абзац голосом ИппвА как текст инструкции, штампованная
-  вкладка «НАЧАТЬ →» внизу.
-  FORM: назначенное направление, кандидат 4 из 6 в списке, seed key c3906520.
+  THESIS: Дружелюбный личный ассистент, а не официальный документ — редизайн
+  по прямому брифу пользователя (логотип PROha), не по своему направлению.
+  Отказ от прежнего мира (крафт-бумага/штамп/официальный паспорт) в пользу
+  мягких скруглённых карточек и фирменного маскота.
+  OWN-WORLD: холодно-белый фон (#F4F7FC), белые карточки с мягкой тенью,
+  тёмно-синие чернила (#12193A), градиент синий→фиолетовый (#2F6FED→#8B5CF6)
+  для бренд-марки и акцентов выбора, салатовый (#84C641) — единственный цвет
+  первичных кнопок (осознанный выбор пользователя, отдельно от бренд-
+  градиента). Manrope везде. Скругления везде (10–22px), никаких острых
+  углов и линий-разделителей — карточки вместо них.
+  STORY: посетитель узнаёт бренд по логотипу с первого экрана и понимает —
+  это дружелюбный личный ассистент, а не корпоративная форма; салатовая
+  кнопка явно зовёт продолжить.
+  FIRST VIEWPORT: центрированная бренд-марка (иконка + «PROha» + слоган),
+  заголовок раздела, схема из трёх карточек-иконок (Telegram–Сервер–Claude),
+  карточка с приветственным текстом, салатовая кнопка «НАЧАТЬ НАСТРОЙКУ →»
+  внизу.
+  FORM: направление зафиксировано брифом пользователя напрямую (логотип +
+  явное указание цвета кнопок), без броска кубика по правилам скилла.
   FINISH: unreviewed and undocumented is unfinished; this build ends with the
   finish review, the verdict, and DESIGN.md.
 -->
+
+<!-- Общий градиент для всех компактных бренд-марок (шапки разделов 2–6) —
+     объявлен один раз здесь, а не в каждой SVG, чтобы url(#proha-grad)
+     резолвился одинаково независимо от того, какой раздел сейчас виден. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="proha-grad" x1="14" y1="88" x2="92" y2="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2F6FED"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+  </defs>
+</svg>
 
 <main class="passport" id="passport">
 
 <section class="screen" data-screen="intro">
 
   <header class="passport__header">
-    <div class="stamp-badge" aria-hidden="true">
-      <svg viewBox="0 0 64 64" class="stamp-badge__ring">
-        <circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.4"/>
-        <circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="0.8"/>
-      </svg>
-      <span class="stamp-badge__text">TASKER<br>СЕР.&nbsp;01</span>
+    <div class="hero-brand">
+      <img class="hero-brand__logo" src="logo-proha.jpg" alt="PROha — твой личный AI ассистент" width="1254" height="1254">
     </div>
-    <h1 class="passport__title">Паспорт изделия</h1>
-    <p class="passport__subtitle">Инструкция по подключению</p>
-    <p class="passport__field"><span class="doc-label">ИЗДЕЛИЕ</span>Персональный агент «Tasker»</p>
+    <h1 class="passport__title">Знакомство</h1>
   </header>
 
   <section class="diagram" aria-label="Схема устройства агента">
@@ -57,39 +66,45 @@
     </svg>
 
     <div class="diagram__node" style="--x:62px">
-      <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M11 20.5 L17 26 L29.5 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <span class="diagram__icon-well">
+        <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="20" cy="20" r="17" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M11 20.5 L17 26 L29.5 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
       <svg class="diagram__num" viewBox="0 0 20 20" role="img" aria-label="Шаг 1">
-        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
         <text x="10" y="10.5" text-anchor="middle" dominant-baseline="central">1</text>
       </svg>
       <p class="diagram__cap">Живёт в вашем Telegram</p>
     </div>
 
     <div class="diagram__node" style="--x:160px">
-      <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <rect x="9" y="6" width="22" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-        <rect x="9" y="17" width="22" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-        <rect x="9" y="28" width="22" height="6" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-        <circle cx="13.5" cy="10.5" r="1.2" fill="currentColor"/>
-        <circle cx="13.5" cy="21.5" r="1.2" fill="currentColor"/>
-      </svg>
+      <span class="diagram__icon-well">
+        <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <rect x="9" y="6" width="22" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+          <rect x="9" y="17" width="22" height="9" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+          <rect x="9" y="28" width="22" height="6" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="13.5" cy="10.5" r="1.3" fill="currentColor"/>
+          <circle cx="13.5" cy="21.5" r="1.3" fill="currentColor"/>
+        </svg>
+      </span>
       <svg class="diagram__num" viewBox="0 0 20 20" role="img" aria-label="Шаг 2">
-        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
         <text x="10" y="10.5" text-anchor="middle" dominant-baseline="central">2</text>
       </svg>
       <p class="diagram__cap">Работает на вашем сервере</p>
     </div>
 
     <div class="diagram__node" style="--x:258px">
-      <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 6 L20 34 M8 20 L32 20 M11.5 11.5 L28.5 28.5 M28.5 11.5 L11.5 28.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="20" cy="20" r="4.5" stroke="currentColor" stroke-width="1.6" fill="var(--paper)"/>
-      </svg>
+      <span class="diagram__icon-well">
+        <svg class="diagram__icon" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M20 6 L20 34 M8 20 L32 20 M11.5 11.5 L28.5 28.5 M28.5 11.5 L11.5 28.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="20" cy="20" r="4.5" stroke="currentColor" stroke-width="1.8" fill="var(--card)"/>
+        </svg>
+      </span>
       <svg class="diagram__num" viewBox="0 0 20 20" role="img" aria-label="Шаг 3">
-        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
         <text x="10" y="10.5" text-anchor="middle" dominant-baseline="central">3</text>
       </svg>
       <p class="diagram__cap">Работает через вашу подписку Claude</p>
@@ -97,7 +112,6 @@
   </section>
 
   <section class="intro">
-    <span class="doc-label">НАЗНАЧЕНИЕ</span>
     <p class="intro__text">
       Здравствуйте. Я — Инструктор По Подключению Вашего Агента, или просто
       «ИппвА». Сегодня я помогу вам подключить своего первого персонального
@@ -107,9 +121,9 @@
 
   <footer class="passport__footer">
     <p class="passport__note">Раздел 1 из 6 — знакомство</p>
-    <button class="stamp-btn" id="start-btn" type="button">
+    <button class="btn-primary" id="start-btn" type="button">
       <span>НАЧАТЬ НАСТРОЙКУ</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
@@ -120,11 +134,26 @@
 <section class="screen" data-screen="plan" hidden>
 
   <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <svg class="brand-mark__icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="24" y="7" width="52" height="86" rx="15" stroke="#12193A" stroke-width="3.2"/>
+        <path d="M43 15h14" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M46 85h8" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z" stroke="url(#proha-grad)" stroke-width="3.2" stroke-linejoin="round"/>
+        <rect x="38" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <rect x="54" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <path d="M39 47c3 3 11 3 14 0" stroke="url(#proha-grad)" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M68 29h9M68 37h13M68 45h9" stroke="url(#proha-grad)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="79" cy="29" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="83" cy="37" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="79" cy="45" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      </svg>
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
     <h1 class="passport__title passport__title--compact">Как вы будете использовать агента?</h1>
   </header>
 
   <section class="intro">
-    <span class="doc-label">ПОЯСНЕНИЕ</span>
     <p class="intro__text">
       От выбора зависит объём оперативной памяти вашего сервера. Большинство
       выбирает «Обычное использование» — тариф можно сменить позже.
@@ -191,9 +220,9 @@
 
   <footer class="passport__footer">
     <p class="passport__note">Раздел 2 из 6 — тариф</p>
-    <button class="stamp-btn" id="plan-next-btn" type="button" disabled>
+    <button class="btn-primary" id="plan-next-btn" type="button" disabled>
       <span>ДАЛЕЕ</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
@@ -204,11 +233,26 @@
 <section class="screen" data-screen="addons" hidden>
 
   <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <svg class="brand-mark__icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="24" y="7" width="52" height="86" rx="15" stroke="#12193A" stroke-width="3.2"/>
+        <path d="M43 15h14" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M46 85h8" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z" stroke="url(#proha-grad)" stroke-width="3.2" stroke-linejoin="round"/>
+        <rect x="38" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <rect x="54" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <path d="M39 47c3 3 11 3 14 0" stroke="url(#proha-grad)" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M68 29h9M68 37h13M68 45h9" stroke="url(#proha-grad)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="79" cy="29" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="83" cy="37" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="79" cy="45" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      </svg>
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
     <h1 class="passport__title passport__title--compact">Дополнительные функции</h1>
   </header>
 
   <section class="intro">
-    <span class="doc-label">ПОЯСНЕНИЕ</span>
     <p class="intro__text" id="addons-note">Выберите любые функции — они добавятся к ежемесячной оплате.</p>
   </section>
 
@@ -400,9 +444,9 @@
       <span id="total-price">700 ₽</span>
     </p>
     <p class="passport__note">Раздел 3 из 6 — допфункции</p>
-    <button class="stamp-btn" id="addons-next-btn" type="button">
+    <button class="btn-primary" id="addons-next-btn" type="button">
       <span>ДАЛЕЕ</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
@@ -413,13 +457,28 @@
 <section class="screen" data-screen="botfather" hidden>
 
   <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <svg class="brand-mark__icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="24" y="7" width="52" height="86" rx="15" stroke="#12193A" stroke-width="3.2"/>
+        <path d="M43 15h14" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M46 85h8" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z" stroke="url(#proha-grad)" stroke-width="3.2" stroke-linejoin="round"/>
+        <rect x="38" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <rect x="54" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <path d="M39 47c3 3 11 3 14 0" stroke="url(#proha-grad)" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M68 29h9M68 37h13M68 45h9" stroke="url(#proha-grad)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="79" cy="29" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="83" cy="37" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="79" cy="45" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      </svg>
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
     <h1 class="passport__title passport__title--compact">Создайте своего бота</h1>
   </header>
 
   <section class="intro">
-    <span class="doc-label">ЗАЧЕМ ЭТО</span>
     <p class="intro__text">
-      Агент живёт в вашем собственном Telegram-боте — не в общем, а в том,
+      Агент живёт в вашем собственном Telegram-боте: не в общем, а в том,
       которым владеете только вы. Создать его можно за минуту через
       официального @BotFather.
     </p>
@@ -432,9 +491,9 @@
     <li class="steps__item"><span class="steps__num">4</span><span class="steps__text">Скопируйте выданный токен и вставьте его ниже</span></li>
   </ol>
 
-  <a class="stamp-btn stamp-btn--outline" href="https://t.me/BotFather" target="_blank" rel="noopener">
+  <a class="btn-primary btn-primary--outline" href="https://t.me/BotFather" target="_blank" rel="noopener">
     <span>Открыть BotFather</span>
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
       <path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </a>
@@ -447,9 +506,9 @@
 
   <footer class="passport__footer">
     <p class="passport__note">Раздел 4 из 6 — свой бот</p>
-    <button class="stamp-btn" id="botfather-next-btn" type="button" disabled>
+    <button class="btn-primary" id="botfather-next-btn" type="button" disabled>
       <span>ДАЛЕЕ</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
@@ -460,13 +519,28 @@
 <section class="screen" data-screen="server" hidden>
 
   <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <svg class="brand-mark__icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="24" y="7" width="52" height="86" rx="15" stroke="#12193A" stroke-width="3.2"/>
+        <path d="M43 15h14" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M46 85h8" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z" stroke="url(#proha-grad)" stroke-width="3.2" stroke-linejoin="round"/>
+        <rect x="38" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <rect x="54" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <path d="M39 47c3 3 11 3 14 0" stroke="url(#proha-grad)" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M68 29h9M68 37h13M68 45h9" stroke="url(#proha-grad)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="79" cy="29" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="83" cy="37" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="79" cy="45" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      </svg>
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
     <h1 class="passport__title passport__title--compact">Подключите сервер</h1>
   </header>
 
   <section class="intro">
-    <span class="doc-label">ЗАДАЧА</span>
     <p class="intro__text" id="server-intro-text">
-      Купите сервер (VPS) — обязательно Ubuntu 24, локация любая. Когда
+      Купите сервер (VPS): обязательно Ubuntu 24, локация любая. Когда
       сервер готов, впишите его данные из панели хостинга ниже.
     </p>
   </section>
@@ -491,9 +565,9 @@
 
   <footer class="passport__footer">
     <p class="passport__note">Раздел 5 из 6 — сервер</p>
-    <button class="stamp-btn" id="server-next-btn" type="button" disabled>
+    <button class="btn-primary" id="server-next-btn" type="button" disabled>
       <span>НАЧАТЬ УСТАНОВКУ</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="stamp-btn__arrow">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
@@ -504,16 +578,31 @@
 <section class="screen" data-screen="done" hidden>
 
   <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <svg class="brand-mark__icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="24" y="7" width="52" height="86" rx="15" stroke="#12193A" stroke-width="3.2"/>
+        <path d="M43 15h14" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M46 85h8" stroke="#12193A" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M28 34a16 16 0 0 1 16-16h8a16 16 0 0 1 16 16v9a16 16 0 0 1-16 16h-2l-9 9v-9h-6a16 16 0 0 1-16-16z" stroke="url(#proha-grad)" stroke-width="3.2" stroke-linejoin="round"/>
+        <rect x="38" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <rect x="54" y="35" width="4" height="8" rx="2" fill="#12193A"/>
+        <path d="M39 47c3 3 11 3 14 0" stroke="url(#proha-grad)" stroke-width="2.8" stroke-linecap="round"/>
+        <path d="M68 29h9M68 37h13M68 45h9" stroke="url(#proha-grad)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="79" cy="29" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="83" cy="37" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+        <circle cx="79" cy="45" r="3" stroke="url(#proha-grad)" stroke-width="2"/>
+      </svg>
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
     <h1 class="passport__title passport__title--compact">Что произойдёт дальше</h1>
   </header>
 
   <section class="intro">
-    <span class="doc-label">ПОСЛЕ ОТПРАВКИ ФОРМЫ</span>
     <p class="intro__text">
-      Раздел ещё не подключён к бэкенду — когда это произойдёт, установка
-      пойдёт по этим шагам автоматически. Единственное, что понадобится от
-      вас — один раз войти в свой аккаунт Claude по ссылке, которую пришлёт
-      бот.
+      Обычно приложение закрывается сразу после отправки. Дальше установка
+      идёт уже в переписке с ботом, он присылает статус по каждому шагу.
+      Единственное, что понадобится от вас — один раз войти в свой аккаунт
+      Claude по ссылке, которую пришлёт бот.
     </p>
   </section>
 
@@ -526,7 +615,6 @@
   </ol>
 
   <section class="intro">
-    <span class="doc-label">СКОЛЬКО ЭТО ЗАЙМЁТ</span>
     <p class="intro__text">
       Обычно вся установка занимает 5–10 минут. Бот присылает короткий
       отчёт по каждому шагу — если что-то пойдёт не так, вы сразу увидите,
