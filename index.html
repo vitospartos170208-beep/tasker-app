@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=21">
+<link rel="stylesheet" href="style.css?v=22">
 </head>
 <body>
 <!--
@@ -124,174 +124,309 @@
 
   <section class="addon-options" aria-label="Выбор дополнительных функций">
 
-    <label class="addon-option" data-price="1500">
-      <input class="addon-option__input" type="checkbox" value="youtube-full">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <rect x="4" y="6" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M11 11 L11 17 L18 14 Z" fill="currentColor"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Полный цикл YouTube</span>
-          <span class="addon-option__price">1 500 ₽</span>
-        </span>
-        <span class="addon-option__tagline">От сценария до готового ролика</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="1500">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-youtube-full">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect x="4" y="6" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M11 11 L11 17 L18 14 Z" fill="currentColor"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Полный цикл YouTube</span>
+            <span class="addon-option__price">1 500 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Полный цикл YouTube»">
+          <input class="addon-option__input" type="checkbox" value="youtube-full">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-youtube-full" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">От сценария до готового ролика</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="800">
-      <input class="addon-option__input" type="checkbox" value="content-analysis">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M16.5 16.5 L22 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Разбор чужого контента</span>
-          <span class="addon-option__price">800 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Анализ роликов и постов конкурентов</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="800">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-content-analysis">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M16.5 16.5 L22 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Разбор чужого контента</span>
+            <span class="addon-option__price">800 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Разбор чужого контента»">
+          <input class="addon-option__input" type="checkbox" value="content-analysis">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-content-analysis" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Анализ роликов и постов конкурентов</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="1500">
-      <input class="addon-option__input" type="checkbox" value="motion-graphics">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
-        <rect x="9" y="9" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Анимации и моушн-графика</span>
-          <span class="addon-option__price">1 500 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Движущаяся графика для роликов</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="1500">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-motion-graphics">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          <rect x="9" y="9" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Анимации и моушн-графика</span>
+            <span class="addon-option__price">1 500 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Анимации и моушн-графика»">
+          <input class="addon-option__input" type="checkbox" value="motion-graphics">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-motion-graphics" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Движущаяся графика для роликов</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="2000">
-      <input class="addon-option__input" type="checkbox" value="web-dev">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <rect x="5" y="7" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M5 11 L23 11" stroke="currentColor" stroke-width="1.6"/>
-        <circle cx="8" cy="9" r="0.8" fill="currentColor"/>
-        <circle cx="11" cy="9" r="0.8" fill="currentColor"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Разработка и сайты</span>
-          <span class="addon-option__price">2 000 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Лендинги и сайты под ключ</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="2000">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-web-dev">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect x="5" y="7" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M5 11 L23 11" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="8" cy="9" r="0.8" fill="currentColor"/>
+          <circle cx="11" cy="9" r="0.8" fill="currentColor"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Разработка и сайты</span>
+            <span class="addon-option__price">2 000 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Разработка и сайты»">
+          <input class="addon-option__input" type="checkbox" value="web-dev">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-web-dev" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Лендинги и сайты под ключ</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="700">
-      <input class="addon-option__input" type="checkbox" value="social-content">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <rect x="4" y="5" width="20" height="18" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M8 10.5 L20 10.5 M8 14.5 L17 14.5 M8 18.5 L20 18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Текст и контент для соцсетей</span>
-          <span class="addon-option__price">700 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Посты, подписи, сценарии</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="700">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-social-content">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect x="4" y="5" width="20" height="18" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M8 10.5 L20 10.5 M8 14.5 L17 14.5 M8 18.5 L20 18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Текст и контент для соцсетей</span>
+            <span class="addon-option__price">700 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Текст и контент для соцсетей»">
+          <input class="addon-option__input" type="checkbox" value="social-content">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-social-content" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Посты, подписи, сценарии</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="1000">
-      <input class="addon-option__input" type="checkbox" value="video-editing">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <rect x="5" y="7" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M8 7 L8 21 M20 7 L20 21" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M5 11 L8 11 M5 17 L8 17 M20 11 L23 11 M20 17 L23 17" stroke="currentColor" stroke-width="1.6"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Монтаж видео</span>
-          <span class="addon-option__price">1 000 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Обрезка, склейка, титры, музыка</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="1000">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-video-editing">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <rect x="5" y="7" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M8 7 L8 21 M20 7 L20 21" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M5 11 L8 11 M5 17 L8 17 M20 11 L23 11 M20 17 L23 17" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Монтаж видео</span>
+            <span class="addon-option__price">1 000 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Монтаж видео»">
+          <input class="addon-option__input" type="checkbox" value="video-editing">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-video-editing" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Обрезка, склейка, титры, музыка</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="700">
-      <input class="addon-option__input" type="checkbox" value="market-research">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <path d="M5 22 L23 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <rect x="7" y="15" width="3.5" height="7" stroke="currentColor" stroke-width="1.6"/>
-        <rect x="13.25" y="11" width="3.5" height="11" stroke="currentColor" stroke-width="1.6"/>
-        <rect x="19.5" y="7" width="3.5" height="15" stroke="currentColor" stroke-width="1.6"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Исследование рынка и конкурентов</span>
-          <span class="addon-option__price">700 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Кто конкуренты и что у них работает</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="700">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-market-research">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <path d="M5 22 L23 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <rect x="7" y="15" width="3.5" height="7" stroke="currentColor" stroke-width="1.6"/>
+          <rect x="13.25" y="11" width="3.5" height="11" stroke="currentColor" stroke-width="1.6"/>
+          <rect x="19.5" y="7" width="3.5" height="15" stroke="currentColor" stroke-width="1.6"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Исследование рынка и конкурентов</span>
+            <span class="addon-option__price">700 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Исследование рынка и конкурентов»">
+          <input class="addon-option__input" type="checkbox" value="market-research">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-market-research" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Кто конкуренты и что у них работает</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="600">
-      <input class="addon-option__input" type="checkbox" value="seo-check">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
-        <path d="M16.5 16.5 L22 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <path d="M8 11 L10.2 13.2 L14.5 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Проверка сайта (SEO)</span>
-          <span class="addon-option__price">600 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Аудит сайта на ошибки и позиции</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="600">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-seo-check">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M16.5 16.5 L22 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M8 11 L10.2 13.2 L14.5 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Проверка сайта (SEO)</span>
+            <span class="addon-option__price">600 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Проверка сайта (SEO)»">
+          <input class="addon-option__input" type="checkbox" value="seo-check">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-seo-check" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Аудит сайта на ошибки и позиции</p>
+      </div>
+    </div>
 
-    <label class="addon-option" data-price="500">
-      <input class="addon-option__input" type="checkbox" value="resource-saving">
-      <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-        <path d="M6 20 A11 11 0 0 1 22 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <path d="M14 20 L18.5 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <circle cx="14" cy="20" r="1.3" fill="currentColor"/>
-      </svg>
-      <span class="addon-option__body">
-        <span class="addon-option__head">
-          <span class="addon-option__name">Экономия лимитов и памяти</span>
-          <span class="addon-option__price">500 ₽</span>
-        </span>
-        <span class="addon-option__tagline">Меньше расход ресурсов сервера</span>
-      </span>
-      <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-        <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </label>
+    <div class="addon-option" data-price="500">
+      <div class="addon-option__row">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-resource-saving">
+          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <path d="M6 20 A11 11 0 0 1 22 20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M14 20 L18.5 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="14" cy="20" r="1.3" fill="currentColor"/>
+          </svg>
+          <span class="addon-option__head">
+            <span class="addon-option__name">Экономия лимитов и памяти</span>
+            <span class="addon-option__price">500 ₽</span>
+          </span>
+          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="addon-option__select" aria-label="Выбрать «Экономия лимитов и памяти»">
+          <input class="addon-option__input" type="checkbox" value="resource-saving">
+          <svg class="addon-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </label>
+      </div>
+      <div class="addon-option__panel" id="addon-panel-resource-saving" hidden>
+        <div class="intro-media__poster">
+          <img class="intro-media__icon" src="icon-proha.png" alt="" width="378" height="449">
+          <button class="intro-media__play" type="button" aria-label="Воспроизвести видео (скоро)" disabled>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8.5 5.5v13l11-6.5-11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <p class="addon-option__desc">Меньше расход ресурсов сервера</p>
+      </div>
+    </div>
 
   </section>
 
@@ -448,6 +583,6 @@
 
 </main>
 
-<script src="app.js?v=21"></script>
+<script src="app.js?v=22"></script>
 </body>
 </html>

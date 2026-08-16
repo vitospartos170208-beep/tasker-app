@@ -388,17 +388,12 @@ body {
 }
 
 .addon-option {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 44px 14px 14px;
   background: var(--card);
   border: 1.5px solid var(--line);
   border-radius: var(--r-md);
   box-shadow: var(--shadow-card);
-  cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease, opacity 120ms ease;
+  transition: border-color 120ms ease, background 120ms ease;
+  overflow: hidden;
 }
 
 .addon-option--selected {
@@ -411,25 +406,37 @@ body {
   outline-offset: 2px;
 }
 
-.addon-option__input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+/* Строка карточки: значок + название/цена (кнопка-раскрывашка) + чекбокс
+   выбора. Раскрытие и выбор — два независимых действия, поэтому это два
+   разных интерактивных элемента, а не один клик на весь блок. */
+.addon-option__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px 14px 14px;
+}
+
+.addon-option__toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
 }
 
 .addon-option__icon {
   flex: none;
   width: 26px;
   height: 26px;
-  margin-top: 2px;
   color: var(--brand-blue);
-}
-
-.addon-option__body {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
 }
 
 .addon-option__head {
@@ -437,6 +444,8 @@ body {
   align-items: baseline;
   justify-content: space-between;
   gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
 .addon-option__name {
@@ -452,26 +461,76 @@ body {
   color: var(--ink);
 }
 
-.addon-option__tagline {
-  font-size: 0.82rem;
-  line-height: 1.4;
+.addon-option__chevron {
+  flex: none;
+  width: 18px;
+  height: 18px;
   color: var(--ink-soft);
-  font-weight: 500;
+  transition: transform 160ms ease;
+}
+
+.addon-option--expanded .addon-option__chevron {
+  transform: rotate(180deg);
+}
+
+/* Чекбокс выбора — свой независимый хит-таргет, всегда виден (не только
+   при выборе), чтобы клик по нему не путался с раскрытием карточки. */
+.addon-option__select {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.addon-option__input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
 .addon-option__check {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 20px;
-  height: 20px;
-  color: var(--brand-blue);
-  opacity: 0;
-  transition: opacity 120ms ease;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  border: 1.5px solid var(--line);
+  color: transparent;
+  padding: 1px;
+  box-sizing: border-box;
+  background: var(--paper);
+  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
 }
 
 .addon-option--selected .addon-option__check {
-  opacity: 1;
+  border-color: var(--brand-blue);
+  background: var(--brand-blue);
+  color: #fff;
+}
+
+/* Раскрывающаяся панель: видео такого же размера, как на первом экране
+   (переиспользует .intro-media__poster/__icon/__play один в один), и
+   описание функции под ним — раньше это был текст-подпись на самой
+   кнопке, теперь живёт только здесь. */
+.addon-option__panel {
+  padding: 4px 14px 16px;
+}
+
+.addon-option__panel .intro-media__poster {
+  margin: 4px auto 0;
+}
+
+.addon-option__desc {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-weight: 500;
+  text-align: center;
 }
 
 /* ── Numbered steps (BotFather / установка) ────────────────────────── */

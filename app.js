@@ -159,6 +159,33 @@ document.querySelectorAll('.addon-option__input').forEach((input) => {
   });
 });
 
+// Раскрытие карточки (видео + описание функции) — отдельное от выбора
+// действие: клик по названию/цене раскрывает панель, клик по чекбоксу
+// (внутри .addon-option__select) выбирает функцию и не вызывает
+// раскрытие. Одновременно раскрыта только одна карточка — открытие новой
+// закрывает предыдущую, чтобы список не растягивался бесконечно.
+document.querySelectorAll('.addon-option__toggle').forEach((toggle) => {
+  toggle.addEventListener('click', () => {
+    const option = toggle.closest('.addon-option');
+    const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+    const willExpand = panel.hidden;
+
+    document.querySelectorAll('.addon-option--expanded').forEach((other) => {
+      if (other === option) return;
+      other.classList.remove('addon-option--expanded');
+      const otherToggle = other.querySelector('.addon-option__toggle');
+      const otherPanel = document.getElementById(otherToggle.getAttribute('aria-controls'));
+      otherToggle.setAttribute('aria-expanded', 'false');
+      otherPanel.hidden = true;
+    });
+
+    option.classList.toggle('addon-option--expanded', willExpand);
+    toggle.setAttribute('aria-expanded', String(willExpand));
+    panel.hidden = !willExpand;
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+  });
+});
+
 addonsNextBtn.addEventListener('click', () => {
   tap();
   goToScreenByName('botfather');
