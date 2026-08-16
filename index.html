@@ -8,7 +8,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<!-- ?v=N — та же ручная версия, что MINI_APP_VERSION в concierge-bot/index.js.
+     Нужна отдельно от версии в URL самого index.html (которую ставит бот в
+     MINI_APP_URL): WebView Telegram может держать style.css/app.js в кэше
+     по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
+     URL — cache-buster у html не трогает кэш подключённых файлов, если у
+     них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
+<link rel="stylesheet" href="style.css?v=18">
 </head>
 <body>
 <!--
@@ -442,6 +448,6 @@
 
 </main>
 
-<script src="app.js"></script>
+<script src="app.js?v=18"></script>
 </body>
 </html>
