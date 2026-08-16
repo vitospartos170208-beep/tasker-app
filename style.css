@@ -92,6 +92,7 @@ body {
 .intro,
 .intro-media,
 .addon-options,
+.payment-stub,
 .steps-card,
 .field,
 .btn-primary--outline {
@@ -376,6 +377,35 @@ body {
   font-size: 0.82rem;
   color: var(--ink-soft);
   text-align: center;
+}
+
+/* ── Payment stub (заглушка приёма оплаты) ────────────────────────────
+   Честно помечена как «скоро» — приглушённые конкретные цвета (--paper-deep
+   фон, --ink-soft текст/иконка), не opacity, тот же принцип, что и у
+   .intro-media__play (The Muted-Not-Faded Rule). Когда оплата подключится,
+   на этом месте появится настоящий виджет — сумма и кнопка «Далее» в
+   футере останутся как есть. */
+.payment-stub {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  background: var(--paper-deep);
+  border-radius: var(--r-lg);
+  color: var(--ink-soft);
+}
+
+.payment-stub__icon {
+  flex: none;
+  width: 30px;
+  height: 22px;
+}
+
+.payment-stub__text {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--ink-soft);
 }
 
 /* ── Addon options ──────────────────────────────────────────────────── */

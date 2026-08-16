@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=23">
+<link rel="stylesheet" href="style.css?v=24">
 </head>
 <body>
 <!--
@@ -445,6 +445,54 @@
 
 </section>
 
+<!-- Заглушка под приём оплаты — реальной интеграции ещё нет (см. просьбу
+     пользователя: сначала макет, потом подключим оплату). Честно
+     помечена как «скоро», как и .intro-media на первом экране — не
+     притворяется рабочей формой оплаты. Когда оплата подключится: место
+     .payment-stub займёт настоящий виджет оплаты, сумма и кнопка «Далее»
+     останутся. -->
+<section class="screen" data-screen="payment" hidden>
+
+  <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
+    <h1 class="passport__title passport__title--compact">Оплата</h1>
+  </header>
+
+  <section class="intro">
+    <p class="intro__text">
+      Приём оплаты подключим следующим шагом — сейчас здесь заглушка. Когда
+      он заработает, вы сможете оплатить картой прямо тут. Пока просто
+      нажмите «Далее» — по оплате мы свяжемся с вами отдельно.
+    </p>
+  </section>
+
+  <section class="payment-stub" aria-label="Оплата картой (скоро)">
+    <svg class="payment-stub__icon" viewBox="0 0 28 20" fill="none" aria-hidden="true">
+      <rect x="1.5" y="1.5" width="25" height="17" rx="2.5" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M1.5 7 L26.5 7" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M4.5 14 L10.5 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <p class="payment-stub__text">Оплата картой — скоро</p>
+  </section>
+
+  <footer class="passport__footer">
+    <p class="passport__field">
+      <span class="doc-label">К ОПЛАТЕ</span>
+      <span id="payment-total">700 ₽</span>
+    </p>
+    <button class="btn-primary" id="payment-next-btn" type="button">
+      <span>ДАЛЕЕ</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </footer>
+
+</section>
+
 <section class="screen" data-screen="botfather" hidden>
 
   <header class="passport__header passport__header--plain">
@@ -583,6 +631,6 @@
 
 </main>
 
-<script src="app.js?v=23"></script>
+<script src="app.js?v=24"></script>
 </body>
 </html>

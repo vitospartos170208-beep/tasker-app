@@ -1,5 +1,7 @@
-// Визард PROha, 5 разделов (тариф выбирать больше не нужно — один
-// серверный вариант на всех). Последний раздел («Что произойдёт дальше»)
+// Визард PROha, 6 разделов (тариф выбирать больше не нужно — один
+// серверный вариант на всех; раздел «Оплата» пока заглушка, реальный
+// приём платежей ещё не подключён). Последний раздел («Что произойдёт
+// дальше»)
 // в реальном Telegram почти никто не увидит: sendData() закрывает Mini App
 // сразу после отправки формы, и дальше идёт настоящая установка через
 // concierge-bot (SSH, provisionServer()) — этот раздел виден только как
@@ -11,10 +13,13 @@ if (tg) {
   tg.ready();
   tg.expand();
 
-  // Мир страницы — крафт-бумага, вне зависимости от темы Telegram (см.
-  // контракт направления в index.html) — но шапка/фон вокруг вьюпорта
-  // должны совпасть, чтобы не было чужеродной рамки другого цвета.
-  const paper = '#EDE6D6';
+  // Фон страницы — холодно-белый (--paper в style.css), вне зависимости
+  // от темы Telegram (см. контракт направления в index.html) — но шапка/фон
+  // вокруг вьюпорта должны совпасть, чтобы не было чужеродной рамки
+  // другого цвета. Раньше здесь стоял цвет старой крафт-бумажной системы
+  // (#EDE6D6) — не тронутый при редизайне на PROha, из-за чего шапка/фон
+  // Telegram вокруг вьюпорта были бежевыми, а сама страница — сине-белой.
+  const paper = '#F4F7FC';
   try {
     tg.setHeaderColor(paper);
     tg.setBackgroundColor(paper);
@@ -59,7 +64,7 @@ function formatRub(n) {
 // а не серия перезагрузок. Порядок здесь совпадает с шагами из
 // concierge-bot/index.js и PRODUCT.md → Capabilities and Constraints.
 
-const screenOrder = ['intro', 'addons', 'botfather', 'server', 'done'];
+const screenOrder = ['intro', 'addons', 'payment', 'botfather', 'server', 'done'];
 let currentIndex = 0;
 
 // Некоторые разделы зависят от состояния, накопленного раньше (тариф из
@@ -67,6 +72,7 @@ let currentIndex = 0;
 // при первой сборке DOM.
 const onEnter = {
   addons: renderAddonsScreen,
+  payment: renderPaymentScreen,
   server: renderServerScreen,
 };
 
@@ -137,12 +143,16 @@ function renderAddonsScreen() {
 }
 
 function updateTotal() {
+  totalPriceEl.textContent = formatRub(computeTotal());
+}
+
+function computeTotal() {
   const base = PLAN_INFO.CRAZY.price;
   let addonsSum = 0;
   document.querySelectorAll('.addon-option__input:checked').forEach((input) => {
     addonsSum += Number(input.closest('.addon-option').dataset.price);
   });
-  totalPriceEl.textContent = formatRub(base + addonsSum);
+  return base + addonsSum;
 }
 
 document.querySelectorAll('.addon-option__input').forEach((input) => {
@@ -188,10 +198,28 @@ document.querySelectorAll('.addon-option__toggle').forEach((toggle) => {
 
 addonsNextBtn.addEventListener('click', () => {
   tap();
+  goToScreenByName('payment');
+});
+
+// ─── Раздел 3: оплата (заглушка) ─────────────────────────────────────────
+// Реального приёма платежей ещё нет — экран честно помечен «скоро»
+// (см. .payment-stub в index.html). Сумма пересчитывается из тех же
+// допфункций, что и на предыдущем экране, кнопка «Далее» просто ведёт
+// дальше по визарду, ничего не списывая.
+
+const paymentTotalEl = document.getElementById('payment-total');
+const paymentNextBtn = document.getElementById('payment-next-btn');
+
+function renderPaymentScreen() {
+  paymentTotalEl.textContent = formatRub(computeTotal());
+}
+
+paymentNextBtn.addEventListener('click', () => {
+  tap();
   goToScreenByName('botfather');
 });
 
-// ─── Раздел 3: свой бот через BotFather ──────────────────────────────────
+// ─── Раздел 4: свой бот через BotFather ───────────────────────────────────
 
 const tokenInput = document.getElementById('token-input');
 const tokenField = document.getElementById('token-field');
@@ -214,7 +242,7 @@ botfatherNextBtn.addEventListener('click', () => {
   goToScreenByName('server');
 });
 
-// ─── Раздел 4: сервер ────────────────────────────────────────────────────
+// ─── Раздел 5: сервер ────────────────────────────────────────────────────
 
 const ipInput = document.getElementById('ip-input');
 const ipError = document.getElementById('ip-error');
