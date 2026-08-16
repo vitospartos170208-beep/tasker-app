@@ -106,36 +106,16 @@ body {
   gap: 10px;
 }
 
-.brand-mark__icon {
-  display: block;
-  flex: none;
-  height: 36px;
-  width: auto;
-}
-
-.brand-mark__word {
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 1.2rem;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-}
-
-.brand-mark__word .grad {
-  background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
 /* Первый экран: значок — в левом верхнем углу шапки, словесный знак
    «PROha» — в правом верхнем, врозь по краям строки (не парой рядом,
-   как в компактных .brand-mark остальных экранов). Значок — тот же
-   растровый файл icon-proha.png, что и .brand-mark__icon: реальный
-   кадр, вырезанный и обесцвеченный по альфа-каналу из настоящего
-   logo-proha.jpg (не рисованная реконструкция). Высота задаётся,
-   ширина следует естественной пропорции файла (378×449), чтобы не
-   искажать значок. */
+   как в компактных .brand-mark остальных экранов). На всех экранах —
+   один и тот же размер значка и надписи (см. .hero-icon,
+   .brand-mark__icon ниже), чтобы бренд-марка не «прыгала» между
+   первым экраном и остальными. Значок — тот же растровый файл
+   icon-proha.png, что и .brand-mark__icon: реальный кадр, вырезанный
+   и обесцвеченный по альфа-каналу из настоящего logo-proha.jpg (не
+   рисованная реконструкция). Высота задаётся, ширина следует
+   естественной пропорции файла (378×449), чтобы не искажать значок. */
 .hero-mark {
   display: flex;
   align-items: center;
@@ -144,22 +124,25 @@ body {
   margin: 0 0 2px;
 }
 
-.hero-icon {
+.hero-icon,
+.brand-mark__icon {
   display: block;
   flex: none;
-  height: clamp(34px, 9.6vw, 42px);
+  height: clamp(23px, 6.6vw, 29px);
   width: auto;
 }
 
-.hero-mark__word {
+.hero-mark__word,
+.brand-mark__word {
   font-family: var(--font-body);
   font-weight: 800;
-  font-size: clamp(1.08rem, 5.2vw, 1.36rem);
+  font-size: clamp(0.74rem, 3.58vw, 0.94rem);
   letter-spacing: -0.015em;
   color: var(--ink);
 }
 
-.hero-mark__word .grad {
+.hero-mark__word .grad,
+.brand-mark__word .grad {
   background: linear-gradient(135deg, var(--brand-blue), var(--brand-purple));
   -webkit-background-clip: text;
   background-clip: text;
