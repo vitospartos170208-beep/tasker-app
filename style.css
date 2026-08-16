@@ -306,8 +306,8 @@ body {
 
 .intro__text {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  line-height: 1.55;
   color: var(--ink);
   max-width: 62ch;
 }
@@ -327,8 +327,10 @@ body {
 
 .intro-media__poster {
   position: relative;
+  width: 68%;
+  margin: 0 auto;
   aspect-ratio: 16 / 9;
-  border-radius: var(--r-lg);
+  border-radius: var(--r-md);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   background: var(--paper-deep);
@@ -338,7 +340,7 @@ body {
 }
 
 .intro-media__icon {
-  height: 34%;
+  height: 32%;
   width: auto;
 }
 
@@ -347,8 +349,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 52px;
-  height: 52px;
+  width: 40px;
+  height: 40px;
   border: none;
   border-radius: 50%;
   background: var(--card);
@@ -361,9 +363,9 @@ body {
 }
 
 .intro-media__play svg {
-  width: 20px;
-  height: 20px;
-  margin-left: 2px; /* оптическая центровка треугольника плей */
+  width: 16px;
+  height: 16px;
+  margin-left: 1px; /* оптическая центровка треугольника плей */
 }
 
 .intro-media__caption {
