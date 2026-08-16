@@ -157,6 +157,13 @@ body {
   padding: 2px 0 4px;
 }
 
+/* Только первый экран: значок и wordmark вплотную к верхнему краю —
+   компенсируем общий верхний паддинг .passport (24px), не трогая его
+   глобально (остальные 5 экранов от этого не зависят). */
+.screen[data-screen="intro"] .passport__header {
+  margin-top: -18px;
+}
+
 .passport__title {
   margin: 18px 0 8px;
   font-family: var(--font-body);
