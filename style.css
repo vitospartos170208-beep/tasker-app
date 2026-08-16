@@ -75,6 +75,7 @@ body {
 .passport__header,
 .diagram,
 .intro,
+.intro-media,
 .plan-options,
 .addon-options,
 .steps-card,
@@ -313,6 +314,63 @@ body {
 
 .intro__text + .intro__text {
   margin-top: 12px;
+}
+
+/* ── Заглушка под видео (экран 1) ─────────────────────────────────────
+   Сейчас — постер с иконкой и неактивной кнопкой плей (cursor:not-allowed,
+   приглушённые цвета — честно выглядит как «пока не работает», не
+   притворяется рабочим видео). Когда появится настоящее видео — заменить
+   .intro-media__poster на <video controls poster="...">, обёртку и
+   отступы вокруг не трогать. Кнопку плей тогда же перекрасить в
+   --accent (салатовый, «действие доступно») — сейчас она приглушённая
+   намеренно, это не то же самое состояние. */
+
+.intro-media__poster {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background: var(--paper-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-media__icon {
+  height: 34%;
+  width: auto;
+}
+
+.intro-media__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-card);
+  cursor: not-allowed;
+}
+
+.intro-media__play svg {
+  width: 20px;
+  height: 20px;
+  margin-left: 2px; /* оптическая центровка треугольника плей */
+}
+
+.intro-media__caption {
+  margin: 8px 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  text-align: center;
 }
 
 /* ── Plan options (Раздел 2 — тариф) ───────────────────────────────── */
