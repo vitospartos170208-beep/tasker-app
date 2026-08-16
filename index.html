@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=26">
+<link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
 <!--
@@ -125,10 +125,16 @@
 
   <section class="pricing-card" aria-label="Разовая оплата">
     <span class="doc-label">ОДИН РАЗ</span>
-    <p class="pricing-card__text">
-      Помощь с подключением и все библиотеки навыков (допфункции), которые
-      вы выберете на следующем шаге, — оплачиваются один раз, при
-      подключении. Дальше за них платить не нужно.
+    <ul class="pricing-list">
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Помощь с подключением агента</span>
+        <span class="pricing-list__price">100 000 ₽</span>
+      </li>
+    </ul>
+    <p class="pricing-card__note">
+      Плюс библиотеки навыков (допфункции), которые вы выберете на
+      следующем шаге, — тоже разовая оплата, каждая своей стоимостью.
+      Дальше за них платить не нужно.
     </p>
   </section>
 
@@ -486,8 +492,8 @@
 
   <footer class="passport__footer">
     <p class="passport__field">
-      <span class="doc-label">ДОПФУНКЦИИ, ЕДИНОРАЗОВО</span>
-      <span id="total-price">0 ₽</span>
+      <span class="doc-label">ИТОГО, ЕДИНОРАЗОВО</span>
+      <span id="total-price">100 000 ₽</span>
     </p>
     <button class="btn-primary" id="addons-next-btn" type="button">
       <span>ДАЛЕЕ</span>
@@ -686,6 +692,6 @@
 
 </main>
 
-<script src="app.js?v=26"></script>
+<script src="app.js?v=27"></script>
 </body>
 </html>
