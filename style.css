@@ -807,6 +807,7 @@ body {
 .ai-option--codex { --ai-accent: #10A37F; --ai-accent-soft: #E6F7F1; }
 .ai-option--opencode { --ai-accent: #7C3AED; --ai-accent-soft: #F1EBFC; }
 .ai-option--gemini { --ai-accent: #9B72CB; --ai-accent-soft: #F6EEFB; }
+.ai-option--deepseek { --ai-accent: #4D6BFE; --ai-accent-soft: #EAEDFF; }
 .ai-option--gemini .ai-option__badge {
   background: linear-gradient(135deg, #4285F4, #9B72CB 55%, #D96570);
 }

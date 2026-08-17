@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=29">
+<link rel="stylesheet" href="style.css?v=30">
 </head>
 <body>
 <!--
@@ -627,6 +627,30 @@
       </div>
     </div>
 
+    <div class="ai-option ai-option--deepseek" data-model="deepseek">
+      <div class="ai-option__row">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-deepseek">
+          <span class="ai-option__badge" aria-hidden="true"></span>
+          <span class="ai-option__head">
+            <span class="ai-option__name">DeepSeek</span>
+            <span class="ai-option__vendor">Открытые веса</span>
+          </span>
+          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="ai-option__select" aria-label="Выбрать «DeepSeek»">
+          <input class="ai-option__input" type="radio" name="ai-model" value="deepseek">
+          <span class="ai-option__radio" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="ai-option__panel" id="ai-panel-deepseek" hidden>
+        <p class="ai-option__desc">Модель с открытыми весами, работает через тот же CLI-агент, что и OpenCode. Славится ценой — в разы дешевле по токенам, чем закрытые модели, при сопоставимом качестве кода и рассуждений.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Заметно дешевле по токенам при активном ежедневном использовании — ощутимо на длинной дистанции.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Оплата картой из России не проще, чем у остальных (нужна зарубежная карта — как и у Claude/Codex/Gemini), плюс данные идут на серверы в китайской юрисдикции.</p>
+      </div>
+    </div>
+
   </section>
 
   <footer class="passport__footer">
@@ -827,6 +851,6 @@
 
 </main>
 
-<script src="app.js?v=29"></script>
+<script src="app.js?v=30"></script>
 </body>
 </html>
