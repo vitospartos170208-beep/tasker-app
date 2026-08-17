@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=28">
+<link rel="stylesheet" href="style.css?v=29">
 </head>
 <body>
 <!--
@@ -578,29 +578,6 @@
       </div>
     </div>
 
-    <div class="ai-option ai-option--aider" data-model="aider">
-      <div class="ai-option__row">
-        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-aider">
-          <span class="ai-option__badge" aria-hidden="true"></span>
-          <span class="ai-option__head">
-            <span class="ai-option__name">Aider</span>
-            <span class="ai-option__vendor">Открытый код</span>
-          </span>
-          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <label class="ai-option__select" aria-label="Выбрать «Aider»">
-          <input class="ai-option__input" type="radio" name="ai-model" value="aider">
-          <span class="ai-option__radio" aria-hidden="true"></span>
-        </label>
-      </div>
-      <div class="ai-option__panel" id="ai-panel-aider" hidden>
-        <p class="ai-option__desc">Полностью бесплатный терминальный агент с открытым исходным кодом. Работает с любой моделью на выбор — Claude, GPT и другими, включая локальные.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Сам инструмент бесплатный навсегда — платите только за токены выбранной модели, без наценки.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Требует больше вашего личного участия — меньше автономности, чем у Claude Code или Codex.</p>
-      </div>
-    </div>
 
     <div class="ai-option ai-option--opencode" data-model="opencode">
       <div class="ai-option__row">
@@ -850,6 +827,6 @@
 
 </main>
 
-<script src="app.js?v=28"></script>
+<script src="app.js?v=29"></script>
 </body>
 </html>

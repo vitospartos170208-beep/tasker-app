@@ -805,7 +805,6 @@ body {
    --ai-accent используется только для текста/рамки. */
 .ai-option--claude { --ai-accent: #D97757; --ai-accent-soft: #FBEEE8; }
 .ai-option--codex { --ai-accent: #10A37F; --ai-accent-soft: #E6F7F1; }
-.ai-option--aider { --ai-accent: #B7791F; --ai-accent-soft: #FBF1DC; }
 .ai-option--opencode { --ai-accent: #7C3AED; --ai-accent-soft: #F1EBFC; }
 .ai-option--gemini { --ai-accent: #9B72CB; --ai-accent-soft: #F6EEFB; }
 .ai-option--gemini .ai-option__badge {
