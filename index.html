@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=27">
+<link rel="stylesheet" href="style.css?v=28">
 </head>
 <body>
 <!--
@@ -505,6 +505,164 @@
 
 </section>
 
+<!-- Выбор ИИ-модели — перед оплатой, чтобы клиент понимал, на чём именно
+     будет работать его агент, до того как увидит итоговую сумму. Один
+     выбор (radio), не чекбоксы, как у допфункций — агент подключается
+     к одной модели, не к нескольким сразу. Раскрытие карточки — тот же
+     паттерн, что у допфункций (клик по названию раскрывает панель, клик
+     по кружку выбирает модель, оба независимы). Пятёрка моделей и их
+     плюс/минус — из разбора альтернатив Claude Code для этого продукта;
+     цвета — фирменные акценты каждой компании (ориентировочные, не
+     точные пиксель-в-пиксель бренд-буки), не настоящие логотипы. -->
+<section class="screen" data-screen="ai-model" hidden>
+
+  <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
+    <h1 class="passport__title passport__title--compact">Выберите ИИ для агента</h1>
+  </header>
+
+  <section class="intro">
+    <p class="intro__text">Ваш агент будет работать на одной из этих моделей — вы платите за неё напрямую разработчику (см. предыдущий шаг). Нажмите на название, чтобы прочитать о модели, затем выберите её кружком.</p>
+  </section>
+
+  <section class="ai-options" aria-label="Выбор ИИ-модели">
+
+    <div class="ai-option ai-option--claude" data-model="claude">
+      <div class="ai-option__row">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-claude">
+          <span class="ai-option__badge" aria-hidden="true"></span>
+          <span class="ai-option__head">
+            <span class="ai-option__name">Claude Code</span>
+            <span class="ai-option__vendor">Anthropic</span>
+          </span>
+          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="ai-option__select" aria-label="Выбрать «Claude Code»">
+          <input class="ai-option__input" type="radio" name="ai-model" value="claude">
+          <span class="ai-option__radio" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="ai-option__panel" id="ai-panel-claude" hidden>
+        <p class="ai-option__desc">Официальный CLI-агент от Anthropic. Работает прямо в терминале на вашем сервере, видит и правит код по всему проекту сразу — сильнее всех справляется со сложными, многошаговыми задачами.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Держит в памяти огромный объём за раз (контекст до 1 млн токенов) — реже теряет нить в больших проектах.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Дороже конкурентов по цене токенов при активном ежедневном использовании.</p>
+      </div>
+    </div>
+
+    <div class="ai-option ai-option--codex" data-model="codex">
+      <div class="ai-option__row">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-codex">
+          <span class="ai-option__badge" aria-hidden="true"></span>
+          <span class="ai-option__head">
+            <span class="ai-option__name">Codex CLI</span>
+            <span class="ai-option__vendor">OpenAI</span>
+          </span>
+          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="ai-option__select" aria-label="Выбрать «Codex CLI»">
+          <input class="ai-option__input" type="radio" name="ai-model" value="codex">
+          <span class="ai-option__radio" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="ai-option__panel" id="ai-panel-codex" hidden>
+        <p class="ai-option__desc">Терминальный агент от OpenAI на основе GPT. Выполняет код в изолированной песочнице — риск случайно сломать что-то на сервере ниже, чем у большинства аналогов.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Дешевле по токенам в 2,5–4 раза и особенно силён на терминальных/серверных задачах.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Слабее держит очень большой контекст на масштабных многофайловых переделках.</p>
+      </div>
+    </div>
+
+    <div class="ai-option ai-option--aider" data-model="aider">
+      <div class="ai-option__row">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-aider">
+          <span class="ai-option__badge" aria-hidden="true"></span>
+          <span class="ai-option__head">
+            <span class="ai-option__name">Aider</span>
+            <span class="ai-option__vendor">Открытый код</span>
+          </span>
+          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="ai-option__select" aria-label="Выбрать «Aider»">
+          <input class="ai-option__input" type="radio" name="ai-model" value="aider">
+          <span class="ai-option__radio" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="ai-option__panel" id="ai-panel-aider" hidden>
+        <p class="ai-option__desc">Полностью бесплатный терминальный агент с открытым исходным кодом. Работает с любой моделью на выбор — Claude, GPT и другими, включая локальные.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Сам инструмент бесплатный навсегда — платите только за токены выбранной модели, без наценки.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Требует больше вашего личного участия — меньше автономности, чем у Claude Code или Codex.</p>
+      </div>
+    </div>
+
+    <div class="ai-option ai-option--opencode" data-model="opencode">
+      <div class="ai-option__row">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-opencode">
+          <span class="ai-option__badge" aria-hidden="true"></span>
+          <span class="ai-option__head">
+            <span class="ai-option__name">OpenCode</span>
+            <span class="ai-option__vendor">Открытый код</span>
+          </span>
+          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="ai-option__select" aria-label="Выбрать «OpenCode»">
+          <input class="ai-option__input" type="radio" name="ai-model" value="opencode">
+          <span class="ai-option__radio" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="ai-option__panel" id="ai-panel-opencode" hidden>
+        <p class="ai-option__desc">Открытый CLI-агент, ближе всего по возможностям к Claude Code. Поддерживает более 75 провайдеров моделей — не привязан к одной компании.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Свобода выбора модели и провайдера — можно сменить в любой момент без переустановки.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Молодой проект: меньше отшлифован и протестирован, чем коммерческие аналоги.</p>
+      </div>
+    </div>
+
+    <div class="ai-option ai-option--gemini" data-model="gemini">
+      <div class="ai-option__row">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-gemini">
+          <span class="ai-option__badge" aria-hidden="true"></span>
+          <span class="ai-option__head">
+            <span class="ai-option__name">Gemini CLI</span>
+            <span class="ai-option__vendor">Google</span>
+          </span>
+          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <label class="ai-option__select" aria-label="Выбрать «Gemini CLI»">
+          <input class="ai-option__input" type="radio" name="ai-model" value="gemini">
+          <span class="ai-option__radio" aria-hidden="true"></span>
+        </label>
+      </div>
+      <div class="ai-option__panel" id="ai-panel-gemini" hidden>
+        <p class="ai-option__desc">Терминальный агент от Google на основе Gemini. Официально поддерживается Google, с щедрым бесплатным лимитом использования.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Есть бесплатный тариф — можно попробовать и пользоваться без затрат на первых порах.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Слабее конкурентов на сложных, многошаговых задачах и глубоких рефакторах.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <footer class="passport__footer">
+    <button class="btn-primary" id="ai-model-next-btn" type="button" disabled>
+      <span>ДАЛЕЕ</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </footer>
+
+</section>
+
 <!-- Заглушка под приём оплаты — реальной интеграции ещё нет (см. просьбу
      пользователя: сначала макет, потом подключим оплату). Честно
      помечена как «скоро», как и .intro-media на первом экране — не
@@ -692,6 +850,6 @@
 
 </main>
 
-<script src="app.js?v=27"></script>
+<script src="app.js?v=28"></script>
 </body>
 </html>

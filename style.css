@@ -622,6 +622,196 @@ body {
   text-align: center;
 }
 
+/* ── AI model options (экран между допфункциями и оплатой) ────────────
+   Та же карточка-аккордеон, что .addon-option, но выбор одиночный (radio,
+   не checkbox — агент работает на одной модели) и вместо цены — цвет
+   бренда каждой компании (--ai-accent/--ai-accent-soft), заданный
+   отдельным модификатором на каждую модель. Цвета — ориентировочные
+   фирменные акценты, не точные значения из брендбуков. */
+
+.ai-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 0;
+}
+
+.ai-option {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-card);
+  transition: border-color 120ms ease, background 120ms ease;
+  overflow: hidden;
+}
+
+.ai-option--selected {
+  border-color: var(--ai-accent);
+}
+
+.ai-option--expanded .ai-option__panel {
+  background: var(--ai-accent-soft);
+}
+
+.ai-option:focus-within {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+}
+
+.ai-option__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px 14px 14px;
+}
+
+.ai-option__toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* Цветной кружок — единственный носитель фирменного цвета компании на
+   свёрнутой карточке (не логотип, чтобы не подделывать чужой брендинг). */
+.ai-option__badge {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ai-accent);
+}
+
+.ai-option__head {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-option__name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+
+.ai-option__vendor {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ai-accent);
+}
+
+.ai-option__chevron {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--ink-soft);
+  transition: transform 160ms ease;
+}
+
+.ai-option--expanded .ai-option__chevron {
+  transform: rotate(180deg);
+}
+
+.ai-option__select {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.ai-option__input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.ai-option__radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  box-sizing: border-box;
+  background: var(--paper);
+  transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+}
+
+.ai-option--selected .ai-option__radio {
+  border-color: var(--ai-accent);
+  border-width: 6px;
+  background: var(--card);
+}
+
+.ai-option__panel {
+  padding: 4px 14px 16px;
+  transition: background 120ms ease;
+}
+
+.ai-option__desc {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+.ai-option__pros {
+  margin: 10px 0 0;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.ai-option__pros-label {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.ai-option__pros-label--pro {
+  background: #E5F5EA;
+  color: #1E8E51;
+}
+
+.ai-option__pros-label--con {
+  background: #FBEBEC;
+  color: #C8383B;
+}
+
+/* Фирменные акценты — по одному на модель. Gemini — единственная с
+   радужным брендом Google, поэтому её кружок красится градиентом, а
+   --ai-accent используется только для текста/рамки. */
+.ai-option--claude { --ai-accent: #D97757; --ai-accent-soft: #FBEEE8; }
+.ai-option--codex { --ai-accent: #10A37F; --ai-accent-soft: #E6F7F1; }
+.ai-option--aider { --ai-accent: #B7791F; --ai-accent-soft: #FBF1DC; }
+.ai-option--opencode { --ai-accent: #7C3AED; --ai-accent-soft: #F1EBFC; }
+.ai-option--gemini { --ai-accent: #9B72CB; --ai-accent-soft: #F6EEFB; }
+.ai-option--gemini .ai-option__badge {
+  background: linear-gradient(135deg, #4285F4, #9B72CB 55%, #D96570);
+}
+
 /* ── Numbered steps (BotFather / установка) ────────────────────────── */
 
 .steps {

@@ -1,8 +1,9 @@
-// Визард PROha, 7 разделов (тариф выбирать больше не нужно — один
+// Визард PROha, 8 разделов (тариф выбирать больше не нужно — один
 // серверный вариант на всех; раздел «Как это оплачивается» — статичное
-// объяснение модели цен перед выбором допфункций; раздел «Оплата» пока
-// заглушка, реальный приём платежей ещё не подключён). Последний раздел
-// («Что произойдёт дальше»)
+// объяснение модели цен перед выбором допфункций; раздел «Выберите ИИ для
+// агента» — перед оплатой, чтобы клиент видел, на чём работает агент, до
+// суммы; раздел «Оплата» пока заглушка, реальный приём платежей ещё не
+// подключён). Последний раздел («Что произойдёт дальше»)
 // в реальном Telegram почти никто не увидит: sendData() закрывает Mini App
 // сразу после отправки формы, и дальше идёт настоящая установка через
 // concierge-bot (SSH, provisionServer()) — этот раздел виден только как
@@ -43,6 +44,7 @@ if (tg) {
 const wizardState = {
   plan: 'CRAZY',
   addons: new Set(),
+  aiModel: null,
   botToken: null,
   server: { ip: null, port: null, password: null },
 };
@@ -76,7 +78,7 @@ function formatRub(n) {
 // а не серия перезагрузок. Порядок здесь совпадает с шагами из
 // concierge-bot/index.js и PRODUCT.md → Capabilities and Constraints.
 
-const screenOrder = ['intro', 'pricing', 'addons', 'payment', 'botfather', 'server', 'done'];
+const screenOrder = ['intro', 'pricing', 'addons', 'ai-model', 'payment', 'botfather', 'server', 'done'];
 let currentIndex = 0;
 
 // Некоторые разделы зависят от состояния, накопленного раньше (тариф из
@@ -225,10 +227,57 @@ document.querySelectorAll('.addon-option__toggle').forEach((toggle) => {
 
 addonsNextBtn.addEventListener('click', () => {
   tap();
+  goToScreenByName('ai-model');
+});
+
+// ─── Раздел 4: выбор ИИ-модели ───────────────────────────────────────────
+// Один выбор (radio, не чекбокс, как у допфункций) — агент работает на
+// одной модели. Раскрытие карточки — тот же паттерн, что у допфункций:
+// клик по названию раскрывает панель, клик по кружку выбирает модель.
+// Выбор обязателен — кнопка «Далее» заблокирована, пока не выбрана модель.
+
+const aiModelNextBtn = document.getElementById('ai-model-next-btn');
+
+document.querySelectorAll('.ai-option__input').forEach((input) => {
+  input.addEventListener('change', () => {
+    document.querySelectorAll('.ai-option').forEach((option) => {
+      option.classList.toggle('ai-option--selected', option.querySelector('.ai-option__input').checked);
+    });
+    wizardState.aiModel = input.value;
+    aiModelNextBtn.disabled = false;
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+  });
+});
+
+document.querySelectorAll('.ai-option__toggle').forEach((toggle) => {
+  toggle.addEventListener('click', () => {
+    const option = toggle.closest('.ai-option');
+    const panel = document.getElementById(toggle.getAttribute('aria-controls'));
+    const willExpand = panel.hidden;
+
+    document.querySelectorAll('.ai-option--expanded').forEach((other) => {
+      if (other === option) return;
+      other.classList.remove('ai-option--expanded');
+      const otherToggle = other.querySelector('.ai-option__toggle');
+      const otherPanel = document.getElementById(otherToggle.getAttribute('aria-controls'));
+      otherToggle.setAttribute('aria-expanded', 'false');
+      otherPanel.hidden = true;
+    });
+
+    option.classList.toggle('ai-option--expanded', willExpand);
+    toggle.setAttribute('aria-expanded', String(willExpand));
+    panel.hidden = !willExpand;
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+  });
+});
+
+aiModelNextBtn.addEventListener('click', () => {
+  if (aiModelNextBtn.disabled) return;
+  tap();
   goToScreenByName('payment');
 });
 
-// ─── Раздел 4: оплата (заглушка) ─────────────────────────────────────────
+// ─── Раздел 5: оплата (заглушка) ─────────────────────────────────────────
 // Реального приёма платежей ещё нет — экран честно помечен «скоро»
 // (см. .payment-stub в index.html). Сумма пересчитывается из тех же
 // допфункций, что и на предыдущем экране, кнопка «Далее» просто ведёт
@@ -246,7 +295,7 @@ paymentNextBtn.addEventListener('click', () => {
   goToScreenByName('botfather');
 });
 
-// ─── Раздел 5: свой бот через BotFather ───────────────────────────────────
+// ─── Раздел 6: свой бот через BotFather ───────────────────────────────────
 
 const tokenInput = document.getElementById('token-input');
 const tokenField = document.getElementById('token-field');
@@ -269,7 +318,7 @@ botfatherNextBtn.addEventListener('click', () => {
   goToScreenByName('server');
 });
 
-// ─── Раздел 6: сервер ────────────────────────────────────────────────────
+// ─── Раздел 7: сервер ────────────────────────────────────────────────────
 
 const ipInput = document.getElementById('ip-input');
 const ipError = document.getElementById('ip-error');
@@ -332,6 +381,7 @@ serverNextBtn.addEventListener('click', () => {
     const payload = {
       plan: wizardState.plan,
       addons: [...wizardState.addons],
+      aiModel: wizardState.aiModel,
       botToken: wizardState.botToken,
       server: wizardState.server,
     };
