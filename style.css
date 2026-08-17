@@ -438,6 +438,13 @@ body {
   color: var(--ink-soft);
 }
 
+.addon-option__note {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
 /* ── Payment stub (заглушка приёма оплаты) ────────────────────────────
    Честно помечена как «скоро» — приглушённые конкретные цвета (--paper-deep
    фон, --ink-soft текст/иконка), не opacity, тот же принцип, что и у
