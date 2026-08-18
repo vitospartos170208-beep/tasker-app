@@ -362,6 +362,7 @@ const ipError = document.getElementById('ip-error');
 const portInput = document.getElementById('port-input');
 const portError = document.getElementById('port-error');
 const passwordInput = document.getElementById('password-input');
+const pdnConsentInput = document.getElementById('pdn-consent-input');
 const serverIntroText = document.getElementById('server-intro-text');
 const serverNextBtn = document.getElementById('server-next-btn');
 const serverNextBtnLabel = document.getElementById('server-next-btn-label');
@@ -392,7 +393,7 @@ function validateServerForm() {
   portInput.closest('.field').classList.toggle('field--invalid', port.length > 0 && !portValid);
   portError.hidden = !(port.length > 0 && !portValid);
 
-  const valid = ipValid && portValid && passwordValid;
+  const valid = ipValid && portValid && passwordValid && pdnConsentInput.checked;
   serverNextBtn.disabled = !valid;
   return valid;
 }
@@ -400,6 +401,7 @@ function validateServerForm() {
 [ipInput, portInput, passwordInput].forEach((el) => {
   el.addEventListener('input', validateServerForm);
 });
+pdnConsentInput.addEventListener('change', validateServerForm);
 
 // Через HTTPS напрямую на PROVISION_ENDPOINT (когда он задан) — initData
 // уходит вместе с формой, чтобы бэкенд мог проверить подпись Telegram
@@ -431,6 +433,7 @@ serverNextBtn.addEventListener('click', async () => {
     aiModels: [...wizardState.aiModels],
     botToken: wizardState.botToken,
     server: wizardState.server,
+    pdnConsent: pdnConsentInput.checked,
   };
 
   // Пароль не должен переживать саму отправку дольше необходимого — стираем
