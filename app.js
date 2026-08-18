@@ -1,13 +1,11 @@
 // Визард PROha, 8 разделов (тариф выбирать больше не нужно — один
-// серверный вариант на всех; раздел «Как это оплачивается» — статичное
+// серверный вариант на всех; раздел «РАСХОДЫ» — статичное
 // объяснение модели цен перед выбором допфункций; раздел «Выберите ИИ для
 // агента» — перед оплатой, чтобы клиент видел, на чём работает агент, до
 // суммы; раздел «Оплата» пока заглушка, реальный приём платежей ещё не
-// подключён). Последний раздел («Что произойдёт дальше»)
-// в реальном Telegram почти никто не увидит: sendData() закрывает Mini App
-// сразу после отправки формы, и дальше идёт настоящая установка через
-// concierge-bot (SSH, provisionServer()) — этот раздел виден только как
-// честный фолбэк вне Telegram, где sendData недоступен (см. ниже).
+// подключён). Последний раздел («Что произойдёт дальше») — честный фолбэк
+// на случай, если отправка данных бэкенду не закрывает Mini App сама
+// (см. PROVISION_ENDPOINT и обработчик #server-next-btn ниже).
 
 const tg = window.Telegram && window.Telegram.WebApp;
 
@@ -31,10 +29,10 @@ if (tg) {
 }
 
 // ─── Общее состояние визарда ─────────────────────────────────────────────
-// Ничего отсюда пока никуда не отправляется (backend не существует — см.
-// PRODUCT.md → Operating Context) — но копится по-настоящему, чтобы разделы
-// друг на друга ссылались и чтобы будущему backend-подключению не пришлось
-// переписывать форму.
+// Копится по-настоящему на всех разделах, но реально уходит наружу только
+// на последнем шаге (см. PROVISION_ENDPOINT ниже и обработчик
+// #server-next-btn) — и только когда бэкенд для приёма этой формы
+// действительно развёрнут.
 //
 // plan зафиксирован на CRAZY — раздел выбора тарифа убран (у продукта
 // теперь один серверный вариант, каждый клиент покупает его), но само
@@ -44,29 +42,61 @@ if (tg) {
 const wizardState = {
   plan: 'CRAZY',
   addons: new Set(),
-  aiModel: null,
+  aiModels: new Set(),
   botToken: null,
   server: { ip: null, port: null, password: null },
 };
 
-const PLAN_INFO = {
-  // price здесь — оценка ежемесячной аренды VPS, которую клиент покупает
-  // САМ у стороннего хостера (см. экран «Сервер»: поля IP/порт/пароль от
-  // уже существующего сервера клиента) — это не наша выручка, деньги идут
-  // мимо нас. Использовать только для информационного текста (экран «Как
-  // это оплачивается»), не складывать с BASE_SETUP_FEE или допфункциями.
-  CRAZY: { ram: '8 ГБ', price: 700 },
-};
-
 // Разовая ставка за помощь с подключением — реальная выручка, в отличие
-// от PLAN_INFO.price выше. Библиотеки навыков клиенту передаются «под
-// ключ» (готовые, не шаблонные), отсюда и ставка выше рыночной за
-// типовую настройку личного ИИ-агента.
-const BASE_SETUP_FEE = 100000;
+// от ежемесячной аренды сервера (клиент покупает её сам у стороннего
+// хостера, см. экран «РАСХОДЫ» в index.html — деньги идут
+// мимо нас). Библиотеки навыков клиенту передаются «под ключ» (готовые,
+// не шаблонные), отсюда и ставка выше рыночной за типовую настройку
+// личного ИИ-агента.
+//
+// Ставка зависит от выбранных ИИ-моделей (экран «Выберите ИИ для агента»,
+// wizardState.aiModels) — но этот выбор происходит ПОСЛЕ экрана
+// допфункций, поэтому итог там (#total-price) неизбежно предварительный
+// (см. computeSetupFee ниже: без выбора модели считается по умолчанию,
+// как если бы DeepSeek не выбран). Точная сумма появляется только на
+// экране «Оплата» (#payment-total, renderPaymentScreen), когда модель уже
+// известна — тот же computeTotal(), просто вызван позже.
+const SETUP_FEE_DEEPSEEK_ONLY = 20000;
+const SETUP_FEE_DEFAULT = 100000;
+
+// DeepSeek — модель с открытыми весами, подключается заметно проще и
+// дешевле остальных, отсюда сниженная ставка. Скидка действует только
+// когда DeepSeek — единственная выбранная модель: если клиент берёт
+// DeepSeek вместе с чем-то ещё (или вообще другую модель), настройка
+// усложняется до обычного объёма работы — ставка обычная.
+function computeSetupFee() {
+  const models = wizardState.aiModels;
+  const isDeepseekOnly = models.size === 1 && models.has('deepseek');
+  return isDeepseekOnly ? SETUP_FEE_DEEPSEEK_ONLY : SETUP_FEE_DEFAULT;
+}
 
 const TOKEN_RE = /^\d+:[A-Za-z0-9_-]+$/;
 const IP_RE = /^\d{1,3}(\.\d{1,3}){3}$/;
 const PORT_RE = /^\d{1,5}$/;
+
+// Адрес бэкенда, который должен принять форму (включая root-пароль) HTTPS
+// POST'ом напрямую с телефона клиента — минуя Telegram-канал сообщений
+// боту целиком. Пока backend не развёрнут (см. PRODUCT.md → Operating
+// Context) — намеренно null: обработчик #server-next-btn тогда падает
+// обратно на старый sendData()-путь (через сообщение боту), который
+// работает уже сейчас с существующим concierge-bot. Как только бэкенд
+// поднят на реальном домене — вписать сюда его URL, и форма сама
+// переключится на HTTPS-путь без чтения пароля Telegram-каналом сообщений.
+//
+// Задачи на стороне бэкенда (concierge-bot, не в этом репозитории):
+// 1. Принять POST { initData, plan, addons, aiModels, botToken, server }.
+// 2. Провалидировать initData — подписанную строку из tg.initData,
+//    проверяется HMAC-SHA256 секретом бота (см. Telegram-доки
+//    «Validating data received via the Mini App»); отклонить, если подпись
+//    не сходится или auth_date старше нескольких минут (replay-защита).
+// 3. Вызвать тот же provisionServer(), что и раньше — payload идентичен.
+// 4. Вернуть 200 с JSON { ok: true } на успех, иначе код ошибки + текст.
+const PROVISION_ENDPOINT = 'https://api.proha.site/provision';
 
 function formatRub(n) {
   return `${n.toLocaleString('ru-RU')} ₽`;
@@ -172,8 +202,9 @@ function updateTotal() {
 }
 
 // Базовая ставка + допфункции — обе части разовые (см. экран «Как это
-// оплачивается»), поэтому складываются в одну сумму. PLAN_INFO.CRAZY.price
-// сюда по-прежнему не входит — это цена аренды сервера, ежемесячный
+// оплачивается»), поэтому складываются в одну сумму. Цена аренды сервера
+// (см. экран «РАСХОДЫ», статичный текст в index.html) сюда
+// по-прежнему не входит — это ежемесячный
 // платёж мимо нас (клиент платит хостеру напрямую), к разовой сумме
 // отношения не имеет.
 function computeTotal() {
@@ -181,7 +212,7 @@ function computeTotal() {
   document.querySelectorAll('.addon-option__input:checked').forEach((input) => {
     addonsSum += Number(input.closest('.addon-option').dataset.price);
   });
-  return BASE_SETUP_FEE + addonsSum;
+  return computeSetupFee() + addonsSum;
 }
 
 document.querySelectorAll('.addon-option__input').forEach((input) => {
@@ -230,21 +261,27 @@ addonsNextBtn.addEventListener('click', () => {
   goToScreenByName('ai-model');
 });
 
-// ─── Раздел 4: выбор ИИ-модели ───────────────────────────────────────────
-// Один выбор (radio, не чекбокс, как у допфункций) — агент работает на
-// одной модели. Раскрытие карточки — тот же паттерн, что у допфункций:
-// клик по названию раскрывает панель, клик по кружку выбирает модель.
-// Выбор обязателен — кнопка «Далее» заблокирована, пока не выбрана модель.
+// ─── Раздел 4: выбор ИИ-модели(ей) ────────────────────────────────────────
+// Мультивыбор (чекбокс, как у допфункций, не radio) — агент можно поставить
+// сразу на нескольких моделях; какой пользоваться прямо сейчас, клиент
+// переключает позже в самом боте (/settings), без переустановки. Раскрытие
+// карточки — тот же паттерн, что у допфункций: клик по названию раскрывает
+// панель, клик по чекбоксу выбирает модель, независимо друг от друга.
+// Хотя бы одна модель обязательна — кнопка «Далее» заблокирована, пока
+// список пуст.
 
 const aiModelNextBtn = document.getElementById('ai-model-next-btn');
 
 document.querySelectorAll('.ai-option__input').forEach((input) => {
   input.addEventListener('change', () => {
-    document.querySelectorAll('.ai-option').forEach((option) => {
-      option.classList.toggle('ai-option--selected', option.querySelector('.ai-option__input').checked);
-    });
-    wizardState.aiModel = input.value;
-    aiModelNextBtn.disabled = false;
+    const option = input.closest('.ai-option');
+    option.classList.toggle('ai-option--selected', input.checked);
+    if (input.checked) {
+      wizardState.aiModels.add(input.value);
+    } else {
+      wizardState.aiModels.delete(input.value);
+    }
+    aiModelNextBtn.disabled = wizardState.aiModels.size === 0;
     if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
   });
 });
@@ -327,12 +364,15 @@ const portError = document.getElementById('port-error');
 const passwordInput = document.getElementById('password-input');
 const serverIntroText = document.getElementById('server-intro-text');
 const serverNextBtn = document.getElementById('server-next-btn');
+const serverNextBtnLabel = document.getElementById('server-next-btn-label');
+const serverSubmitError = document.getElementById('server-submit-error');
 
+// Текст статичен (один серверный вариант на всех, см. wizardState.plan) —
+// раньше подставлялся динамически из PLAN_INFO по тарифу, сейчас просто
+// захардкожен здесь же, рядом со статичным фолбэком в index.html.
 function renderServerScreen() {
-  const plan = wizardState.plan || 'CRAZY';
-  const info = PLAN_INFO[plan] ?? PLAN_INFO.CRAZY;
   serverIntroText.textContent =
-    `Купите сервер (VPS) под тариф: ${info.ram} ОЗУ, обязательно Ubuntu 24, локация любая. ` +
+    'Купите сервер (VPS): 8 ГБ ОЗУ, обязательно Ubuntu 24, локация любая. ' +
     'Когда сервер готов, впишите его данные из панели хостинга ниже.';
   validateServerForm();
 }
@@ -361,7 +401,22 @@ function validateServerForm() {
   el.addEventListener('input', validateServerForm);
 });
 
-serverNextBtn.addEventListener('click', () => {
+// Через HTTPS напрямую на PROVISION_ENDPOINT (когда он задан) — initData
+// уходит вместе с формой, чтобы бэкенд мог проверить подпись Telegram
+// перед тем как довериться содержимому. Бросает при сетевой ошибке или
+// не-2xx ответе — вызывающий код решает, что показать пользователю.
+async function submitProvisionRequest(payload) {
+  const res = await fetch(PROVISION_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ initData: tg.initData, ...payload }),
+  });
+  if (!res.ok) {
+    throw new Error(`Провижининг-эндпоинт ответил ${res.status}`);
+  }
+}
+
+serverNextBtn.addEventListener('click', async () => {
   if (!validateServerForm()) return;
   wizardState.server = {
     ip: ipInput.value.trim(),
@@ -370,27 +425,57 @@ serverNextBtn.addEventListener('click', () => {
   };
   tap();
 
-  // sendData() закрывает Mini App немедленно — это поведение платформы, не
-  // баг: после вызова управление возвращается в чат с ботом, и дальнейший
-  // прогресс установки идёт уже там (bot.on('message:web_app_data', ...)
-  // подхватывает эти же данные и запускает provisionServer()). Раздел
-  // «Что произойдёт дальше» в реальном Telegram поэтому не увидят — он
-  // остаётся как честный фолбэк для проверки визарда вне Telegram (в
-  // обычном браузере), где sendData недоступен.
-  if (tg && typeof tg.sendData === 'function') {
-    const payload = {
-      plan: wizardState.plan,
-      addons: [...wizardState.addons],
-      aiModel: wizardState.aiModel,
-      botToken: wizardState.botToken,
-      server: wizardState.server,
-    };
-    tg.sendData(JSON.stringify(payload));
-  } else {
-    goToScreenByName('done');
+  const payload = {
+    plan: wizardState.plan,
+    addons: [...wizardState.addons],
+    aiModels: [...wizardState.aiModels],
+    botToken: wizardState.botToken,
+    server: wizardState.server,
+  };
+
+  // Пароль не должен переживать саму отправку дольше необходимого — стираем
+  // из поля формы сразу после того, как скопировали его в payload выше,
+  // не дожидаясь исхода запроса.
+  passwordInput.value = '';
+
+  if (tg && PROVISION_ENDPOINT) {
+    // HTTPS-путь: пароль идёт напрямую бэкенду, минуя канал сообщений
+    // Telegram-боту целиком (см. комментарий у PROVISION_ENDPOINT выше).
+    serverSubmitError.hidden = true;
+    serverNextBtn.disabled = true;
+    serverNextBtnLabel.textContent = 'ОТПРАВЛЯЕМ…';
+    try {
+      await submitProvisionRequest(payload);
+      if (typeof tg.close === 'function') {
+        tg.close();
+      } else {
+        goToScreenByName('done');
+      }
+    } catch (err) {
+      serverSubmitError.hidden = false;
+      serverNextBtn.disabled = false;
+      serverNextBtnLabel.textContent = 'НАЧАТЬ УСТАНОВКУ';
+    }
+    return;
   }
 
-  // Пароль был нужен только для передачи дальше — не оставляем его в поле
-  // формы дольше, чем до перехода/отправки.
-  passwordInput.value = '';
+  // Фолбэк, пока PROVISION_ENDPOINT не задан (бэкенд ещё не развёрнут) —
+  // старый путь через sendData(). Закрывает Mini App немедленно — это
+  // поведение платформы, не баг: управление возвращается в чат с ботом, и
+  // дальнейший прогресс установки идёт уже там (bot.on('message:web_app_data',
+  // ...) в concierge-bot/index.js подхватывает эти же данные и запускает
+  // provisionServer()). Проверено на стороне бота: кнопка визарда — reply-
+  // клавиатура с web_app (KeyboardButton), не menu-button, так что sendData()
+  // доставляется гарантированно (см. комментарий над wizardKeyboard() в
+  // concierge-bot/index.js). Пароль при этом идёт через сообщение боту —
+  // concierge-bot удаляет его сразу после чтения (см. web_app_data-обработчик
+  // там же), но полностью убрать его из канала сообщений может только
+  // переход на PROVISION_ENDPOINT.
+  if (tg && typeof tg.sendData === 'function') {
+    tg.sendData(JSON.stringify(payload));
+  } else {
+    // Вне Telegram (обычный браузер, sendData и initData недоступны) —
+    // честный фолбэк для проверки визарда, ничего никуда не уходит.
+    goToScreenByName('done');
+  }
 });

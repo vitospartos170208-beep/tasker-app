@@ -749,20 +749,29 @@ body {
   cursor: pointer;
 }
 
-.ai-option__radio {
+/* Чекбокс, не переключатель одного варианта — мультивыбор моделей (клиент
+   ставит агента сразу на нескольких, переключает между ними уже в самом
+   боте). Квадрат с галочкой вместо круга-радио — тот же язык, что у
+   .addon-option__check, но в акцентном цвете конкретной модели
+   (--ai-accent), а не в фирменном синем: у допфункций один выбор — один
+   синий, здесь выбор явно про «которая из этих карточек», уместнее свой
+   цвет на каждой. */
+.ai-option__check {
   width: 22px;
   height: 22px;
-  border-radius: 50%;
+  border-radius: 7px;
   border: 1.5px solid var(--line);
+  color: transparent;
+  padding: 1px;
   box-sizing: border-box;
   background: var(--paper);
-  transition: border-color 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
 }
 
-.ai-option--selected .ai-option__radio {
+.ai-option--selected .ai-option__check {
   border-color: var(--ai-accent);
-  border-width: 6px;
-  background: var(--card);
+  background: var(--ai-accent);
+  color: #fff;
 }
 
 .ai-option__panel {
@@ -930,6 +939,13 @@ body {
 }
 
 .field--invalid .field__error {
+  color: #C8383B;
+}
+
+/* Ошибка отправки формы (#server-submit-error) — стоит отдельно от .field,
+   не под .field--invalid, но должна читаться как ошибка, а не как
+   приглушённая подсказка (см. базовый цвет .field__error выше). */
+#server-submit-error {
   color: #C8383B;
 }
 
