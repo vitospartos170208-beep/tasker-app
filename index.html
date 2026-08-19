@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=33">
+<link rel="stylesheet" href="style.css?v=34">
 </head>
 <body>
 <!--
@@ -881,8 +881,15 @@
 
 </section>
 
+<!-- Ссылка на политику ПДн — вне .screen, поэтому видна на любом экране
+     визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
+     только рядом с чекбоксом согласия на экране 'server'). -->
+<p class="global-privacy-link">
+  <a href="privacy.html" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+</p>
+
 </main>
 
-<script src="app.js?v=33"></script>
+<script src="app.js?v=34"></script>
 </body>
 </html>

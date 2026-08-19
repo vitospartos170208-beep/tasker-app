@@ -980,6 +980,21 @@ body {
   text-decoration: underline;
 }
 
+/* ── Ссылка на политику ПДн — во всех экранах (152-ФЗ ст. 18.1) ──────── */
+
+.global-privacy-link {
+  margin: 20px 0 0;
+  padding-top: 12px;
+  text-align: center;
+}
+
+.global-privacy-link a {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: underline;
+}
+
 /* ── Footer / CTA ───────────────────────────────────────────────────── */
 
 .passport__footer {
