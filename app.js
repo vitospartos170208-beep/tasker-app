@@ -28,6 +28,30 @@ if (tg) {
   }
 }
 
+// ─── Меню документов (⋮) — политика ПДн / публичная оферта ──────────────
+const appMenuTrigger = document.getElementById('app-menu-trigger');
+const appMenuPanel = document.getElementById('app-menu-panel');
+
+function closeAppMenu() {
+  appMenuPanel.hidden = true;
+  appMenuTrigger.setAttribute('aria-expanded', 'false');
+}
+
+appMenuTrigger.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const willOpen = appMenuPanel.hidden;
+  appMenuPanel.hidden = !willOpen;
+  appMenuTrigger.setAttribute('aria-expanded', String(willOpen));
+});
+
+// Закрыть при клике вне меню или по Escape — обычное поведение выпадашки.
+document.addEventListener('click', (e) => {
+  if (!appMenuPanel.hidden && !appMenuPanel.contains(e.target)) closeAppMenu();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeAppMenu();
+});
+
 // ─── Общее состояние визарда ─────────────────────────────────────────────
 // Копится по-настоящему на всех разделах, но реально уходит наружу только
 // на последнем шаге (см. PROVISION_ENDPOINT ниже и обработчик

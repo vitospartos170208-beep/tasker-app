@@ -980,6 +980,63 @@ body {
   text-decoration: underline;
 }
 
+/* ── Меню документов (⋮) — доступ к политике ПДн и оферте с любого
+   экрана визарда ───────────────────────────────────────────────────── */
+
+.app-menu {
+  position: absolute;
+  top: 24px;
+  right: 18px;
+  z-index: 20;
+}
+
+.app-menu__trigger {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.app-menu__trigger:hover,
+.app-menu__trigger[aria-expanded="true"] {
+  background: var(--paper-deep, #EEF1F8);
+}
+
+.app-menu__panel {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  min-width: 240px;
+  background: #fff;
+  border: 1px solid var(--border, #E7E9F3);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(18, 25, 58, 0.14);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-menu__panel a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 9px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.app-menu__panel a:hover {
+  background: var(--paper-deep, #EEF1F8);
+}
+
 /* ── Ссылка на политику ПДн — во всех экранах (152-ФЗ ст. 18.1) ──────── */
 
 .global-privacy-link {

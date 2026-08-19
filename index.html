@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=35">
+<link rel="stylesheet" href="style.css?v=36">
 </head>
 <body>
 <!--
@@ -45,6 +45,23 @@
 -->
 
 <main class="passport" id="passport">
+
+<!-- Меню документов (⋮) — вне .screen, поэтому видно на любом экране
+     визарда. Даёт доступ к политике ПДн и публичной оферте без
+     необходимости листать до экрана 'server'. -->
+<div class="app-menu">
+  <button class="app-menu__trigger" id="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+    <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+      <circle cx="2" cy="2" r="2"/>
+      <circle cx="2" cy="8" r="2"/>
+      <circle cx="2" cy="14" r="2"/>
+    </svg>
+  </button>
+  <div class="app-menu__panel" id="app-menu-panel" hidden>
+    <a href="privacy.html" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+    <a href="offer.html" target="_blank" rel="noopener">Публичная оферта</a>
+  </div>
+</div>
 
 <section class="screen" data-screen="intro">
 
@@ -890,6 +907,6 @@
 
 </main>
 
-<script src="app.js?v=35"></script>
+<script src="app.js?v=36"></script>
 </body>
 </html>
