@@ -176,7 +176,7 @@ function formatRub(n) {
 // а не серия перезагрузок. Порядок здесь совпадает с шагами из
 // concierge-bot/index.js и PRODUCT.md → Capabilities and Constraints.
 
-const screenOrder = ['intro', 'pricing', 'addons', 'ai-model', 'payment', 'botfather', 'server', 'done'];
+const screenOrder = ['intro', 'risks', 'pricing', 'addons', 'ai-model', 'payment', 'botfather', 'server', 'done'];
 let currentIndex = 0;
 
 // Некоторые разделы зависят от состояния, накопленного раньше (тариф из
@@ -229,6 +229,24 @@ function tap() {
 // ─── Раздел 1: знакомство ────────────────────────────────────────────────
 
 document.getElementById('start-btn').addEventListener('click', () => {
+  tap();
+  goToScreenByName('risks');
+});
+
+// ─── Раздел 1.5: риски (утечка данных со своего сервера, блокировки ИИ
+// в РФ) — до РАСХОДОВ намеренно: решение о рисках принимается раньше, чем
+// человек увидит сумму и психологически "уже вложился". Кнопка заблокирована
+// до чекбокса — тот же принцип, что и pdn-consent-input на экране "server":
+// явное подтверждение, а не текст, который можно проскроллить не читая.
+const risksConsentInput = document.getElementById('risks-consent-input');
+const risksNextBtn = document.getElementById('risks-next-btn');
+
+risksConsentInput.addEventListener('change', () => {
+  risksNextBtn.disabled = !risksConsentInput.checked;
+});
+
+risksNextBtn.addEventListener('click', () => {
+  if (risksNextBtn.disabled) return;
   tap();
   goToScreenByName('pricing');
 });

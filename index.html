@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=45">
+<link rel="stylesheet" href="style.css?v=47">
 </head>
 <body>
 <!--
@@ -120,6 +120,98 @@
   <footer class="passport__footer">
     <button class="btn-primary" id="start-btn" type="button">
       <span>ПОЕХАЛИ</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </footer>
+
+</section>
+
+<!-- Экран рисков — сразу после знакомства, до РАСХОДОВ, чтобы человек
+     принял это решение раньше, чем увидит сумму (не наоборот: "уже
+     потратился — какая разница, что подписал"). Тот же .pricing-card
+     компонент, что и на экране РАСХОДЫ, только с акцентом --danger вместо
+     нейтрального doc-label. Чекбокс — тот же паттерн, что #pdn-consent-input
+     на экране "server": явное подтверждение весомее, чем просто текст,
+     который можно проскроллить не читая. Юридически это не замена offer.html
+     (там раздел 5 "Ограничение ответственности"), а более явное и заметное
+     предупреждение по двум конкретным пунктам, которых в оферте нет прямым
+     текстом — по просьбе пользователя 22.08.2026. -->
+<section class="screen" data-screen="risks" hidden>
+
+  <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <h1 class="passport__title passport__title--compact">ВАЖНО ПРОЧИТАТЬ</h1>
+  </header>
+
+  <section class="pricing-card pricing-card--danger" aria-label="Утечка данных">
+    <span class="doc-label doc-label--danger">УТЕЧКА ДАННЫХ</span>
+    <p class="pricing-card__text">
+      Сервер — ваш: вы покупаете его сами, пароль от него знаете только вы,
+      и мы не храним к нему доступ после установки.
+    </p>
+    <p class="pricing-card__note">
+      Поэтому риски, связанные с утечкой информации именно с вашего
+      сервера, — на вашей стороне, а не на нашей: кому вы передали пароль,
+      как настроен доступ, что вы храните на сервере дальше. Мы подключаем
+      ассистента один раз и не отвечаем за то, что происходит с сервером
+      после установки.
+    </p>
+  </section>
+
+  <section class="pricing-card pricing-card--danger" aria-label="Доступ к ИИ-моделям">
+    <span class="doc-label doc-label--danger">ДОСТУП К ИИ-МОДЕЛЯМ</span>
+    <p class="pricing-card__text">
+      Claude и часть других ИИ-моделей официально не работают в России и
+      могут в любой момент ограничить, заблокировать или изменить условия
+      доступа — это решение самих ИИ-платформ, не наше.
+    </p>
+    <p class="pricing-card__note">
+      Подписку на ИИ-модель вы оформляете на себя лично (см. РАСХОДЫ
+      дальше), и потеря или нестабильность этого подключения — тоже риск
+      на вашей стороне. Мы можем помочь перенастроить агента на другую
+      модель, но не гарантируем непрерывную работу конкретной ИИ-платформы.
+    </p>
+  </section>
+
+  <section class="pricing-card" aria-label="Разовая услуга">
+    <span class="doc-label">РАЗОВАЯ УСЛУГА</span>
+    <p class="pricing-card__text">
+      PROha подключает вам агента один раз — это не подписка на хранение
+      или владение вашими данными с нашей стороны.
+    </p>
+    <p class="pricing-card__note">
+      Мы не выступаем оператором или хранителем информации, которая
+      проходит через агента, — только помогаем один раз всё настроить.
+      Все остальные риски, не перечисленные выше явно, тоже по умолчанию
+      лежат на вас как на владельце сервера и подписок. Полные условия —
+      в <a href="offer.html" target="_blank" rel="noopener">договоре оферты</a>.
+    </p>
+  </section>
+
+  <label class="field field--consent">
+    <input type="checkbox" id="risks-consent-input">
+    <span class="field__consent-text">
+      Я прочитал(а) и понимаю эти риски
+    </span>
+  </label>
+
+  <footer class="passport__footer">
+    <button class="btn-primary" id="risks-next-btn" type="button" disabled>
+      <span>ПОНЯТНО, ДАЛЕЕ</span>
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
         <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
@@ -1029,6 +1121,6 @@
 
 </main>
 
-<script src="app.js?v=46"></script>
+<script src="app.js?v=47"></script>
 </body>
 </html>

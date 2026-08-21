@@ -438,6 +438,19 @@ body {
   color: var(--ink-soft);
 }
 
+/* ── Экран рисков (data-screen="risks") ───────────────────────────────
+   Та же .pricing-card, но с левой красной полосой — читается как
+   предупреждение, а не как нейтральная информация вроде РАСХОДОВ.
+   Красный — тот же #C8383B, что и у .field--invalid .field__error, для
+   единообразия с остальным "языком ошибок/предупреждений" на сайте. */
+.pricing-card--danger {
+  border-left: 3px solid #C8383B;
+}
+
+.doc-label--danger {
+  color: #C8383B;
+}
+
 .addon-option__note {
   margin: 10px 0 0;
   font-size: 0.8rem;
