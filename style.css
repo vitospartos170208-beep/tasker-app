@@ -983,34 +983,45 @@ body {
 /* ── Меню документов (⋮) — доступ к политике ПДн и оферте с любого
    экрана визарда ───────────────────────────────────────────────────── */
 
+/* top:46px — не 24px. Бренд-марка (значок + «PROha») занимает верхнюю
+   строку по всей ширине (space-between) на каждом экране и физически
+   заканчивается около 39px от верха .passport (высота значка до 29px +
+   отступы шапки, см. .hero-mark/.brand-mark) — при top:24px кнопка
+   вертикально перекрывала нижнюю часть слова «PROha» в том же правом
+   углу. 46px даёт кнопке чистый зазор под бренд-маркой на любом экране
+   (шапка везде одной высоты, даже когда контент под ней разный). */
 .app-menu {
   position: absolute;
-  top: 24px;
+  top: 46px;
   right: 18px;
   z-index: 20;
 }
 
 .app-menu__trigger {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 10px;
-  background: transparent;
+  border-radius: 9px;
+  /* Постоянный, а не только hover-фон — без него это была просто голая
+     иконка-многоточие, повисшая в воздухе без вида кнопки. */
+  background: var(--paper-deep, #EEF1F8);
+  box-shadow: 0 1px 2px rgba(18, 25, 58, 0.06);
   color: var(--ink-soft);
   cursor: pointer;
 }
 
 .app-menu__trigger:hover,
 .app-menu__trigger[aria-expanded="true"] {
-  background: var(--paper-deep, #EEF1F8);
+  background: var(--border, #E7E9F3);
+  color: var(--ink);
 }
 
 .app-menu__panel {
   position: absolute;
-  top: 42px;
+  top: 38px;
   right: 0;
   min-width: 240px;
   background: #fff;
