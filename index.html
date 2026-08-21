@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=44">
+<link rel="stylesheet" href="style.css?v=45">
 </head>
 <body>
 <!--
@@ -128,134 +128,15 @@
 
 </section>
 
-<!-- Экран «Всё включено» — сразу после знакомства, до любых цифр и до
-     выбора допфункций.
-     Зачем он существует: старый оффер требовал от клиента самому купить
-     подписку на ИИ (а карты РФ за рубежом не принимаются) и самому
-     арендовать сервер. Это не возражение «дорого», это «я не смогу этим
-     пользоваться» — и именно оно убивало сделки. Экран снимает его до
-     того, как человек увидит первую сумму.
-     Важно про формулировки: подписка на ИИ юридически остаётся ЛИЧНОЙ
-     подпиской клиента на его аккаунте (условия Anthropic не допускают
-     общий бэкенд на несколько человек, см. PRODUCT.md → Product
-     Principles). Мы берём на себя не аккаунт, а оплату и настройку.
-     Текст ниже сформулирован именно так и не должен «упрощаться» до
-     «подписка наша» — это было бы и неправдой, и нарушением условий. -->
-<section class="screen" data-screen="included" hidden>
-
-  <header class="passport__header passport__header--plain">
-    <div class="brand-mark">
-      <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <div class="brand-mark__right">
-        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
-        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
-          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
-            <circle cx="2" cy="2" r="2"/>
-            <circle cx="2" cy="8" r="2"/>
-            <circle cx="2" cy="14" r="2"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <h1 class="passport__title passport__title--compact">ВСЁ ВКЛЮЧЕНО</h1>
-  </header>
-
-  <section class="intro">
-    <p class="intro__text">
-      Обычно на этом месте всё и останавливается. Чтобы запустить личного
-      ИИ-агента, нужно оформить подписку на ИИ — а российские карты за
-      рубежом не принимают. Потом арендовать сервер, настроить его, следить,
-      чтобы он не упал. Дальше человек закрывает вкладку.
-    </p>
-    <p class="intro__text">
-      Мы убрали это целиком. Вы платите рублями с обычной карты — всё
-      остальное берём на себя: и сервер, и оплату подписки, и настройку,
-      и поддержку дальше. Ни одной зарубежной карты, ни одной команды в
-      терминале, ни одного отдельного счёта.
-    </p>
-  </section>
-
-  <section class="pricing-card" aria-label="Разовая оплата">
-    <span class="doc-label">ОДИН РАЗ</span>
-    <ul class="pricing-list">
-      <li class="pricing-list__row">
-        <span class="pricing-list__name">Подключение агента под ключ</span>
-        <span class="pricing-list__price">20 000 ₽</span>
-      </li>
-    </ul>
-    <p class="pricing-card__note">
-      Мы поднимаем сервер, устанавливаем агента, подключаем его к вашему
-      Telegram и передаём вам готовым. От вас — только ответы на несколько
-      вопросов в этом приложении.
-    </p>
-  </section>
-
-  <section class="pricing-card" aria-label="Ежемесячная оплата">
-    <span class="doc-label">КАЖДЫЙ МЕСЯЦ</span>
-    <ul class="pricing-list">
-      <li class="pricing-list__row">
-        <span class="pricing-list__name">Всё включено</span>
-        <span class="pricing-list__price">10 000 ₽/мес</span>
-      </li>
-    </ul>
-    <p class="pricing-card__text">Один платёж, внутри которого:</p>
-    <ul class="pricing-list">
-      <li class="pricing-list__row">
-        <span class="pricing-list__name">Сервер, на котором живёт агент</span>
-      </li>
-      <li class="pricing-list__row">
-        <span class="pricing-list__name">Оплата вашей подписки на ИИ</span>
-      </li>
-      <li class="pricing-list__row">
-        <span class="pricing-list__name">Обновления и поддержка</span>
-      </li>
-    </ul>
-    <p class="pricing-card__note">
-      Подписка на ИИ оформляется на вас и остаётся вашей — так требуют
-      правила самих разработчиков ИИ, и это защищает вас: ваши переписки и
-      файлы не смешиваются ни с чьими. Мы берём на себя не аккаунт, а
-      оплату и настройку.
-    </p>
-  </section>
-
-  <!-- Снятие возражения «а если я привяжусь, а вы пропадёте или поднимете
-       цену». Обещание не декоративное — оно закреплено разделом 2.1
-       публичной оферты (offer.html). Менять формулировку здесь только
-       вместе с офертой. -->
-  <section class="pricing-card" aria-label="Отсутствие привязки">
-    <span class="doc-label">БЕЗ ПРИВЯЗКИ</span>
-    <p class="pricing-card__text">
-      Захотите уйти — заберёте агента с собой.
-    </p>
-    <p class="pricing-card__note">
-      По вашему требованию мы передаём вам сервер со всеми данными и
-      доступами, и ассистент продолжает работать уже без нас. Бесплатно,
-      в любой момент. Это записано в публичной оферте, а не просто
-      обещано на словах.
-    </p>
-  </section>
-
-  <footer class="passport__footer">
-    <button class="btn-primary" id="included-next-btn" type="button">
-      <span>ПОДХОДИТ, ДАЛЕЕ</span>
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
-        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </footer>
-
-</section>
-
 <!-- Экран-объяснение оплаты: до выбора допфункций, чтобы человек понимал
      модель ценообразования заранее, а не постфактум на экране «Оплата».
-     Регулярный платёж теперь ровно один — 10 000 ₽/мес «всё включено»
-     (сервер + оплата подписки на ИИ + поддержка), см. экран «ВСЁ
-     ВКЛЮЧЕНО» выше; всё, что ставит бот (библиотеки навыков =
-     допфункции) — разовая оплата поверх подключения.
+     Модель («клиент покупает VPS и подписку на ИИ сам, напрямую») — та
+     же, что и раньше провижининга (см. renderServerScreen в app.js), а
+     не «всё включено рублями через нас» — экран с той моделью убран по
+     решению владельца продукта, ровно из-за противоречия с тем, как
+     реально работает установка.
      ВНИМАНИЕ при правках: суммы на этом экране обязаны совпадать с
-     экраном «included» и с SETUP_FEE/MONTHLY_FEE в app.js. Раньше здесь
-     стояла старая модель («сервер от 400 ₽/мес + подписку покупаете
-     сами»), которая прямо противоречила бы новому офферу. -->
+     SETUP_FEE/DEEPSEEK_ONLY_SETUP_FEE/MONTHLY_DISPLAY в app.js. -->
 <section class="screen" data-screen="pricing" hidden>
 
   <header class="passport__header passport__header--plain">
@@ -280,28 +161,74 @@
     <ul class="pricing-list">
       <li class="pricing-list__row">
         <span class="pricing-list__name">Подключение агента под ключ</span>
-        <span class="pricing-list__price">20 000 ₽</span>
+        <span class="pricing-list__price">100 000 ₽</span>
       </li>
     </ul>
     <p class="pricing-card__note">
-      Плюс библиотеки навыков (допфункции), которые вы выберете на
-      следующем шаге, — тоже разовая оплата, каждая своей стоимостью.
-      Дальше за них платить не нужно.
+      Сюда входит и поддержка дальше — отдельно её докупать не нужно и
+      нельзя, платёж один. Плюс библиотеки навыков (допфункции), которые
+      вы выберете на следующем шаге, — тоже разовая оплата, каждая своей
+      стоимостью. Дальше за них платить не нужно.
+    </p>
+  </section>
+
+  <!-- Единственное исключение из суммы выше — см. DEEPSEEK_ONLY_SETUP_FEE
+       в app.js. На этом экране модель ещё не выбрана (тот шаг дальше),
+       поэтому конкретную сумму показать нельзя — только объяснить логику
+       заранее, чтобы разница не оказалась сюрпризом на экране «Оплата». -->
+  <section class="pricing-card" aria-label="Разница между моделями ИИ">
+    <span class="doc-label">СМОТРЯ КАКОЙ ИИ</span>
+    <p class="pricing-card__text">
+      100 000 ₽ — ставка для Claude и ChatGPT. Если поставите агента
+      только на DeepSeek — подключение обойдётся в 20 000 ₽.
+    </p>
+    <p class="pricing-card__note">
+      Разница не произвольная: подписка на DeepSeek для вас самих
+      кратно дешевле, чем на Claude или ChatGPT, — и это отражено уже в
+      разовом платеже, а не только в ваших будущих ежемесячных расходах
+      на подписку. Выбираете модель на следующих шагах; если возьмёте
+      DeepSeek вместе с другой моделью — действует полная ставка, скидка
+      только когда DeepSeek выбран один.
     </p>
   </section>
 
   <section class="pricing-card" aria-label="Ежемесячная оплата">
     <span class="doc-label">КАЖДЫЙ МЕСЯЦ</span>
-    <p class="pricing-card__text">Постоянный платёж всего один:</p>
+    <p class="pricing-card__text">Нам вы больше ничего не платите. Два счёта — не от нас:</p>
     <ul class="pricing-list">
       <li class="pricing-list__row">
-        <span class="pricing-list__name">Сервер, подписка на ИИ и поддержка</span>
-        <span class="pricing-list__price">10 000 ₽/мес</span>
+        <span class="pricing-list__name">Сервер (VPS)</span>
+        <span class="pricing-list__price">от ≈400 ₽/мес</span>
+      </li>
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Подписка на ИИ</span>
+        <span class="pricing-list__price">по тарифу модели</span>
       </li>
     </ul>
     <p class="pricing-card__note">
-      Отдельно ничего оплачивать не нужно: ни хостинг, ни подписку на ИИ.
-      Всё внутри одного платежа рублями.
+      Сервер вы покупаете сами у любого VPS-хостера (см. следующие шаги —
+      подскажем, какой взять) и оплачиваете напрямую ему, счёта от нас не
+      будет. Подписку на ИИ вы тоже оформляете на себя — так требуют
+      правила самих разработчиков ИИ: ваши переписки и файлы не
+      смешиваются ни с чьими. Мы занимаемся только разовым подключением и
+      поддержкой дальше.
+    </p>
+  </section>
+
+  <!-- Снятие возражения «а если я привяжусь, а вы пропадёте или поднимете
+       цену». Обещание не декоративное — оно закреплено разделом 2.1
+       публичной оферты (offer.html). Менять формулировку здесь только
+       вместе с офертой. -->
+  <section class="pricing-card" aria-label="Отсутствие привязки">
+    <span class="doc-label">БЕЗ ПРИВЯЗКИ</span>
+    <p class="pricing-card__text">
+      Захотите уйти — заберёте агента с собой.
+    </p>
+    <p class="pricing-card__note">
+      Сервер и так изначально ваш, но и всё остальное (доступы, файлы
+      агента) по вашему требованию передаём полностью, и ассистент
+      продолжает работать уже без нас. Бесплатно, в любой момент. Это
+      записано в публичной оферте, а не просто обещано на словах.
     </p>
   </section>
 
@@ -880,10 +807,10 @@
 
   <section class="intro">
     <p class="intro__text">
-      Эта услуга не бесплатна. Разовая оплата за подключение под ключ и
-      один ежемесячный платёж, внутри которого сервер, подписка на ИИ и
-      поддержка, — это всё, что требуется в финансовом плане. Больше
-      никаких счетов и зарубежных карт.
+      Эта услуга не бесплатна. Нам вы платите один раз — за подключение
+      под ключ вместе с поддержкой дальше. Сервер и подписку на ИИ
+      оплачиваете сами и напрямую (см. экран «РАСХОДЫ») — нам эти два
+      счёта не приходят.
     </p>
   </section>
 
@@ -902,11 +829,11 @@
   <footer class="passport__footer">
     <p class="passport__field">
       <span class="doc-label">К ОПЛАТЕ СЕЙЧАС</span>
-      <span id="payment-total">20 000 ₽</span>
+      <span id="payment-total">100 000 ₽</span>
     </p>
     <p class="passport__field">
       <span class="doc-label">ЗАТЕМ КАЖДЫЙ МЕСЯЦ</span>
-      <span id="payment-monthly">10 000 ₽</span>
+      <span id="payment-monthly">≈400 ₽/мес + подписка(и) на ИИ</span>
     </p>
     <button class="btn-primary" id="payment-next-btn" type="button">
       <span>ДАЛЕЕ</span>
@@ -1102,6 +1029,6 @@
 
 </main>
 
-<script src="app.js?v=44"></script>
+<script src="app.js?v=45"></script>
 </body>
 </html>
