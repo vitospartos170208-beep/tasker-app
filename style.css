@@ -1043,6 +1043,16 @@ body {
   border-radius: 14px;
   box-shadow: 0 12px 28px rgba(18, 25, 58, 0.14);
   padding: 8px;
+}
+
+/* display:flex должен жить в паре с :not([hidden]) — иначе этот author-
+   рулесет всегда перебивает браузерное [hidden]{display:none} (обычные
+   author-правила старше normal UA-правил вне зависимости от
+   специфичности, см. тот же приём у .screen:not([hidden]) выше по
+   файлу) — и панель постоянно видна на экране, что бы ни стояло в
+   атрибуте hidden и в app.js. Из-за этой самой ошибки панель до сих пор
+   была открыта всегда, а не только по клику на кнопку. */
+.app-menu__panel:not([hidden]) {
   display: flex;
   flex-direction: column;
   gap: 2px;
