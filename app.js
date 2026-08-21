@@ -28,7 +28,14 @@ if (tg) {
   }
 }
 
-// ─── Меню документов (⋮) — политика ПДн / публичная оферта ──────────────
+// ─── Меню документов — политика ПДн / публичная оферта ───────────────────
+// Раньше жило в собственной круглой кнопке (⋮) поверх страницы — рядом с
+// нативной кнопкой Telegram «⋮» в шапке Mini App это смотрелось как два
+// одинаковых значка подряд. Теперь пункт встроен в саму нативную кнопку
+// (SettingsButton из Telegram Web App API, попадает в системное меню «⋮»
+// рядом с «Reload Page» и т.п.) — своя кнопка-триггер остаётся только как
+// запасной вариант для показа вне Telegram (например, при локальной
+// проверке в обычном браузере), где SettingsButton недоступен.
 const appMenuTrigger = document.getElementById('app-menu-trigger');
 const appMenuPanel = document.getElementById('app-menu-panel');
 
@@ -37,12 +44,26 @@ function closeAppMenu() {
   appMenuTrigger.setAttribute('aria-expanded', 'false');
 }
 
-appMenuTrigger.addEventListener('click', (e) => {
-  e.stopPropagation();
+function toggleAppMenu() {
   const willOpen = appMenuPanel.hidden;
   appMenuPanel.hidden = !willOpen;
   appMenuTrigger.setAttribute('aria-expanded', String(willOpen));
-});
+}
+
+const hasSettingsButton = tg && tg.SettingsButton && typeof tg.SettingsButton.show === 'function';
+
+if (hasSettingsButton) {
+  // Документы теперь открываются через нативное меню Telegram — своя
+  // кнопка больше не нужна и только дублировала бы значок в шапке.
+  appMenuTrigger.hidden = true;
+  tg.SettingsButton.onClick(toggleAppMenu);
+  tg.SettingsButton.show();
+} else {
+  appMenuTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleAppMenu();
+  });
+}
 
 // Закрыть при клике вне меню или по Escape — обычное поведение выпадашки.
 document.addEventListener('click', (e) => {
