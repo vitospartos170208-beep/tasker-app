@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=42">
+<link rel="stylesheet" href="style.css?v=43">
 </head>
 <body>
 <!--
@@ -851,12 +851,13 @@
 
 </section>
 
-<!-- Заглушка под приём оплаты — реальной интеграции ещё нет (см. просьбу
-     пользователя: сначала макет, потом подключим оплату). Честно
-     помечена как «скоро», как и .intro-media на первом экране — не
-     притворяется рабочей формой оплаты. Когда оплата подключится: место
-     .payment-stub займёт настоящий виджет оплаты, сумма и кнопка «Далее»
-     останутся. -->
+<!-- Приём оплаты подключён (Продамус) — но на самой стороне tasker-app
+     смотреть не на что: ссылку на оплату генерирует и присылает бот в чат
+     после того, как клиент дойдёт до конца анкеты (см. concierge-bot/index.js
+     — handleProdamusWebhook/PRODAMUS_ENABLED). Разметка .payment-stub
+     осталась (класс не переименован, чтобы не трогать style.css без
+     нужды) — но текст на ней больше не «скоро», а честно объясняет, что
+     происходит именно на этом, промежуточном экране. -->
 <section class="screen" data-screen="payment" hidden>
 
   <header class="passport__header passport__header--plain">
@@ -885,13 +886,13 @@
     </p>
   </section>
 
-  <section class="payment-stub" aria-label="Оплата картой (скоро)">
+  <section class="payment-stub" aria-label="Оплата картой — ссылку пришлём в чат">
     <svg class="payment-stub__icon" viewBox="0 0 28 20" fill="none" aria-hidden="true">
       <rect x="1.5" y="1.5" width="25" height="17" rx="2.5" stroke="currentColor" stroke-width="1.6"/>
       <path d="M1.5 7 L26.5 7" stroke="currentColor" stroke-width="1.6"/>
       <path d="M4.5 14 L10.5 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
     </svg>
-    <p class="payment-stub__text">Оплата картой — скоро</p>
+    <p class="payment-stub__text">Ссылку на оплату пришлём в чат, как только заполните анкету до конца</p>
   </section>
 
   <footer class="passport__footer">
@@ -1097,6 +1098,6 @@
 
 </main>
 
-<script src="app.js?v=42"></script>
+<script src="app.js?v=43"></script>
 </body>
 </html>
