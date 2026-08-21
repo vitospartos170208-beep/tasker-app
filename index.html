@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=36">
+<link rel="stylesheet" href="style.css?v=37">
 </head>
 <body>
 <!--
@@ -99,8 +99,8 @@
     <p class="intro__text">
       Я — PROha: ваш Инструктор по созданию вашего личного AI-ассистента.
       Помогу подключить агента — личного ИИ-помощника в Telegram/MAX,
-      который принадлежит только вам, работает на вашем сервере и
-      использует вашу собственную подписку к ИИ (Claude, ChatGPT).
+      который принадлежит только вам, работает на выделенном для вас
+      сервере и на оформленной на вас подписке к ИИ (Claude, ChatGPT).
     </p>
     <p class="intro__text">
       Он поможет вам делегировать практически 70–90% задач по бизнесу и в
@@ -125,11 +125,125 @@
 
 </section>
 
+<!-- Экран «Всё включено» — сразу после знакомства, до любых цифр и до
+     выбора допфункций.
+     Зачем он существует: старый оффер требовал от клиента самому купить
+     подписку на ИИ (а карты РФ за рубежом не принимаются) и самому
+     арендовать сервер. Это не возражение «дорого», это «я не смогу этим
+     пользоваться» — и именно оно убивало сделки. Экран снимает его до
+     того, как человек увидит первую сумму.
+     Важно про формулировки: подписка на ИИ юридически остаётся ЛИЧНОЙ
+     подпиской клиента на его аккаунте (условия Anthropic не допускают
+     общий бэкенд на несколько человек, см. PRODUCT.md → Product
+     Principles). Мы берём на себя не аккаунт, а оплату и настройку.
+     Текст ниже сформулирован именно так и не должен «упрощаться» до
+     «подписка наша» — это было бы и неправдой, и нарушением условий. -->
+<section class="screen" data-screen="included" hidden>
+
+  <header class="passport__header passport__header--plain">
+    <div class="brand-mark">
+      <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
+      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+    </div>
+    <h1 class="passport__title passport__title--compact">ВСЁ ВКЛЮЧЕНО</h1>
+  </header>
+
+  <section class="intro">
+    <p class="intro__text">
+      Обычно на этом месте всё и останавливается. Чтобы запустить личного
+      ИИ-агента, нужно оформить подписку на ИИ — а российские карты за
+      рубежом не принимают. Потом арендовать сервер, настроить его, следить,
+      чтобы он не упал. Дальше человек закрывает вкладку.
+    </p>
+    <p class="intro__text">
+      Мы убрали это целиком. Вы платите рублями с обычной карты — всё
+      остальное берём на себя: и сервер, и оплату подписки, и настройку,
+      и поддержку дальше. Ни одной зарубежной карты, ни одной команды в
+      терминале, ни одного отдельного счёта.
+    </p>
+  </section>
+
+  <section class="pricing-card" aria-label="Разовая оплата">
+    <span class="doc-label">ОДИН РАЗ</span>
+    <ul class="pricing-list">
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Подключение агента под ключ</span>
+        <span class="pricing-list__price">20 000 ₽</span>
+      </li>
+    </ul>
+    <p class="pricing-card__note">
+      Мы поднимаем сервер, устанавливаем агента, подключаем его к вашему
+      Telegram и передаём вам готовым. От вас — только ответы на несколько
+      вопросов в этом приложении.
+    </p>
+  </section>
+
+  <section class="pricing-card" aria-label="Ежемесячная оплата">
+    <span class="doc-label">КАЖДЫЙ МЕСЯЦ</span>
+    <ul class="pricing-list">
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Всё включено</span>
+        <span class="pricing-list__price">10 000 ₽/мес</span>
+      </li>
+    </ul>
+    <p class="pricing-card__text">Один платёж, внутри которого:</p>
+    <ul class="pricing-list">
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Сервер, на котором живёт агент</span>
+      </li>
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Оплата вашей подписки на ИИ</span>
+      </li>
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Обновления и поддержка</span>
+      </li>
+    </ul>
+    <p class="pricing-card__note">
+      Подписка на ИИ оформляется на вас и остаётся вашей — так требуют
+      правила самих разработчиков ИИ, и это защищает вас: ваши переписки и
+      файлы не смешиваются ни с чьими. Мы берём на себя не аккаунт, а
+      оплату и настройку.
+    </p>
+  </section>
+
+  <!-- Снятие возражения «а если я привяжусь, а вы пропадёте или поднимете
+       цену». Обещание не декоративное — оно закреплено разделом 2.1
+       публичной оферты (offer.html). Менять формулировку здесь только
+       вместе с офертой. -->
+  <section class="pricing-card" aria-label="Отсутствие привязки">
+    <span class="doc-label">БЕЗ ПРИВЯЗКИ</span>
+    <p class="pricing-card__text">
+      Захотите уйти — заберёте агента с собой.
+    </p>
+    <p class="pricing-card__note">
+      По вашему требованию мы передаём вам сервер со всеми данными и
+      доступами, и ассистент продолжает работать уже без нас. Бесплатно,
+      в любой момент. Это записано в публичной оферте, а не просто
+      обещано на словах.
+    </p>
+  </section>
+
+  <footer class="passport__footer">
+    <button class="btn-primary" id="included-next-btn" type="button">
+      <span>ПОДХОДИТ, ДАЛЕЕ</span>
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="btn-primary__arrow">
+        <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </footer>
+
+</section>
+
 <!-- Экран-объяснение оплаты: до выбора допфункций, чтобы человек понимал
      модель ценообразования заранее, а не постфактум на экране «Оплата».
-     Единственные регулярные платежи — сервер (нам) и подписка на ИИ
-     (напрямую её разработчику, мы этих денег не видим); всё, что ставит
-     бот (библиотеки навыков = допфункции) — разовая оплата. -->
+     Регулярный платёж теперь ровно один — 10 000 ₽/мес «всё включено»
+     (сервер + оплата подписки на ИИ + поддержка), см. экран «ВСЁ
+     ВКЛЮЧЕНО» выше; всё, что ставит бот (библиотеки навыков =
+     допфункции) — разовая оплата поверх подключения.
+     ВНИМАНИЕ при правках: суммы на этом экране обязаны совпадать с
+     экраном «included» и с SETUP_FEE/MONTHLY_FEE в app.js. Раньше здесь
+     стояла старая модель («сервер от 400 ₽/мес + подписку покупаете
+     сами»), которая прямо противоречила бы новому офферу. -->
 <section class="screen" data-screen="pricing" hidden>
 
   <header class="passport__header passport__header--plain">
@@ -144,35 +258,29 @@
     <span class="doc-label">ОДИН РАЗ</span>
     <ul class="pricing-list">
       <li class="pricing-list__row">
-        <span class="pricing-list__name">Помощь с подключением агента</span>
-        <span class="pricing-list__price">от 20 000 ₽</span>
+        <span class="pricing-list__name">Подключение агента под ключ</span>
+        <span class="pricing-list__price">20 000 ₽</span>
       </li>
     </ul>
     <p class="pricing-card__note">
-      20 000 ₽ — если подключаете только DeepSeek, для остальных моделей
-      (и если берёте DeepSeek вместе с другой моделью) — 100 000 ₽. Плюс
-      библиотеки навыков (допфункции), которые вы выберете на следующем
-      шаге, — тоже разовая оплата, каждая своей стоимостью. Дальше за них
-      платить не нужно.
+      Плюс библиотеки навыков (допфункции), которые вы выберете на
+      следующем шаге, — тоже разовая оплата, каждая своей стоимостью.
+      Дальше за них платить не нужно.
     </p>
   </section>
 
   <section class="pricing-card" aria-label="Ежемесячная оплата">
     <span class="doc-label">КАЖДЫЙ МЕСЯЦ</span>
-    <p class="pricing-card__text">Постоянных платежей всего два:</p>
+    <p class="pricing-card__text">Постоянный платёж всего один:</p>
     <ul class="pricing-list">
       <li class="pricing-list__row">
-        <span class="pricing-list__name">Сервер, на котором живёт агент</span>
-        <span class="pricing-list__price">от 400 ₽/мес</span>
-      </li>
-      <li class="pricing-list__row">
-        <span class="pricing-list__name">Ваша подписка на ИИ (Claude, ChatGPT)</span>
-        <span class="pricing-list__price">по вашему тарифу</span>
+        <span class="pricing-list__name">Сервер, подписка на ИИ и поддержка</span>
+        <span class="pricing-list__price">10 000 ₽/мес</span>
       </li>
     </ul>
     <p class="pricing-card__note">
-      Подписку на ИИ вы оплачиваете напрямую её разработчику — мы этих
-      денег не видим и не берём с них комиссию.
+      Отдельно ничего оплачивать не нужно: ни хостинг, ни подписку на ИИ.
+      Всё внутри одного платежа рублями.
     </p>
   </section>
 
@@ -521,7 +629,7 @@
   <footer class="passport__footer">
     <p class="passport__field">
       <span class="doc-label">ИТОГО, ЕДИНОРАЗОВО</span>
-      <span id="total-price">100 000 ₽</span>
+      <span id="total-price">20 000 ₽</span>
     </p>
     <button class="btn-primary" id="addons-next-btn" type="button">
       <span>ДАЛЕЕ</span>
@@ -722,10 +830,10 @@
 
   <section class="intro">
     <p class="intro__text">
-      Эта услуга не бесплатна. Единоразовая оплата за помощь с подключением
-      и ваши ежемесячные расходы на подписку ИИ и содержание сервера, чтобы
-      ваш ассистент работал всегда, — это всё, что требуется в финансовом
-      плане.
+      Эта услуга не бесплатна. Разовая оплата за подключение под ключ и
+      один ежемесячный платёж, внутри которого сервер, подписка на ИИ и
+      поддержка, — это всё, что требуется в финансовом плане. Больше
+      никаких счетов и зарубежных карт.
     </p>
   </section>
 
@@ -740,8 +848,12 @@
 
   <footer class="passport__footer">
     <p class="passport__field">
-      <span class="doc-label">К ОПЛАТЕ</span>
-      <span id="payment-total">700 ₽</span>
+      <span class="doc-label">К ОПЛАТЕ СЕЙЧАС</span>
+      <span id="payment-total">20 000 ₽</span>
+    </p>
+    <p class="passport__field">
+      <span class="doc-label">ЗАТЕМ КАЖДЫЙ МЕСЯЦ</span>
+      <span id="payment-monthly">10 000 ₽</span>
     </p>
     <button class="btn-primary" id="payment-next-btn" type="button">
       <span>ДАЛЕЕ</span>
@@ -814,6 +926,9 @@
 
   <section class="intro">
     <p class="intro__text" id="server-intro-text">
+      <!-- Это только фолбэк: реальный текст ставит renderServerScreen()
+           в app.js — там же лежит и предупреждение о том, что этот экран
+           противоречит модели «всё включено» и пока не переписан. -->
       Купите сервер (VPS): обязательно Ubuntu 24, локация любая. Когда
       сервер готов, впишите его данные из панели хостинга ниже.
     </p>
@@ -907,6 +1022,6 @@
 
 </main>
 
-<script src="app.js?v=36"></script>
+<script src="app.js?v=37"></script>
 </body>
 </html>
