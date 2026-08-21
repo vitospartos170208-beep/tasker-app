@@ -89,6 +89,13 @@ const wizardState = {
   aiModels: new Set(),
   botToken: null,
   server: { ip: null, port: null, password: null },
+  // Заполняются кнопкой "Оплатить" на экране "Оплата" (см. paymentPayBtn
+  // ниже) — orderId уходит в финальную анкету (#server-next-btn), чтобы
+  // бэкенд знал, к какому уже созданному заказу её прикрепить. paymentUrl
+  // хранится, чтобы повторный клик на "Оплатить" просто открывал ту же
+  // ссылку, а не плодил новый заказ на каждое нажатие.
+  orderId: null,
+  paymentUrl: null,
 };
 
 // ─── Ставки ──────────────────────────────────────────────────────────────
@@ -140,6 +147,11 @@ const PORT_RE = /^\d{1,5}$/;
 // 3. Вызвать тот же provisionServer(), что и раньше — payload идентичен.
 // 4. Вернуть 200 с JSON { ok: true } на успех, иначе код ошибки + текст.
 const PROVISION_ENDPOINT = 'https://api.proha.site/provision';
+
+// Создаёт заказ + ссылку на оплату (кнопка "Оплатить" на экране "Оплата",
+// см. paymentPayBtn ниже) — тот же бэкенд, соседний путь. Принимает
+// { initData, addons }, отдаёт { ok, orderId, paymentUrl, amount }.
+const CREATE_PAYMENT_ENDPOINT = 'https://api.proha.site/create-payment';
 
 function formatRub(n) {
   return `${n.toLocaleString('ru-RU')} ₽`;
@@ -276,6 +288,11 @@ document.querySelectorAll('.addon-option__input').forEach((input) => {
     } else {
       wizardState.addons.delete(input.value);
     }
+    // Смена набора допфункций меняет сумму — уже созданная ссылка на
+    // оплату (если была) считалась по старому набору, дальше не годится.
+    // Следующий клик «Оплатить» на экране «Оплата» создаст новую.
+    wizardState.orderId = null;
+    wizardState.paymentUrl = null;
     if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
     updateTotal();
   });
@@ -366,18 +383,23 @@ aiModelNextBtn.addEventListener('click', () => {
   goToScreenByName('payment');
 });
 
-// ─── Раздел 5: оплата (промежуточный экран, не форма оплаты) ─────────────
-// Реальная оплата (Продамус) подключена, но не здесь: сумма тут только
-// показывается для ознакомления (пересчитывается из тех же допфункций,
-// что и на предыдущем экране), кнопка «Далее» просто ведёт дальше по
-// визарду, ничего не списывая. Настоящая ссылка на оплату приходит от
-// бота отдельным сообщением в чат уже после того, как клиент дойдёт до
-// конца анкеты и отправит её (см. #server-next-btn ниже и
-// handleProdamusWebhook в concierge-bot/index.js).
+// ─── Раздел 5: оплата ──────────────────────────────────────────────────
+// Кнопка «Оплатить» реально создаёт заказ (POST /create-payment) и
+// открывает ссылку Продамуса — сумма уже известна по допфункциям,
+// выбранным на предыдущем экране, ждать конца анкеты не нужно. «Далее»
+// рядом ведёт дальше по визарду независимо от того, нажали «Оплатить»
+// или нет — бот-токен и данные сервера можно вводить и до оплаты, и
+// после, оба порядка поддержаны бэкендом (см. handleCreatePayment /
+// handleProdamusWebhook в concierge-bot/index.js: какое событие пришло
+// вторым — отправленная анкета или подтверждение оплаты — то и
+// запускает установку).
 
 const paymentTotalEl = document.getElementById('payment-total');
 const paymentMonthlyEl = document.getElementById('payment-monthly');
 const paymentNextBtn = document.getElementById('payment-next-btn');
+const paymentPayBtn = document.getElementById('payment-pay-btn');
+const paymentPayBtnLabel = document.getElementById('payment-pay-btn-label');
+const paymentPayError = document.getElementById('payment-pay-error');
 
 function renderPaymentScreen() {
   // Две строки, а не одна сумма: разовое (подключение + допфункции) и
@@ -385,7 +407,68 @@ function renderPaymentScreen() {
   // зависит — оно фиксированное, поэтому просто константа.
   paymentTotalEl.textContent = formatRub(computeTotal());
   paymentMonthlyEl.textContent = formatRub(MONTHLY_FEE);
+
+  paymentPayError.hidden = true;
+  paymentPayBtn.disabled = false;
+  // Ссылка на этот набор допфункций уже создавалась в этом заходе в
+  // визард (см. paymentPayBtn.addEventListener ниже) — повторный клик
+  // просто откроет её снова, а не создаст новый заказ.
+  paymentPayBtnLabel.textContent = wizardState.paymentUrl
+    ? 'Открыть ссылку на оплату'
+    : `Оплатить ${formatRub(computeTotal())}`;
 }
+
+paymentPayBtn.addEventListener('click', async () => {
+  tap();
+
+  if (wizardState.paymentUrl) {
+    if (tg && typeof tg.openLink === 'function') {
+      tg.openLink(wizardState.paymentUrl);
+    } else {
+      window.open(wizardState.paymentUrl, '_blank');
+    }
+    return;
+  }
+
+  if (!tg || !tg.initData) {
+    // Вне Telegram нечем подтвердить личность — initData просто нет.
+    paymentPayError.hidden = false;
+    paymentPayError.textContent = 'Оплата доступна только внутри Telegram.';
+    return;
+  }
+
+  paymentPayError.hidden = true;
+  paymentPayBtn.disabled = true;
+  paymentPayBtnLabel.textContent = 'Готовим ссылку…';
+
+  try {
+    const res = await fetch(CREATE_PAYMENT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initData: tg.initData, addons: [...wizardState.addons] }),
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok || !data || !data.ok || !data.paymentUrl) {
+      throw new Error(data && data.error ? data.error : `payment endpoint ${res.status}`);
+    }
+
+    wizardState.orderId = data.orderId;
+    wizardState.paymentUrl = data.paymentUrl;
+
+    if (tg && typeof tg.openLink === 'function') {
+      tg.openLink(data.paymentUrl);
+    } else {
+      window.open(data.paymentUrl, '_blank');
+    }
+    paymentPayBtn.disabled = false;
+    paymentPayBtnLabel.textContent = 'Открыть ссылку на оплату';
+  } catch (err) {
+    paymentPayError.hidden = false;
+    paymentPayError.textContent = 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.';
+    paymentPayBtn.disabled = false;
+    paymentPayBtnLabel.textContent = `Оплатить ${formatRub(computeTotal())}`;
+  }
+});
 
 paymentNextBtn.addEventListener('click', () => {
   tap();
@@ -485,7 +568,12 @@ async function submitProvisionRequest(payload) {
     body: JSON.stringify({ initData: tg.initData, ...payload }),
   });
   if (!res.ok) {
-    throw new Error(`Провижининг-эндпоинт ответил ${res.status}`);
+    // .code — код ошибки бэкенда (см. no_payment_order ниже), не просто
+    // текст для лога: по нему решаем, какое сообщение показать человеку.
+    const data = await res.json().catch(() => null);
+    const err = new Error(`Провижининг-эндпоинт ответил ${res.status}`);
+    err.code = data && data.error;
+    throw err;
   }
 }
 
@@ -505,6 +593,10 @@ serverNextBtn.addEventListener('click', async () => {
     botToken: wizardState.botToken,
     server: wizardState.server,
     pdnConsent: pdnConsentInput.checked,
+    // Заказ, созданный кнопкой «Оплатить» на экране «Оплата» — без него
+    // бэкенд отклонит анкету (see no_payment_order ниже): оплата теперь
+    // обязательна и создаётся раньше, отдельным действием, а не тут.
+    orderId: wizardState.orderId,
   };
 
   // Пароль не должен переживать саму отправку дольше необходимого — стираем
@@ -527,6 +619,9 @@ serverNextBtn.addEventListener('click', async () => {
       }
     } catch (err) {
       serverSubmitError.hidden = false;
+      serverSubmitError.textContent = err.code === 'no_payment_order'
+        ? 'Сначала оплатите — вернитесь на экран «Оплата» и нажмите «Оплатить».'
+        : 'Не получилось отправить данные — проверьте связь и попробуйте ещё раз.';
       serverNextBtn.disabled = false;
       serverNextBtnLabel.textContent = 'НАЧАТЬ УСТАНОВКУ';
     }

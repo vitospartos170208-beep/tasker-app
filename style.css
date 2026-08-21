@@ -92,7 +92,7 @@ body {
 .intro,
 .intro-media,
 .addon-options,
-.payment-stub,
+.payment-action,
 .pricing-card,
 .steps-card,
 .field,
@@ -383,8 +383,8 @@ body {
 /* ── Pricing explainer (экран между интро и допфункциями) ─────────────
    Два .pricing-card подряд — тот же Card-компонент, что и .intro, только
    с doc-label сверху (ОДИН РАЗ / КАЖДЫЙ МЕСЯЦ). Строки .pricing-list__row
-   на --paper-deep — тот же приглушённый фон, что у .payment-stub, для
-   единообразия «информационных» блоков, не карточек-опций. */
+   на --paper-deep — тот же приглушённый фон, что и у других
+   «информационных» блоков в этом файле, для единообразия. */
 .pricing-card {
   background: var(--card);
   border-radius: var(--r-lg);
@@ -445,33 +445,22 @@ body {
   color: var(--ink-soft);
 }
 
-/* ── Payment stub (заглушка приёма оплаты) ────────────────────────────
-   Честно помечена как «скоро» — приглушённые конкретные цвета (--paper-deep
-   фон, --ink-soft текст/иконка), не opacity, тот же принцип, что и у
-   .intro-media__play (The Muted-Not-Faded Rule). Когда оплата подключится,
-   на этом месте появится настоящий виджет — сумма и кнопка «Далее» в
-   футере останутся как есть. */
-.payment-stub {
+/* ── Payment action (кнопка "Оплатить" на экране "Оплата") ────────────
+   .payment-pay-btn — обычный .btn-primary.btn-primary--outline (см.
+   #server-next-btn / ссылка на BotFather — тот же стиль для "действие
+   уводит из Mini App наружу"), иконка карты внутри — единственное, что
+   осталось от прежней заглушки .payment-stub. Ошибка создания ссылки —
+   .field__error, тот же паттерн, что и #server-submit-error. */
+.payment-action {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 18px;
-  background: var(--paper-deep);
-  border-radius: var(--r-lg);
-  color: var(--ink-soft);
+  flex-direction: column;
+  gap: 6px;
 }
 
 .payment-stub__icon {
   flex: none;
-  width: 30px;
-  height: 22px;
-}
-
-.payment-stub__text {
-  margin: 0;
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: var(--ink-soft);
+  width: 24px;
+  height: 17px;
 }
 
 /* ── Addon options ──────────────────────────────────────────────────── */
@@ -944,8 +933,10 @@ body {
 
 /* Ошибка отправки формы (#server-submit-error) — стоит отдельно от .field,
    не под .field--invalid, но должна читаться как ошибка, а не как
-   приглушённая подсказка (см. базовый цвет .field__error выше). */
-#server-submit-error {
+   приглушённая подсказка (см. базовый цвет .field__error выше). То же
+   для #payment-pay-error — ошибка создания ссылки на оплату. */
+#server-submit-error,
+#payment-pay-error {
   color: #C8383B;
 }
 
