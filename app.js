@@ -620,9 +620,18 @@ serverNextBtn.addEventListener('click', async () => {
       }
     } catch (err) {
       serverSubmitError.hidden = false;
-      serverSubmitError.textContent = err.code === 'no_payment_order'
-        ? 'Сначала оплатите — вернитесь на экран «Оплата» и нажмите «Оплатить».'
-        : 'Не получилось отправить данные — проверьте связь и попробуйте ещё раз.';
+      // bad_init_data — отдельная причина от сетевой: подпись Telegram
+      // протухла (см. verifyInitData в concierge-bot/index.js), обычно
+      // потому что визард держали открытым долго (например, ходили за
+      // токеном к @BotFather). «Проверьте связь» тут вводит в заблуждение
+      // — помогает только новое открытие Mini App, не повтор той же кнопки.
+      if (err.code === 'no_payment_order') {
+        serverSubmitError.textContent = 'Сначала оплатите — вернитесь на экран «Оплата» и нажмите «Оплатить».';
+      } else if (err.code === 'bad_init_data') {
+        serverSubmitError.textContent = 'Сессия устарела — закройте это окно и откройте установку заново из бота.';
+      } else {
+        serverSubmitError.textContent = 'Не получилось отправить данные — проверьте связь и попробуйте ещё раз.';
+      }
       serverNextBtn.disabled = false;
       serverNextBtnLabel.textContent = 'НАЧАТЬ УСТАНОВКУ';
     }
