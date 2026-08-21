@@ -35,23 +35,30 @@ if (tg) {
 // значок либо не появляется, либо не кликается, и часть пользователей
 // вообще не могла открыть документы. Своя кнопка работает предсказуемо
 // везде — вернулись к ней насовсем, без ветвления по клиенту.
-const appMenuTrigger = document.getElementById('app-menu-trigger');
+//
+// Кнопок в разметке девять — по одной внутри бренд-марки каждого экрана
+// (сразу справа от слова «PROha», не отдельным плавающим слоем), но
+// видна всегда только одна: остальные восемь сидят в [hidden]-секциях.
+// Панель документов при этом одна общая на всех — id, не класс.
+const appMenuTriggers = document.querySelectorAll('.app-menu-trigger');
 const appMenuPanel = document.getElementById('app-menu-panel');
 
 function closeAppMenu() {
   appMenuPanel.hidden = true;
-  appMenuTrigger.setAttribute('aria-expanded', 'false');
+  appMenuTriggers.forEach((btn) => btn.setAttribute('aria-expanded', 'false'));
 }
 
 function toggleAppMenu() {
   const willOpen = appMenuPanel.hidden;
   appMenuPanel.hidden = !willOpen;
-  appMenuTrigger.setAttribute('aria-expanded', String(willOpen));
+  appMenuTriggers.forEach((btn) => btn.setAttribute('aria-expanded', String(willOpen)));
 }
 
-appMenuTrigger.addEventListener('click', (e) => {
-  e.stopPropagation();
-  toggleAppMenu();
+appMenuTriggers.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleAppMenu();
+  });
 });
 
 // Закрыть при клике вне меню или по Escape — обычное поведение выпадашки.

@@ -988,41 +988,55 @@ body {
    заканчивается около 39px от верха .passport (высота значка до 29px +
    отступы шапки, см. .hero-mark/.brand-mark) — при top:24px кнопка
    вертикально перекрывала нижнюю часть слова «PROha» в том же правом
-   углу. 46px даёт кнопке чистый зазор под бренд-маркой на любом экране
-   (шапка везде одной высоты, даже когда контент под ней разный). */
-.app-menu {
-  position: absolute;
-  top: 46px;
-  right: 18px;
-  z-index: 20;
+   углу. Дальнейшая правка (см. .brand-mark__right ниже) убрала кнопку из
+   отдельного глобального слоя вообще — теперь она сама часть строки
+   бренд-марки, сразу справа от слова, а не под ним; общей осталась
+   только выпадающая панель со ссылками (.app-menu__panel), одна на все
+   экраны — координаты подобраны под то, что кнопка на любом экране
+   физически в одном и том же месте (шапка везде одной высоты). */
+
+/* Группирует слово «PROha» и кнопку меню в один флекс-элемент — без
+   этого обёртки (.hero-mark/.brand-mark, justify-content: space-between)
+   раскидали бы три элемента (значок/слово/кнопка) по всей ширине строки
+   вместо того, чтобы прижать слово и кнопку друг к другу у правого края. */
+.brand-mark__right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.app-menu__trigger {
-  width: 30px;
-  height: 30px;
+.app-menu-trigger {
+  width: 26px;
+  height: 26px;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 9px;
+  border-radius: 8px;
   /* Постоянный, а не только hover-фон — без него это была просто голая
-     иконка-многоточие, повисшая в воздухе без вида кнопки. */
+     иконка-многоточие без вида кнопки. */
   background: var(--paper-deep, #EEF1F8);
   box-shadow: 0 1px 2px rgba(18, 25, 58, 0.06);
   color: var(--ink-soft);
   cursor: pointer;
 }
 
-.app-menu__trigger:hover,
-.app-menu__trigger[aria-expanded="true"] {
+.app-menu-trigger:hover,
+.app-menu-trigger[aria-expanded="true"] {
   background: var(--border, #E7E9F3);
   color: var(--ink);
 }
 
 .app-menu__panel {
   position: absolute;
-  top: 38px;
-  right: 0;
+  /* Относительно .passport (position: relative) — не относительно
+     кнопки: кнопок теперь девять (по одной на экран), но все в одном и
+     том же месте на странице, так что одна общая позиция панели верна
+     для любой из них. */
+  top: 40px;
+  right: 18px;
+  z-index: 20;
   min-width: 240px;
   background: #fff;
   border: 1px solid var(--border, #E7E9F3);

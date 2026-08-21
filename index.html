@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=40">
+<link rel="stylesheet" href="style.css?v=41">
 </head>
 <body>
 <!--
@@ -46,24 +46,15 @@
 
 <main class="passport" id="passport">
 
-<!-- Меню документов — вне .screen, поэтому видно на любом экране визарда.
-     Даёт доступ к политике ПДн и публичной оферте без необходимости
-     листать до экрана 'server'. Открывается собственной кнопкой (не
-     нативным SettingsButton Telegram — тот ненадёжен на Desktop, см.
-     app.js), позиционирована под бренд-маркой, чтобы не перекрывать
-     словесный знак «PROha» в том же углу. -->
-<div class="app-menu">
-  <button class="app-menu__trigger" id="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
-    <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
-      <circle cx="2" cy="2" r="2"/>
-      <circle cx="2" cy="8" r="2"/>
-      <circle cx="2" cy="14" r="2"/>
-    </svg>
-  </button>
-  <div class="app-menu__panel" id="app-menu-panel" hidden>
-    <a href="privacy.html" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-    <a href="offer.html" target="_blank" rel="noopener">Публичная оферта</a>
-  </div>
+<!-- Панель меню документов — одна на всех экранах, вне .screen. Кнопка,
+     которая её открывает (.app-menu-trigger), больше не здесь одна —
+     она встроена в бренд-марку каждого экрана, сразу справа от слова
+     «PROha» (см. .brand-mark__right ниже и app.js — там же почему).
+     Панель одна общая, координаты в CSS подобраны под её реальное место
+     в строке (одинаковое на любом экране, шапка везде той же высоты). -->
+<div class="app-menu__panel" id="app-menu-panel" hidden>
+  <a href="privacy.html" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="offer.html" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -71,7 +62,16 @@
   <header class="passport__header">
     <div class="hero-mark">
       <img class="hero-icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="hero-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="hero-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title sr-only">Знакомство</h1>
   </header>
@@ -146,7 +146,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">ВСЁ ВКЛЮЧЕНО</h1>
   </header>
@@ -252,7 +261,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">РАСХОДЫ</h1>
   </header>
@@ -303,7 +321,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">Дополнительные функции</h1>
   </header>
@@ -660,7 +687,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">Выберите ИИ для агента</h1>
   </header>
@@ -826,7 +862,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">Оплата</h1>
   </header>
@@ -873,7 +918,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">Создайте своего бота</h1>
   </header>
@@ -922,7 +976,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">Подключите сервер</h1>
   </header>
@@ -980,7 +1043,16 @@
   <header class="passport__header passport__header--plain">
     <div class="brand-mark">
       <img class="brand-mark__icon" src="icon-proha.png" alt="" width="378" height="449">
-      <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+      <div class="brand-mark__right">
+        <p class="brand-mark__word">PRO<span class="grad">ha</span></p>
+        <button class="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
+          <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
+            <circle cx="2" cy="2" r="2"/>
+            <circle cx="2" cy="8" r="2"/>
+            <circle cx="2" cy="14" r="2"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <h1 class="passport__title passport__title--compact">Что произойдёт дальше</h1>
   </header>
@@ -1025,6 +1097,6 @@
 
 </main>
 
-<script src="app.js?v=40"></script>
+<script src="app.js?v=41"></script>
 </body>
 </html>
