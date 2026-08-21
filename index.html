@@ -14,7 +14,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=39">
+<link rel="stylesheet" href="style.css?v=40">
 </head>
 <body>
 <!--
@@ -48,10 +48,10 @@
 
 <!-- Меню документов — вне .screen, поэтому видно на любом экране визарда.
      Даёт доступ к политике ПДн и публичной оферте без необходимости
-     листать до экрана 'server'. Открывается нативной кнопкой Telegram «⋮»
-     в шапке Mini App (SettingsButton, см. app.js) — круглая кнопка ниже
-     остаётся скрытой (app.js ставит ей hidden) и служит только запасным
-     триггером вне Telegram, где SettingsButton недоступен. -->
+     листать до экрана 'server'. Открывается собственной кнопкой (не
+     нативным SettingsButton Telegram — тот ненадёжен на Desktop, см.
+     app.js), позиционирована под бренд-маркой, чтобы не перекрывать
+     словесный знак «PROha» в том же углу. -->
 <div class="app-menu">
   <button class="app-menu__trigger" id="app-menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Документы">
     <svg viewBox="0 0 4 16" fill="currentColor" aria-hidden="true" width="4" height="16">
@@ -1025,6 +1025,6 @@
 
 </main>
 
-<script src="app.js?v=39"></script>
+<script src="app.js?v=40"></script>
 </body>
 </html>
