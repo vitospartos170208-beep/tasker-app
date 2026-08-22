@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Защитный слой. CSP через <meta> — единственный способ на GitHub Pages:
+     Pages не позволяет настраивать HTTP-заголовки вообще. Через meta браузеры
+     применяют не все директивы: frame-ancestors, X-Frame-Options,
+     X-Content-Type-Options, Permissions-Policy и HSTS работают ТОЛЬКО как
+     настоящие заголовки — они ставятся Transform Rule'ом на Cloudflare,
+     см. SECURITY.md. Здесь то, что через meta реально действует.
+
+     style-src держит 'unsafe-inline' намеренно: telegram-web-app.js
+     подмешивает стили темы клиента, и строгий style-src ломает Mini App.
+     Защиту от XSS даёт script-src, и он строгий: только свои файлы и SDK
+     Telegram, без inline-скриптов и eval. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.proha.site; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>PROha — твой личный AI ассистент</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=47">
+<link rel="stylesheet" href="style.css?v=48">
 </head>
 <body>
 <!--
@@ -160,8 +173,12 @@
   <section class="pricing-card pricing-card--danger" aria-label="Утечка данных">
     <span class="doc-label doc-label--danger">УТЕЧКА ДАННЫХ</span>
     <p class="pricing-card__text">
-      Сервер — ваш: вы покупаете его сами, пароль от него знаете только вы,
-      и мы не храним к нему доступ после установки.
+      Сервер — ваш: вы покупаете его сами и остаётесь его единственным
+      владельцем. Чтобы поставить ассистента без единой команды в терминале,
+      на шаге установки вы даёте нам разовый доступ по SSH: пароль уходит по
+      защищённому каналу прямо на наш сервер установки, используется один раз
+      и не сохраняется. После установки доступ нам больше не нужен — смените
+      пароль в панели хостинга, и сервер снова знаете только вы.
     </p>
     <p class="pricing-card__note">
       Поэтому риски, связанные с утечкой информации именно с вашего
@@ -1104,6 +1121,11 @@
       отчёт по каждому шагу — если что-то пойдёт не так, вы сразу увидите,
       на каком именно.
     </p>
+    <p class="intro__text">
+      И последнее: когда бот сообщит, что агент готов, смените пароль от
+      сервера в панели хостинг-провайдера. Он был нужен нам один раз — для
+      установки; после смены доступ к серверу остаётся только у вас.
+    </p>
   </section>
 
   <footer class="passport__footer">
@@ -1121,6 +1143,6 @@
 
 </main>
 
-<script src="app.js?v=47"></script>
+<script src="app.js?v=48"></script>
 </body>
 </html>

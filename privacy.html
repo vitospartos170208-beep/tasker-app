@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- Оферта и политика — статические документы без единого скрипта, поэтому
+     script-src здесь 'none'. Остальное и причины см. в index.html. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>PROha — политика обработки персональных данных</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,10 +119,18 @@
     в соответствии со ст. 18 ч. 5 152-ФЗ.
   </p>
   <p>
-    Временная обработка данных, необходимых для самой установки (пароль,
-    IP сервера, токен бота), происходит на инфраструктуре, обеспечивающей
-    работу Telegram-бота PROha; пароль удаляется сразу после использования
-    и не сохраняется.
+    Пароль, IP-адрес сервера и токен бота передаются из формы визарда по
+    защищённому соединению (HTTPS) напрямую на сервер установки PROha,
+    минуя переписку в Telegram. Они обрабатываются временно и только для
+    самой установки: пароль используется однократно для подключения по SSH,
+    не записывается в журналы и удаляется сразу после её завершения. Токен
+    бота после установки хранится на вашем сервере — он нужен там, чтобы
+    ассистент работал от имени созданного вами бота.
+  </p>
+  <p>
+    Рекомендуем сменить пароль от сервера в панели хостинг-провайдера сразу
+    после того, как бот сообщит об успешной установке: после этого доступ к
+    серверу есть только у вас.
   </p>
   <p>
     После установки ассистент и вся дальнейшая переписка с ним работают на
