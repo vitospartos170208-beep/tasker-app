@@ -467,7 +467,16 @@ paymentPayBtn.addEventListener('click', async () => {
     const res = await fetch(CREATE_PAYMENT_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ initData: tg.initData, addons: [...wizardState.addons] }),
+      // aiModels уходят вместе с допфункциями, потому что от них зависит
+      // цена: за подключение только на DeepSeek берём меньше (см.
+      // computeSetupFee выше). Бэкенд пересчитывает сумму сам по этому же
+      // набору и запоминает его в заказе — присланная отсюда цена его не
+      // интересует и интересовать не должна.
+      body: JSON.stringify({
+        initData: tg.initData,
+        addons: [...wizardState.addons],
+        aiModels: [...wizardState.aiModels],
+      }),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok || !data || !data.ok || !data.paymentUrl) {
@@ -645,6 +654,12 @@ serverNextBtn.addEventListener('click', async () => {
       // — помогает только новое открытие Mini App, не повтор той же кнопки.
       if (err.code === 'no_payment_order') {
         serverSubmitError.textContent = 'Сначала оплатите — вернитесь на экран «Оплата» и нажмите «Оплатить».';
+      } else if (err.code === 'ai_models_changed') {
+        // Выбор ИИ-модели поменяли уже после оплаты, а от него зависит цена
+        // подключения (см. computeSetupFee). Ставить не то, что оплачено, —
+        // неправильно, поэтому просим вернуться и оплатить новый набор.
+        serverSubmitError.textContent =
+          'Выбор ИИ-модели изменился после оплаты, а от него зависит цена подключения. Вернитесь на экран «Оплата» и оплатите новый выбор.';
       } else if (err.code === 'bad_init_data') {
         serverSubmitError.textContent = 'Сессия устарела — закройте это окно и откройте установку заново из бота.';
       } else {
