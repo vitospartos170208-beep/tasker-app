@@ -15,9 +15,10 @@
 - Формулировки про пароль в визарде, оферте и политике приведены в
   соответствие с фактической схемой (см. «Про пароль» ниже).
 
-## Осталось включить руками
+## Статус
 
-Порядок важен: HTTPS в GitHub включается ДО проксирования через Cloudflare.
+Пункты 1–4 закрыты 23.08.2026. Осталось два: DNSSEC (упирается в панель
+REG.RU) и уведомление РКН.
 
 ### 1. GitHub → Enforce HTTPS — ✅ СДЕЛАНО 23.08.2026
 
@@ -31,57 +32,50 @@ GitHub после включения сам начнёт отдавать `Stric
 своих доменов не отдаёт. Проверено после включения — заголовка нет.
 Единственный путь к HSTS остаётся через Cloudflare, шаг 3.
 
-### 2. Cloudflare → проксирование app.proha.site (10 минут)
+### 2–4. Cloudflare: прокси, заголовки, почтовые записи — ✅ СДЕЛАНО 23.08.2026
 
-Сейчас запись `app` стоит серым облаком: в ответе видно `Server: GitHub.com`
-и Fastly, то есть трафик идёт мимо Cloudflare, и добавить заголовки некуда.
+Всё сделано через API Cloudflare временным токеном (зона `proha.site`, права
+DNS/Zone Settings/Transform Rules, TTL сутки). Токен после работы отозван.
 
-1. DNS → запись `app` → включить оранжевое облако.
-2. SSL/TLS → режим **Full** (или Full strict). Режим Flexible даст петлю
-   редиректов вместе с включённым на шаге 1 Enforce HTTPS.
-3. SSL/TLS → Edge Certificates → **Always Use HTTPS: On**.
+**Транспорт.** `app.proha.site` переведён на проксирование Cloudflare (был
+DNS-only, трафик шёл мимо и заголовки ставить было негде). SSL/TLS уже стоял
+в режиме Full — петли редиректов не возникло. Включён Always Use HTTPS,
+минимальная версия TLS поднята с 1.0 до 1.2.
 
-### 3. Cloudflare → Transform Rule с заголовками (15 минут)
+**Заголовки.** Создан ruleset в фазе `http_response_headers_transform`, два
+правила:
 
-Rules → Transform Rules → **Modify Response Header** → Create. Условие: все
-запросы к `app.proha.site`. Добавить (Set static):
+- `http.host eq "app.proha.site"` — пять заголовков: Strict-Transport-Security
+  (`max-age=31536000; includeSubDomains`), X-Content-Type-Options, Referrer-Policy,
+  Permissions-Policy и Content-Security-Policy с `frame-ancestors 'self'
+  https://web.telegram.org https://*.telegram.org`.
+- `http.host eq "api.proha.site"` — HSTS и X-Content-Type-Options. Бэкенд
+  включён намеренно: именно туда уходит root-пароль клиента, и HSTS там
+  ценнее, чем на статике.
 
-| Заголовок | Значение |
-|---|---|
-| `Strict-Transport-Security` | `max-age=31536000; includeSubDomains` |
-| `X-Content-Type-Options` | `nosniff` |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` |
-| `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=(), usb=()` |
-| `Content-Security-Policy` | см. ниже |
-
-Значение CSP (то же, что в `<meta>`, плюс `frame-ancestors` — через meta эта
-директива браузерами игнорируется, работает только настоящим заголовком):
-
-```
-default-src 'self'; script-src 'self' https://telegram.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.proha.site; base-uri 'none'; form-action 'none'; object-src 'none'; frame-ancestors 'self' https://web.telegram.org https://*.telegram.org
-```
-
-⚠️ **НЕ ставить `X-Frame-Options: DENY` или `SAMEORIGIN`**, хотя все сканеры
-и аудит этого требуют. Telegram Web (`web.telegram.org`) открывает Mini App
+⚠️ **`X-Frame-Options` не ставится и ставить его НЕЛЬЗЯ**, хотя аудит и все
+сканеры этого требуют. Telegram Web (`web.telegram.org`) открывает Mini App
 в iframe — этот заголовок сломает приложение у части клиентов. Защиту от
-кликджекинга даёт `frame-ancestors` в CSP выше, и она умеет разрешить
-именно Telegram. Это тот случай, когда буквальное следование сканеру портит
-продукт.
+кликджекинга даёт `frame-ancestors` в CSP выше, и она умеет разрешить именно
+Telegram. Это тот случай, когда буквальное следование сканеру портит продукт.
 
-### 4. Cloudflare → почтовые записи (10 минут)
-
-Домен не защищён от подделки писем: DMARC-записи нет вообще, то есть письмо
-«от PROha» сейчас может отправить кто угодно. Если почта с домена не ходит,
-ставим жёсткий запрет — DNS → Records → Add:
+**Почта.** Добавлены три записи. Основание: MX-записей у домена не было
+вообще, контакт в оферте — gmail, то есть домен почту не шлёт и не принимает.
 
 | Тип | Имя | Значение |
 |---|---|---|
 | TXT | `@` | `v=spf1 -all` |
 | TXT | `_dmarc` | `v=DMARC1; p=reject; sp=reject; adkim=s; aspf=s` |
-| MX | `@` | `.` с приоритетом `0` (null MX, RFC 7505) |
+| MX | `@` | `.` приоритет 0 (null MX, RFC 7505) |
 
-⚠️ Если когда-нибудь появится рассылка с домена (`@proha.site`), эти записи
-надо будет ослабить ДО первой отправки, иначе письма будут отвергаться.
+⚠️ **Если на домене когда-нибудь появится почта** — эти две TXT-записи надо
+ослабить ДО первой отправки, иначе письма будут молча отвергаться на стороне
+получателя.
+
+**Проверено на проводе:** все пять заголовков отдаются, CSP не обрезан,
+`http://` → 301, страница 200 и цела (6 запросов подряд с браузерным
+User-Agent), SPF и null MX резолвятся публично, DMARC отдаётся авторитетными
+серверами Cloudflare.
 
 ### 5. Cloudflare → DNSSEC (15 минут, из них 10 — ожидание)
 
