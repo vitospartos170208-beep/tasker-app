@@ -451,6 +451,7 @@ aiModelNextBtn.addEventListener('click', () => {
 const paymentTotalEl = document.getElementById('payment-total');
 const paymentMonthlyEl = document.getElementById('payment-monthly');
 const paymentNextBtn = document.getElementById('payment-next-btn');
+const paymentNextBtnLabel = document.getElementById('payment-next-btn-label');
 const paymentPayBtn = document.getElementById('payment-pay-btn');
 const paymentPayBtnLabel = document.getElementById('payment-pay-btn-label');
 const paymentPayError = document.getElementById('payment-pay-error');
@@ -465,12 +466,31 @@ const paymentStatusEl = document.getElementById('payment-status');
 //
 // Теперь визард спрашивает бэкенд о состоянии заказа и честно показывает
 // одно из трёх: оплата не начата / ждём подтверждения / подтверждена.
-// Гейт намеренно мягкий — анкету можно заполнить и до оплаты, бэкенд
-// поддерживает оба порядка событий и запускает установку тем, которое
-// придёт вторым.
+//
+// Гейт ЖЁСТКИЙ: без подтверждённой оплаты кнопка «Далее» заблокирована.
+// Смысл не в защите денег — установку и так гейтит бэкенд, и подделка
+// флага в браузере ничего не даст. Смысл в том, чтобы никто не вводил
+// токен бота, IP и root-пароль от своего сервера, не зная, что платёж не
+// прошёл. Доступы к чужой машине — не та вещь, которую стоит просить
+// заранее и впустую.
+//
+// Исключение — открытие вне Telegram: там нет initData, оплатить нечем и
+// установить тоже нечего (бэкенд отвергнет анкету без подписи), а визард
+// должен оставаться проходимым в обычном браузере для проверки вёрстки.
 
 let paymentPollTimer = null;
 let paymentPollStartedAt = 0;
+let paymentPollGaveUp = false;
+
+// Внутри Telegram? Только там возможны и оплата, и установка.
+function isInTelegram() {
+  return Boolean(tg && tg.initData);
+}
+
+// Пускать ли дальше с экрана «Оплата».
+function canPassPayment() {
+  return wizardState.paid || !isInTelegram();
+}
 
 function stopPaymentPolling() {
   if (paymentPollTimer !== null) {
@@ -480,18 +500,30 @@ function stopPaymentPolling() {
 }
 
 function renderPaymentStatus() {
+  // Кнопка «Далее» и текст статуса всегда описывают одно и то же состояние —
+  // поэтому обновляются вместе, из одного места, а не двумя независимыми
+  // ветками, которые однажды разойдутся.
+  paymentNextBtn.disabled = !canPassPayment();
+  paymentNextBtnLabel.textContent = canPassPayment() ? 'ДАЛЕЕ' : 'СНАЧАЛА ОПЛАТА';
+
   if (!paymentStatusEl) return;
   paymentStatusEl.hidden = false;
   paymentStatusEl.classList.toggle('payment-status--paid', wizardState.paid);
 
   if (wizardState.paid) {
     paymentStatusEl.textContent = 'Оплата подтверждена ✓ Можно продолжать.';
+  } else if (!isInTelegram()) {
+    paymentStatusEl.textContent =
+      'Открыто вне Telegram — оплата и установка здесь недоступны, визард работает в режиме просмотра.';
+  } else if (paymentPollGaveUp) {
+    paymentStatusEl.textContent =
+      'Подтверждение не пришло за 15 минут. Если вы платили — вернитесь на этот экран, проверка запустится снова.';
   } else if (wizardState.orderId) {
     paymentStatusEl.textContent =
-      'Ждём подтверждения оплаты. Обычно приходит за минуту после платежа — этот экран обновится сам.';
+      'Ждём подтверждения оплаты. Обычно приходит за минуту после платежа — кнопка «Далее» разблокируется сама.';
   } else {
     paymentStatusEl.textContent =
-      'Оплата ещё не начата. Заполнить анкету можно и сейчас, но установка запустится только после оплаты.';
+      'Оплата ещё не начата. Нажмите «Оплатить» — без подтверждённого платежа дальше не пройти.';
   }
 }
 
@@ -522,11 +554,18 @@ async function checkPaymentOnce() {
 function startPaymentPolling() {
   stopPaymentPolling();
   if (wizardState.paid || !wizardState.orderId) return;
+  // Возврат на экран или в приложение — повод дать проверке новый шанс,
+  // даже если прошлая сдалась по таймауту. Иначе человек, у которого банк
+  // тянул с подтверждением дольше пятнадцати минут, остался бы с
+  // заблокированной кнопкой и без способа что-либо предпринять.
+  paymentPollGaveUp = false;
   paymentPollStartedAt = Date.now();
   checkPaymentOnce();
   paymentPollTimer = setInterval(() => {
     if (Date.now() - paymentPollStartedAt > PAYMENT_POLL_MAX_MS) {
       stopPaymentPolling();
+      paymentPollGaveUp = true;
+      renderPaymentStatus();
       return;
     }
     checkPaymentOnce();
@@ -635,6 +674,10 @@ paymentPayBtn.addEventListener('click', async () => {
 });
 
 paymentNextBtn.addEventListener('click', () => {
+  // Кнопка и так заблокирована без оплаты (см. renderPaymentStatus), но
+  // проверку дублируем: disabled снимается одной строкой в консоли, а
+  // дальше по визарду идёт ввод root-пароля от чужого сервера.
+  if (!canPassPayment()) return;
   tap();
   goToScreenByName('botfather');
 });
