@@ -96,6 +96,13 @@ const wizardState = {
   // ссылку, а не плодил новый заказ на каждое нажатие.
   orderId: null,
   paymentUrl: null,
+  // Подтверждена ли оплата. Ставится ТОЛЬКО по ответу бэкенда на
+  // /order-status — то есть по order.paid, который в свою очередь ставит
+  // только вебхук Продамуса со сошедшейся HMAC-подписью. Визард ничего не
+  // решает сам: он показывает то же, от чего зависит запуск установки.
+  // Здесь это чисто отображение — установку гейтит бэкенд, и подделка
+  // этого флага в браузере ничего не даёт.
+  paid: false,
 };
 
 // ─── Ставки ──────────────────────────────────────────────────────────────
@@ -165,6 +172,21 @@ const PROVISION_ENDPOINT = 'https://api.proha.site/provision';
 // см. paymentPayBtn ниже) — тот же бэкенд, соседний путь. Принимает
 // { initData, addons }, отдаёт { ok, orderId, paymentUrl, amount }.
 const CREATE_PAYMENT_ENDPOINT = 'https://api.proha.site/create-payment';
+
+// Статус оплаты по уже созданному заказу. Спросить Продамус напрямую отсюда
+// нельзя: для его API нужен секретный ключ, а всё, что попадает в Mini App,
+// доступно клиенту. Поэтому спрашиваем свой бэкенд — он отдаёт order.paid,
+// тот самый флаг, по которому запускается установка. Принимает
+// { initData, orderId }, отдаёт { ok, found, paid, amount }.
+const ORDER_STATUS_ENDPOINT = 'https://api.proha.site/order-status';
+
+// Опрос статуса: раз в 4 секунды, но не дольше 15 минут — платёж, который
+// не подтвердился за это время, скорее всего не состоялся, и крутить опрос
+// бесконечно незачем. Лимит на бэкенде 60 запросов в минуту на IP (отдельный
+// от общего, см. RATE_LIMIT_MAX_STATUS в concierge-bot/index.js), так что
+// 15 опросов в минуту оставляют запас и не мешают отправке анкеты.
+const PAYMENT_POLL_MS = 4000;
+const PAYMENT_POLL_MAX_MS = 15 * 60 * 1000;
 
 function formatRub(n) {
   return `${n.toLocaleString('ru-RU')} ₽`;
@@ -314,6 +336,7 @@ document.querySelectorAll('.addon-option__input').forEach((input) => {
     // Следующий клик «Оплатить» на экране «Оплата» создаст новую.
     wizardState.orderId = null;
     wizardState.paymentUrl = null;
+    wizardState.paid = false;
     if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
     updateTotal();
   });
@@ -372,6 +395,16 @@ document.querySelectorAll('.ai-option__input').forEach((input) => {
       wizardState.aiModels.delete(input.value);
     }
     aiModelNextBtn.disabled = wizardState.aiModels.size === 0;
+    // От набора моделей зависит цена подключения (скидка, когда выбран
+    // только DeepSeek — см. computeSetupFee). Значит уже созданный заказ
+    // посчитан по старому набору и дальше не годится — ровно та же логика,
+    // что и при смене допфункций выше. Без этого сброса визард показывал бы
+    // «оплата подтверждена» для набора, за который заплачено не было, а
+    // бэкенд отклонил бы анкету с ai_models_changed в самом конце — то есть
+    // человек упёрся бы в тупик, уже введя доступы к серверу.
+    wizardState.orderId = null;
+    wizardState.paymentUrl = null;
+    wizardState.paid = false;
     if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
   });
 });
@@ -421,6 +454,95 @@ const paymentNextBtn = document.getElementById('payment-next-btn');
 const paymentPayBtn = document.getElementById('payment-pay-btn');
 const paymentPayBtnLabel = document.getElementById('payment-pay-btn-label');
 const paymentPayError = document.getElementById('payment-pay-error');
+const paymentStatusEl = document.getElementById('payment-status');
+
+// ─── Живой статус оплаты ───────────────────────────────────────────────
+// Раньше экран «Оплата» ничего не знал про исход платежа: человек мог уйти
+// платить, вернуться, пройти визард до конца, ввести токен бота, IP и
+// root-пароль — и только по кнопке «НАЧАТЬ УСТАНОВКУ» узнать, что оплата
+// не прошла. Установку это не отдавало (бэкенд её и так не запускал), но
+// выглядело как обход оплаты и заставляло вводить доступы впустую.
+//
+// Теперь визард спрашивает бэкенд о состоянии заказа и честно показывает
+// одно из трёх: оплата не начата / ждём подтверждения / подтверждена.
+// Гейт намеренно мягкий — анкету можно заполнить и до оплаты, бэкенд
+// поддерживает оба порядка событий и запускает установку тем, которое
+// придёт вторым.
+
+let paymentPollTimer = null;
+let paymentPollStartedAt = 0;
+
+function stopPaymentPolling() {
+  if (paymentPollTimer !== null) {
+    clearInterval(paymentPollTimer);
+    paymentPollTimer = null;
+  }
+}
+
+function renderPaymentStatus() {
+  if (!paymentStatusEl) return;
+  paymentStatusEl.hidden = false;
+  paymentStatusEl.classList.toggle('payment-status--paid', wizardState.paid);
+
+  if (wizardState.paid) {
+    paymentStatusEl.textContent = 'Оплата подтверждена ✓ Можно продолжать.';
+  } else if (wizardState.orderId) {
+    paymentStatusEl.textContent =
+      'Ждём подтверждения оплаты. Обычно приходит за минуту после платежа — этот экран обновится сам.';
+  } else {
+    paymentStatusEl.textContent =
+      'Оплата ещё не начата. Заполнить анкету можно и сейчас, но установка запустится только после оплаты.';
+  }
+}
+
+async function checkPaymentOnce() {
+  if (wizardState.paid || !wizardState.orderId || !tg || !tg.initData) return;
+  try {
+    const res = await fetch(ORDER_STATUS_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initData: tg.initData, orderId: wizardState.orderId }),
+    });
+    const data = await res.json().catch(() => null);
+    // found: false — заказа нет: либо он уже отработан и удалён (оплата
+    // пришла, анкета была на месте, установка пошла), либо протух.
+    // Подтверждением оплаты это НЕ считаем, признак только один — paid.
+    if (data && data.ok && data.found && data.paid) {
+      wizardState.paid = true;
+      stopPaymentPolling();
+      renderPaymentStatus();
+      if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    }
+  } catch {
+    // Связь моргнула — молча ждём следующей попытки. Показывать ошибку на
+    // каждый неудачный опрос значило бы мигать тревогой на ровном месте.
+  }
+}
+
+function startPaymentPolling() {
+  stopPaymentPolling();
+  if (wizardState.paid || !wizardState.orderId) return;
+  paymentPollStartedAt = Date.now();
+  checkPaymentOnce();
+  paymentPollTimer = setInterval(() => {
+    if (Date.now() - paymentPollStartedAt > PAYMENT_POLL_MAX_MS) {
+      stopPaymentPolling();
+      return;
+    }
+    checkPaymentOnce();
+  }, PAYMENT_POLL_MS);
+}
+
+// Оплата происходит во внешнем окне: tg.openLink уводит человека из Mini
+// App, и пока тот в фоне, браузер душит таймеры. Поэтому на возвращении
+// спрашиваем статус сразу, не дожидаясь следующего тика — обычно именно в
+// этот момент оплата уже и прошла.
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return;
+  if (wizardState.paid || !wizardState.orderId) return;
+  checkPaymentOnce();
+  if (paymentPollTimer === null) startPaymentPolling();
+});
 
 function renderPaymentScreen() {
   // Две строки: разовое (подключение под ключ + допфункции, реально
@@ -435,9 +557,17 @@ function renderPaymentScreen() {
   // Ссылка на этот набор допфункций уже создавалась в этом заходе в
   // визард (см. paymentPayBtn.addEventListener ниже) — повторный клик
   // просто откроет её снова, а не создаст новый заказ.
-  paymentPayBtnLabel.textContent = wizardState.paymentUrl
-    ? 'Открыть ссылку на оплату'
-    : `Оплатить ${formatRub(computeTotal())}`;
+  if (wizardState.paid) {
+    paymentPayBtnLabel.textContent = 'Оплачено';
+    paymentPayBtn.disabled = true;
+  } else {
+    paymentPayBtnLabel.textContent = wizardState.paymentUrl
+      ? 'Открыть ссылку на оплату'
+      : `Оплатить ${formatRub(computeTotal())}`;
+  }
+
+  renderPaymentStatus();
+  startPaymentPolling();
 }
 
 paymentPayBtn.addEventListener('click', async () => {
@@ -493,6 +623,9 @@ paymentPayBtn.addEventListener('click', async () => {
     }
     paymentPayBtn.disabled = false;
     paymentPayBtnLabel.textContent = 'Открыть ссылку на оплату';
+    // Заказ появился — с этого момента есть что опрашивать.
+    renderPaymentStatus();
+    startPaymentPolling();
   } catch (err) {
     paymentPayError.hidden = false;
     paymentPayError.textContent = 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.';

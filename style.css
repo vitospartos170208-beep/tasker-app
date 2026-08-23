@@ -1196,3 +1196,27 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .btn-primary { transition: none; }
 }
+
+/* Живой статус оплаты на экране «Оплата». Визард опрашивает /order-status
+   у бэкенда, пока человек платит на стороне Продамуса, и показывает одно из
+   трёх: оплата не начата / ждём подтверждения / подтверждена. Нейтральный
+   вид по умолчанию — это не ошибка и не успех, а состояние; зелёный только
+   для подтверждённой оплаты, тем же --accent, что и остальные «действие
+   доступно» на сайте. */
+.payment-status {
+  margin: 0;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.payment-status--paid {
+  border-color: var(--accent);
+  background: rgba(132, 198, 65, 0.09);
+  color: var(--accent-deep);
+  font-weight: 600;
+}

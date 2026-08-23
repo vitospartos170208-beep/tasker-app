@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=51">
+<link rel="stylesheet" href="style.css?v=52">
 </head>
 <body>
 <!--
@@ -900,6 +900,11 @@
       <span id="payment-pay-btn-label">Оплатить</span>
     </button>
     <span class="field__error" id="payment-pay-error" hidden>Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.</span>
+    <!-- Живой статус оплаты. Текст ставит renderPaymentStatus() в app.js по
+         ответу бэкенда на /order-status — тому же order.paid, от которого
+         зависит запуск установки. Здесь пусто намеренно: показывать
+         что-либо до первого ответа было бы догадкой. -->
+    <p class="payment-status" id="payment-status" hidden></p>
   </section>
 
   <footer class="passport__footer">
@@ -1113,6 +1118,6 @@
 
 </main>
 
-<script src="app.js?v=51"></script>
+<script src="app.js?v=52"></script>
 </body>
 </html>
