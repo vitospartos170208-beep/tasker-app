@@ -90,7 +90,6 @@ body {
 .passport__header,
 .diagram,
 .intro,
-.intro-media,
 .addon-options,
 .payment-action,
 .pricing-card,
@@ -315,75 +314,6 @@ body {
   margin-top: 12px;
 }
 
-/* ── Заглушка под видео (экран 1) ─────────────────────────────────────
-   Сейчас — постер с иконкой и неактивной кнопкой плей (cursor:not-allowed,
-   приглушённые цвета — честно выглядит как «пока не работает», не
-   притворяется рабочим видео). Когда появится настоящее видео — заменить
-   .intro-media__poster на <video controls poster="...">, обёртку и
-   отступы вокруг не трогать. Кнопку плей тогда же перекрасить в
-   --accent (салатовый, «действие доступно») — сейчас она приглушённая
-   намеренно, это не то же самое состояние. */
-
-/* Только экран 1: заголовок (h1) визуально скрыт (.sr-only), поэтому
-   первый видимый элемент под шапкой — это видео-заглушка, не текст.
-   Тянем её ближе к бренд-марке (компенсируя часть общего .screen gap:
-   20px), чтобы расстояние «бренд-марка → следующий видимый элемент»
-   было сопоставимо с тем же расстоянием на компактных экранах
-   (там это шапка → заголовок, .passport__header--plain .passport__title). */
-.screen[data-screen="intro"] .intro-media {
-  margin-top: -20px;
-}
-
-.intro-media__poster {
-  position: relative;
-  width: 68%;
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--r-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
-  background: var(--paper-deep);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.intro-media__icon {
-  height: 32%;
-  width: auto;
-}
-
-.intro-media__play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%;
-  background: var(--card);
-  color: var(--ink-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-card);
-  cursor: not-allowed;
-}
-
-.intro-media__play svg {
-  width: 16px;
-  height: 16px;
-  margin-left: 1px; /* оптическая центровка треугольника плей */
-}
-
-.intro-media__caption {
-  margin: 8px 0 0;
-  font-size: 0.82rem;
-  color: var(--ink-soft);
-  text-align: center;
-}
-
 /* ── Pricing explainer (экран между интро и допфункциями) ─────────────
    Два .pricing-card подряд — тот же Card-компонент, что и .intro, только
    с doc-label сверху (ОДИН РАЗ / КАЖДЫЙ МЕСЯЦ). Строки .pricing-list__row
@@ -565,16 +495,10 @@ body {
 
 /* Чекбокс выбора — свой независимый хит-таргет, всегда виден (не только
    при выборе), чтобы клик по нему не путался с раскрытием карточки. */
-/* Раскрывающаяся панель: видео такого же размера, как на первом экране
-   (переиспользует .intro-media__poster/__icon/__play один в один), и
-   описание функции под ним — раньше это был текст-подпись на самой
-   кнопке, теперь живёт только здесь. */
+/* Раскрывающаяся панель: описание функции — раньше это был текст-подпись
+   на самой кнопке, теперь живёт только здесь. */
 .addon-option__panel {
   padding: 4px 14px 16px;
-}
-
-.addon-option__panel .intro-media__poster {
-  margin: 4px auto 0;
 }
 
 .addon-option__desc {
@@ -583,7 +507,6 @@ body {
   line-height: 1.5;
   color: var(--ink-soft);
   font-weight: 500;
-  text-align: center;
 }
 
 /* ── AI model options (экран между допфункциями и оплатой) ────────────
