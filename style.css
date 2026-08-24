@@ -307,6 +307,10 @@ body {
   max-width: 62ch;
 }
 
+.intro__text a {
+  color: var(--brand-blue);
+  text-decoration: underline;
+}
 .intro__text + .intro__text {
   margin-top: 12px;
 }
@@ -494,19 +498,14 @@ body {
   overflow: hidden;
 }
 
-.addon-option--selected {
-  border-color: var(--brand-blue);
-  background: #F1F6FF;
-}
-
 .addon-option:focus-within {
   outline: 2px solid var(--brand-blue);
   outline-offset: 2px;
 }
 
-/* Строка карточки: значок + название/цена (кнопка-раскрывашка) + чекбокс
-   выбора. Раскрытие и выбор — два независимых действия, поэтому это два
-   разных интерактивных элемента, а не один клик на весь блок. */
+/* Строка карточки: значок + название (кнопка-раскрывашка). Выбирать
+   функции больше не нужно — все входят в подключение, — поэтому чекбокса
+   в строке нет, вся строка раскрывает описание. */
 .addon-option__row {
   display: flex;
   align-items: center;
@@ -552,13 +551,6 @@ body {
   color: var(--ink);
 }
 
-.addon-option__price {
-  flex: none;
-  font-weight: 700;
-  font-size: 0.92rem;
-  color: var(--ink);
-}
-
 .addon-option__chevron {
   flex: none;
   width: 18px;
@@ -573,43 +565,6 @@ body {
 
 /* Чекбокс выбора — свой независимый хит-таргет, всегда виден (не только
    при выборе), чтобы клик по нему не путался с раскрытием карточки. */
-.addon-option__select {
-  position: relative;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  cursor: pointer;
-}
-
-.addon-option__input {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-.addon-option__check {
-  width: 22px;
-  height: 22px;
-  border-radius: 7px;
-  border: 1.5px solid var(--line);
-  color: transparent;
-  padding: 1px;
-  box-sizing: border-box;
-  background: var(--paper);
-  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
-}
-
-.addon-option--selected .addon-option__check {
-  border-color: var(--brand-blue);
-  background: var(--brand-blue);
-  color: #fff;
-}
-
 /* Раскрывающаяся панель: видео такого же размера, как на первом экране
    (переиспользует .intro-media__poster/__icon/__play один в один), и
    описание функции под ним — раньше это был текст-подпись на самой
@@ -753,11 +708,9 @@ body {
 
 /* Чекбокс, не переключатель одного варианта — мультивыбор моделей (клиент
    ставит агента сразу на нескольких, переключает между ними уже в самом
-   боте). Квадрат с галочкой вместо круга-радио — тот же язык, что у
-   .addon-option__check, но в акцентном цвете конкретной модели
-   (--ai-accent), а не в фирменном синем: у допфункций один выбор — один
-   синий, здесь выбор явно про «которая из этих карточек», уместнее свой
-   цвет на каждой. */
+   боте). Квадрат с галочкой вместо круга-радио, в акцентном цвете
+   конкретной модели (--ai-accent): выбор здесь явно про «которая из этих
+   карточек», уместнее свой цвет на каждой. */
 .ai-option__check {
   width: 22px;
   height: 22px;
