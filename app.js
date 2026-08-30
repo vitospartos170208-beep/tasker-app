@@ -127,8 +127,8 @@ const wizardState = {
 //
 // Суммы продублированы текстом на экранах «РАСХОДЫ» и «Оплата» — меняете
 // здесь, правьте и разметку, иначе визард покажет разные цифры рядом.
-const SETUP_FEE = 100000;
-const DEEPSEEK_ONLY_SETUP_FEE = 20000;
+const SETUP_FEE = 30000;
+const DEEPSEEK_ONLY_SETUP_FEE = 10000;
 const MONTHLY_DISPLAY = '≈400 ₽/мес + подписка(и) на ИИ';
 
 // Скидка применяется, только если DeepSeek — вообще единственная выбранная
