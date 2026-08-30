@@ -1131,3 +1131,42 @@ body {
   color: var(--accent-deep);
   font-weight: 600;
 }
+
+/* Подпись под второй кнопкой оплаты («С помощником») — приглушённое
+   пояснение, тот же вес, что и .pricing-card__note. */
+.payment-assistant-hint {
+  margin: 2px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+/* Апселл «с персональным помощником» на экранах инструкции (botfather,
+   server). Показывается только после оплаты базовой цены — см.
+   renderAssistantUpsell() в app.js. Отбит от формы, чтобы читался как
+   отдельное предложение, а не ещё одно поле. */
+.assistant-upsell {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--paper);
+}
+
+.assistant-upsell__text {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.assistant-upsell__note {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}

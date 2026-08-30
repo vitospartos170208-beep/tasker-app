@@ -96,6 +96,13 @@ const wizardState = {
   // ссылку, а не плодил новый заказ на каждое нажатие.
   orderId: null,
   paymentUrl: null,
+  // Какой заказ сейчас висит: 'base' — обычное подключение, 'assistant' —
+  // с живым помощником (база + наценка одним платежом). Переключение
+  // кнопки на экране «Оплата» пересоздаёт заказ, как и смена набора ИИ.
+  orderKind: null,
+  // Оплачено ли сопровождение помощником (через кнопку на «Оплате» или
+  // доплатой на экранах инструкции). Гейтит апселл-блок на botfather/server.
+  assistant: false,
   // Подтверждена ли оплата. Ставится ТОЛЬКО по ответу бэкенда на
   // /order-status — то есть по order.paid, который в свою очередь ставит
   // только вебхук Продамуса со сошедшейся HMAC-подписью. Визард ничего не
@@ -143,6 +150,18 @@ const MONTHLY_DISPLAY = '≈400 ₽/мес + подписка(и) на ИИ';
 function computeSetupFee() {
   const onlyDeepseek = wizardState.aiModels.size === 1 && wizardState.aiModels.has('deepseek');
   return onlyDeepseek ? DEEPSEEK_ONLY_SETUP_FEE : SETUP_FEE;
+}
+
+// Наценка за подключение с живым помощником — человек проводит клиента по
+// шагам (BotFather, покупка сервера). Автоустановка при этом не меняется,
+// это доплата за сопровождение. Держать в паре с ASSISTANT_SURCHARGE* в
+// concierge-bot/index.js — сумму к оплате всё равно считает бэкенд, тут
+// число нужно только для подписи на кнопке.
+const ASSISTANT_SURCHARGE = 20000;
+const ASSISTANT_SURCHARGE_DEEPSEEK = 5000;
+function computeAssistantSurcharge() {
+  const onlyDeepseek = wizardState.aiModels.size === 1 && wizardState.aiModels.has('deepseek');
+  return onlyDeepseek ? ASSISTANT_SURCHARGE_DEEPSEEK : ASSISTANT_SURCHARGE;
 }
 
 const TOKEN_RE = /^\d+:[A-Za-z0-9_-]+$/;
@@ -206,7 +225,11 @@ let currentIndex = 0;
 // при первой сборке DOM.
 const onEnter = {
   payment: renderPaymentScreen,
-  server: renderServerScreen,
+  botfather: () => renderAssistantUpsell('botfather'),
+  server: () => {
+    renderServerScreen();
+    renderAssistantUpsell('server');
+  },
 };
 
 function showScreen(name) {
@@ -371,6 +394,8 @@ document.querySelectorAll('.ai-option__input').forEach((input) => {
     wizardState.orderId = null;
     wizardState.paymentUrl = null;
     wizardState.paid = false;
+    wizardState.orderKind = null;
+    wizardState.assistant = false;
     if (tg && tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
   });
 });
@@ -420,6 +445,8 @@ const paymentNextBtn = document.getElementById('payment-next-btn');
 const paymentNextBtnLabel = document.getElementById('payment-next-btn-label');
 const paymentPayBtn = document.getElementById('payment-pay-btn');
 const paymentPayBtnLabel = document.getElementById('payment-pay-btn-label');
+const paymentAssistantBtn = document.getElementById('payment-assistant-btn');
+const paymentAssistantBtnLabel = document.getElementById('payment-assistant-btn-label');
 const paymentPayError = document.getElementById('payment-pay-error');
 const paymentStatusEl = document.getElementById('payment-status');
 
@@ -549,95 +576,192 @@ document.addEventListener('visibilitychange', () => {
   if (paymentPollTimer === null) startPaymentPolling();
 });
 
+function openExternal(url) {
+  if (tg && typeof tg.openLink === 'function') {
+    tg.openLink(url);
+  } else {
+    window.open(url, '_blank');
+  }
+}
+
 function renderPaymentScreen() {
   // Две строки: разовое (подключение под ключ, реально взимается через
-  // Продамус, см. paymentPayBtn ниже) и ежемесячное —
+  // Продамус, см. startPayment ниже) и ежемесячное —
   // не платёж нам, просто напоминание о двух чужих счетах (VPS-хостер,
   // разработчик ИИ), поэтому текстовая константа, а не formatRub(число).
-  paymentTotalEl.textContent = formatRub(computeTotal());
+  const base = computeTotal();
+  const withAssistant = base + computeAssistantSurcharge();
+  paymentTotalEl.textContent = formatRub(wizardState.orderKind === 'assistant' ? withAssistant : base);
   paymentMonthlyEl.textContent = MONTHLY_DISPLAY;
 
   paymentPayError.hidden = true;
   paymentPayBtn.disabled = false;
-  // Ссылка на этот набор моделей уже создавалась в этом заходе в
-  // визард (см. paymentPayBtn.addEventListener ниже) — повторный клик
-  // просто откроет её снова, а не создаст новый заказ.
+  paymentAssistantBtn.disabled = false;
+
+  // Обе кнопки создают заказ. Клик по той, что уже висит незакрытой
+  // ссылкой, просто открывает её снова; клик по другой пересоздаёт заказ
+  // на нужную сумму (см. startPayment). После оплаты — обе «Оплачено».
   if (wizardState.paid) {
     paymentPayBtnLabel.textContent = 'Оплачено';
+    paymentAssistantBtnLabel.textContent = 'Оплачено';
     paymentPayBtn.disabled = true;
+    paymentAssistantBtn.disabled = true;
   } else {
-    paymentPayBtnLabel.textContent = wizardState.paymentUrl
-      ? 'Открыть ссылку на оплату'
-      : `Оплатить ${formatRub(computeTotal())}`;
+    const linkOpen = 'Открыть ссылку на оплату';
+    paymentPayBtnLabel.textContent =
+      wizardState.paymentUrl && wizardState.orderKind === 'base' ? linkOpen : `Оплатить ${formatRub(base)}`;
+    paymentAssistantBtnLabel.textContent =
+      wizardState.paymentUrl && wizardState.orderKind === 'assistant'
+        ? linkOpen
+        : `С помощником — ${formatRub(withAssistant)}`;
   }
 
   renderPaymentStatus();
   startPaymentPolling();
 }
 
-paymentPayBtn.addEventListener('click', async () => {
-  tap();
+// Общий путь для обеих кнопок оплаты и для доплаты за помощника на экранах
+// инструкции. kind: 'base' | 'assistant'. topUpForOrder задаётся только для
+// доплаты уже оплатившим базу — тогда заказ на одну наценку.
+async function startPayment({ kind, topUpForOrder = null, onError }) {
+  const isAssistant = kind === 'assistant';
 
-  if (wizardState.paymentUrl) {
-    if (tg && typeof tg.openLink === 'function') {
-      tg.openLink(wizardState.paymentUrl);
-    } else {
-      window.open(wizardState.paymentUrl, '_blank');
-    }
-    return;
+  // Ссылка на ровно такой же заказ уже есть — просто открыть её снова.
+  if (!topUpForOrder && wizardState.paymentUrl && wizardState.orderKind === kind) {
+    openExternal(wizardState.paymentUrl);
+    return true;
   }
 
   if (!tg || !tg.initData) {
-    // Вне Telegram нечем подтвердить личность — initData просто нет.
-    paymentPayError.hidden = false;
-    paymentPayError.textContent = 'Оплата доступна только внутри Telegram.';
-    return;
+    onError('Оплата доступна только внутри Telegram.');
+    return false;
   }
 
-  paymentPayError.hidden = true;
-  paymentPayBtn.disabled = true;
-  paymentPayBtnLabel.textContent = 'Готовим ссылку…';
-
   try {
+    const body = {
+      initData: tg.initData,
+      addons: [...wizardState.addons],
+      aiModels: [...wizardState.aiModels],
+    };
+    if (isAssistant) body.assistant = true;
+    if (topUpForOrder) body.topUpForOrder = topUpForOrder;
+
     const res = await fetch(CREATE_PAYMENT_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      // Цену определяет только набор aiModels: за подключение исключительно
-      // на DeepSeek берём меньше (см. computeSetupFee выше). Список addons
-      // уходит для полноты заказа, на сумму он не влияет и бэкенд всё равно
-      // подставляет полный набор сам. Сумму бэкенд считает тоже сам —
-      // присланная отсюда его не интересует и интересовать не должна.
-      body: JSON.stringify({
-        initData: tg.initData,
-        addons: [...wizardState.addons],
-        aiModels: [...wizardState.aiModels],
-      }),
+      // Сумму бэкенд считает сам — присланная отсюда его не интересует.
+      body: JSON.stringify(body),
     });
     const data = await res.json().catch(() => null);
     if (!res.ok || !data || !data.ok || !data.paymentUrl) {
       throw new Error(data && data.error ? data.error : `payment endpoint ${res.status}`);
     }
 
+    if (topUpForOrder) {
+      // Доплата: базовый заказ и его опрос не трогаем — открываем ссылку и
+      // всё. Подтверждение приходит человеком в чат, не через визард.
+      openExternal(data.paymentUrl);
+      return true;
+    }
+
+    // Новый основной заказ — заменяет прежний (другая сумма/тип).
     wizardState.orderId = data.orderId;
     wizardState.paymentUrl = data.paymentUrl;
-
-    if (tg && typeof tg.openLink === 'function') {
-      tg.openLink(data.paymentUrl);
-    } else {
-      window.open(data.paymentUrl, '_blank');
-    }
-    paymentPayBtn.disabled = false;
-    paymentPayBtnLabel.textContent = 'Открыть ссылку на оплату';
-    // Заказ появился — с этого момента есть что опрашивать.
+    wizardState.orderKind = kind;
+    wizardState.assistant = isAssistant;
+    openExternal(data.paymentUrl);
     renderPaymentStatus();
     startPaymentPolling();
+    return true;
   } catch (err) {
-    paymentPayError.hidden = false;
-    paymentPayError.textContent = 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.';
-    paymentPayBtn.disabled = false;
-    paymentPayBtnLabel.textContent = `Оплатить ${formatRub(computeTotal())}`;
+    onError('Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.');
+    return false;
   }
+}
+
+paymentPayBtn.addEventListener('click', async () => {
+  tap();
+  paymentPayError.hidden = true;
+  paymentPayBtn.disabled = true;
+  paymentPayBtnLabel.textContent = 'Готовим ссылку…';
+  await startPayment({
+    kind: 'base',
+    onError: (msg) => {
+      paymentPayError.hidden = false;
+      paymentPayError.textContent = msg;
+    },
+  });
+  renderPaymentScreen();
 });
+
+paymentAssistantBtn.addEventListener('click', async () => {
+  tap();
+  paymentPayError.hidden = true;
+  paymentAssistantBtn.disabled = true;
+  paymentAssistantBtnLabel.textContent = 'Готовим ссылку…';
+  await startPayment({
+    kind: 'assistant',
+    onError: (msg) => {
+      paymentPayError.hidden = false;
+      paymentPayError.textContent = msg;
+    },
+  });
+  renderPaymentScreen();
+});
+
+// ─── Апселл «с персональным помощником» на экранах инструкции ──────────
+// Виден только тому, кто оплатил базовую цену и не брал помощника (см.
+// renderAssistantUpsell). Кнопка создаёт заказ на ОДНУ наценку
+// (topUpForOrder) — подтверждение приходит человеком в чат, визард его
+// не ждёт и по нему ничего не гейтит.
+function setupAssistantUpsell(screen) {
+  const box = document.getElementById(`assistant-upsell-${screen}`);
+  if (!box) return;
+  const btn = document.getElementById(`assistant-upsell-btn-${screen}`);
+  const label = document.getElementById(`assistant-upsell-btn-${screen}-label`);
+  const note = document.getElementById(`assistant-upsell-note-${screen}`);
+
+  box._reset = () => {
+    btn.disabled = false;
+    label.textContent = `Подключить с помощником — доплатить ${formatRub(computeAssistantSurcharge())}`;
+    note.hidden = true;
+  };
+
+  btn.addEventListener('click', async () => {
+    tap();
+    note.hidden = true;
+    btn.disabled = true;
+    label.textContent = 'Готовим ссылку…';
+    const ok = await startPayment({
+      kind: 'assistant',
+      topUpForOrder: wizardState.orderId || 'unknown',
+      onError: (msg) => {
+        note.hidden = false;
+        note.textContent = msg;
+        btn.disabled = false;
+        label.textContent = `Подключить с помощником — доплатить ${formatRub(computeAssistantSurcharge())}`;
+      },
+    });
+    if (ok) {
+      // Клиент отправлен на оплату наценки. Подтверждение визард не ждёт
+      // (его принесёт человек в чат), но повторно предлагать доплату на
+      // следующем экране инструкции уже не нужно.
+      wizardState.assistant = true;
+      label.textContent = 'Ссылка на оплату открыта';
+      note.hidden = false;
+      note.textContent = 'После оплаты помощник напишет вам в чат и проведёт по шагам подключения.';
+    }
+  });
+}
+['botfather', 'server'].forEach(setupAssistantUpsell);
+
+function renderAssistantUpsell(screen) {
+  const box = document.getElementById(`assistant-upsell-${screen}`);
+  if (!box) return;
+  const show = wizardState.paid && !wizardState.assistant;
+  box.hidden = !show;
+  if (show && typeof box._reset === 'function') box._reset();
+}
 
 paymentNextBtn.addEventListener('click', () => {
   // Кнопка и так заблокирована без оплаты (см. renderPaymentStatus), но
