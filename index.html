@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=56">
+<link rel="stylesheet" href="style.css?v=57">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=56" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=56" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=56" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=57" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=57" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=57" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=56" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=57" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -233,7 +233,7 @@
      решению владельца продукта, ровно из-за противоречия с тем, как
      реально работает установка.
      ВНИМАНИЕ при правках: суммы на этом экране обязаны совпадать с
-     SETUP_FEE/DEEPSEEK_ONLY_SETUP_FEE/MONTHLY_DISPLAY в app.js. -->
+     SETUP_FEE/KIMI_ONLY_SETUP_FEE/MONTHLY_DISPLAY в app.js. -->
 <section class="screen" data-screen="pricing" hidden>
 
   <header class="passport__header passport__header--plain">
@@ -269,7 +269,7 @@
     </p>
   </section>
 
-  <!-- Единственное исключение из суммы выше — см. DEEPSEEK_ONLY_SETUP_FEE
+  <!-- Единственное исключение из суммы выше — см. KIMI_ONLY_SETUP_FEE
        в app.js. На этом экране модель ещё не выбрана (тот шаг дальше),
        поэтому конкретную сумму показать нельзя — только объяснить логику
        заранее, чтобы разница не оказалась сюрпризом на экране «Оплата». -->
@@ -277,15 +277,15 @@
     <span class="doc-label">СМОТРЯ КАКОЙ ИИ</span>
     <p class="pricing-card__text">
       30 000 ₽ — ставка для Claude и ChatGPT. Если поставите агента
-      только на DeepSeek — подключение обойдётся в 10 000 ₽.
+      только на Kimi — подключение обойдётся в 10 000 ₽.
     </p>
     <p class="pricing-card__note">
-      Разница не произвольная: подписка на DeepSeek для вас самих
+      Разница не произвольная: подписка на Kimi для вас самих
       кратно дешевле, чем на Claude или ChatGPT, — и это отражено уже в
       разовом платеже, а не только в ваших будущих ежемесячных расходах
       на подписку. Выбираете модель на следующих шагах; если возьмёте
-      DeepSeek вместе с другой моделью — действует полная ставка, скидка
-      только когда DeepSeek выбран один.
+      Kimi вместе с другой моделью — действует полная ставка, скидка
+      только когда Kimi выбран один.
     </p>
   </section>
 
@@ -695,29 +695,29 @@
       </div>
     </div>
 
-    <div class="ai-option ai-option--deepseek" data-model="deepseek">
+    <div class="ai-option ai-option--kimi" data-model="kimi">
       <div class="ai-option__row">
-        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-deepseek">
+        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-kimi">
           <span class="ai-option__badge" aria-hidden="true"></span>
           <span class="ai-option__head">
-            <span class="ai-option__name">DeepSeek</span>
-            <span class="ai-option__vendor">Открытые веса</span>
+            <span class="ai-option__name">Kimi</span>
+            <span class="ai-option__vendor">Moonshot AI</span>
           </span>
           <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <label class="ai-option__select" aria-label="Выбрать «DeepSeek»">
-          <input class="ai-option__input" type="checkbox" value="deepseek">
+        <label class="ai-option__select" aria-label="Выбрать «Kimi»">
+          <input class="ai-option__input" type="checkbox" value="kimi">
           <svg class="ai-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </label>
       </div>
-      <div class="ai-option__panel" id="ai-panel-deepseek" hidden>
-        <p class="ai-option__desc">Модель с открытыми весами, работает через тот же CLI-агент, что и OpenCode. Славится ценой — в разы дешевле по токенам, чем закрытые модели, при сопоставимом качестве кода и рассуждений.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Заметно дешевле по токенам при активном ежедневном использовании — ощутимо на длинной дистанции.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Оплата картой из России не проще, чем у остальных (нужна зарубежная карта — как и у Claude/Codex/Gemini), плюс данные идут на серверы в китайской юрисдикции.</p>
+      <div class="ai-option__panel" id="ai-panel-kimi" hidden>
+        <p class="ai-option__desc">Модель Kimi K2 от Moonshot AI с открытыми весами, работает через тот же CLI-агент, что и OpenCode. 1 трлн параметров (32 млрд активных), заточена под агентные задачи и длинный контекст (256K токенов).</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Заметно дешевле по токенам, чем закрытые модели, — ощутимо при активном ежедневном использовании.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Оплата картой из России не проще, чем у остальных (нужна зарубежная карта — как и у Claude/Codex/Gemini), плюс данные идут на серверы Moonshot.</p>
       </div>
     </div>
 
@@ -938,7 +938,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=56" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=56" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=57" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=57" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -1028,11 +1028,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=56" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=57" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=56"></script>
+<script src="app.js?v=57"></script>
 </body>
 </html>

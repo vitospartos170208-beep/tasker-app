@@ -123,8 +123,8 @@ const wizardState = {
 // SETUP_FEE — разовая оплата за подключение под ключ, включает и
 // поддержку (отдельно её больше докупить нельзя и не нужно — раньше
 // такая возможность была, теперь целиком внутри этой суммы).
-// DEEPSEEK_ONLY_SETUP_FEE — скидка для тех, кто ставит агента только на
-// DeepSeek: его подписка для клиента ощутимо дешевле Claude/ChatGPT, и
+// KIMI_ONLY_SETUP_FEE — скидка для тех, кто ставит агента только на
+// Kimi: его подписка для клиента ощутимо дешевле Claude/ChatGPT, и
 // разница отражена уже на этапе подключения, а не только в ежемесячных
 // расходах клиента (см. текст на экране «РАСХОДЫ»).
 // MONTHLY_DISPLAY — не наш платёж и не число, которое где-то считается:
@@ -135,11 +135,11 @@ const wizardState = {
 // Суммы продублированы текстом на экранах «РАСХОДЫ» и «Оплата» — меняете
 // здесь, правьте и разметку, иначе визард покажет разные цифры рядом.
 const SETUP_FEE = 30000;
-const DEEPSEEK_ONLY_SETUP_FEE = 10000;
+const KIMI_ONLY_SETUP_FEE = 10000;
 const MONTHLY_DISPLAY = '≈400 ₽/мес + подписка(и) на ИИ';
 
-// Скидка применяется, только если DeepSeek — вообще единственная выбранная
-// модель: смешанный выбор (DeepSeek + что-то ещё) всё равно ставит и
+// Скидка применяется, только если Kimi — вообще единственная выбранная
+// модель: смешанный выбор (Kimi + что-то ещё) всё равно ставит и
 // более дорогую модель тоже, и её реальная стоимость подписки никуда не
 // девается — скидывать цену подключения в этом случае неверно.
 //
@@ -148,8 +148,8 @@ const MONTHLY_DISPLAY = '≈400 ₽/мес + подписка(и) на ИИ';
 // показываем — она считается на экране «Оплата», когда выбор уже сделан
 // (см. renderPaymentScreen).
 function computeSetupFee() {
-  const onlyDeepseek = wizardState.aiModels.size === 1 && wizardState.aiModels.has('deepseek');
-  return onlyDeepseek ? DEEPSEEK_ONLY_SETUP_FEE : SETUP_FEE;
+  const onlyKimi = wizardState.aiModels.size === 1 && wizardState.aiModels.has('kimi');
+  return onlyKimi ? KIMI_ONLY_SETUP_FEE : SETUP_FEE;
 }
 
 // Наценка за подключение с живым помощником — человек проводит клиента по
@@ -158,10 +158,10 @@ function computeSetupFee() {
 // concierge-bot/index.js — сумму к оплате всё равно считает бэкенд, тут
 // число нужно только для подписи на кнопке.
 const ASSISTANT_SURCHARGE = 20000;
-const ASSISTANT_SURCHARGE_DEEPSEEK = 5000;
+const ASSISTANT_SURCHARGE_KIMI = 5000;
 function computeAssistantSurcharge() {
-  const onlyDeepseek = wizardState.aiModels.size === 1 && wizardState.aiModels.has('deepseek');
-  return onlyDeepseek ? ASSISTANT_SURCHARGE_DEEPSEEK : ASSISTANT_SURCHARGE;
+  const onlyKimi = wizardState.aiModels.size === 1 && wizardState.aiModels.has('kimi');
+  return onlyKimi ? ASSISTANT_SURCHARGE_KIMI : ASSISTANT_SURCHARGE;
 }
 
 const TOKEN_RE = /^\d+:[A-Za-z0-9_-]+$/;
@@ -385,7 +385,7 @@ document.querySelectorAll('.ai-option__input').forEach((input) => {
     }
     aiModelNextBtn.disabled = wizardState.aiModels.size === 0;
     // От набора моделей зависит цена подключения (скидка, когда выбран
-    // только DeepSeek — см. computeSetupFee), и это теперь единственное,
+    // только Kimi — см. computeSetupFee), и это теперь единственное,
     // что на неё влияет. Значит уже созданный заказ посчитан по старому
     // набору и дальше не годится. Без этого сброса визард показывал бы
     // «оплата подтверждена» для набора, за который заплачено не было, а
