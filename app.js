@@ -217,7 +217,9 @@ function formatRub(n) {
 // а не серия перезагрузок. Порядок здесь совпадает с шагами из
 // concierge-bot/index.js и PRODUCT.md → Capabilities and Constraints.
 
-const screenOrder = ['intro', 'risks', 'pricing', 'addons', 'ai-model', 'payment', 'botfather', 'server', 'done'];
+// 'payment' убран: подключение бесплатное (07.10.2026). Экран и его код
+// оставлены — вернуть оплату = вернуть 'payment' сюда и в aiModelNextBtn.
+const screenOrder = ['intro', 'risks', 'pricing', 'addons', 'ai-model', 'botfather', 'server', 'done'];
 let currentIndex = 0;
 
 // Некоторые разделы зависят от состояния, накопленного раньше (тариф из
@@ -425,7 +427,7 @@ document.querySelectorAll('.ai-option__toggle').forEach((toggle) => {
 aiModelNextBtn.addEventListener('click', () => {
   if (aiModelNextBtn.disabled) return;
   tap();
-  goToScreenByName('payment');
+  goToScreenByName('botfather');
 });
 
 // ─── Раздел 5: оплата ──────────────────────────────────────────────────

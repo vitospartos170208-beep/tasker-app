@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=58">
+<link rel="stylesheet" href="style.css?v=59">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=58" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=58" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=58" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=59" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=59" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=59" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=58" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=59" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -253,45 +253,27 @@
     <h1 class="passport__title passport__title--compact">РАСХОДЫ</h1>
   </header>
 
-  <section class="pricing-card" aria-label="Разовая оплата">
-    <span class="doc-label">ОДИН РАЗ</span>
+  <!-- Подключение бесплатное (решение владельца продукта, 07.10.2026):
+       экран «Оплата» убран из screenOrder в app.js, бэкенд ставит без
+       заказа (ALLOW_FREE_INSTALL=1 в .env concierge-bot). Разметка экрана
+       «Оплата» оставлена в файле, чтобы платёж можно было вернуть. -->
+  <section class="pricing-card" aria-label="Подключение">
+    <span class="doc-label">ПОДКЛЮЧЕНИЕ</span>
     <ul class="pricing-list">
       <li class="pricing-list__row">
         <span class="pricing-list__name">Подключение агента под ключ</span>
-        <span class="pricing-list__price">30 000 ₽</span>
+        <span class="pricing-list__price">бесплатно</span>
       </li>
     </ul>
     <p class="pricing-card__note">
-      Сюда входит и поддержка дальше — отдельно её докупать не нужно и
-      нельзя, платёж один. Библиотеки навыков тоже входят в эту сумму —
-      все сразу, без доплаты за отдельные функции. Их список вы увидите
-      на следующем шаге.
-    </p>
-  </section>
-
-  <!-- Единственное исключение из суммы выше — см. KIMI_ONLY_SETUP_FEE
-       в app.js. На этом экране модель ещё не выбрана (тот шаг дальше),
-       поэтому конкретную сумму показать нельзя — только объяснить логику
-       заранее, чтобы разница не оказалась сюрпризом на экране «Оплата». -->
-  <section class="pricing-card" aria-label="Разница между моделями ИИ">
-    <span class="doc-label">СМОТРЯ КАКОЙ ИИ</span>
-    <p class="pricing-card__text">
-      30 000 ₽ — ставка для Claude и ChatGPT. Если поставите агента
-      только на Kimi — подключение обойдётся в 10 000 ₽.
-    </p>
-    <p class="pricing-card__note">
-      Разница не произвольная: подписка на Kimi для вас самих
-      кратно дешевле, чем на Claude или ChatGPT, — и это отражено уже в
-      разовом платеже, а не только в ваших будущих ежемесячных расходах
-      на подписку. Выбираете модель на следующих шагах; если возьмёте
-      Kimi вместе с другой моделью — действует полная ставка, скидка
-      только когда Kimi выбран один.
+      Поддержка дальше и все библиотеки навыков тоже бесплатно. Их список
+      вы увидите на следующем шаге.
     </p>
   </section>
 
   <section class="pricing-card" aria-label="Ежемесячная оплата">
     <span class="doc-label">КАЖДЫЙ МЕСЯЦ</span>
-    <p class="pricing-card__text">Нам вы больше ничего не платите. Два счёта — не от нас:</p>
+    <p class="pricing-card__text">Нам вы ничего не платите. Два счёта — не от нас:</p>
     <ul class="pricing-list">
       <li class="pricing-list__row">
         <span class="pricing-list__name">Сервер (VPS)</span>
@@ -307,7 +289,7 @@
       подскажем, какой взять) и оплачиваете напрямую ему, счёта от нас не
       будет. Подписку на ИИ вы тоже оформляете на себя — так требуют
       правила самих разработчиков ИИ: ваши переписки и файлы не
-      смешиваются ни с чьими. Мы занимаемся только разовым подключением и
+      смешиваются ни с чьими. Мы занимаемся только подключением и
       поддержкой дальше.
     </p>
   </section>
@@ -912,7 +894,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=58" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=58" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=59" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=59" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -1002,11 +984,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=58" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=59" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=58"></script>
+<script src="app.js?v=59"></script>
 </body>
 </html>
