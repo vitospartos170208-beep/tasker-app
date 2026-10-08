@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=59">
+<link rel="stylesheet" href="style.css?v=60">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=59" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=59" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=59" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=60" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=60" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=60" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=59" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=60" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -625,31 +625,10 @@
     </div>
 
 
-    <div class="ai-option ai-option--opencode" data-model="opencode">
-      <div class="ai-option__row">
-        <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-opencode">
-          <span class="ai-option__badge" aria-hidden="true"></span>
-          <span class="ai-option__head">
-            <span class="ai-option__name">OpenCode</span>
-            <span class="ai-option__vendor">Открытый код</span>
-          </span>
-          <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        <label class="ai-option__select" aria-label="Выбрать «OpenCode»">
-          <input class="ai-option__input" type="checkbox" value="opencode">
-          <svg class="ai-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </label>
-      </div>
-      <div class="ai-option__panel" id="ai-panel-opencode" hidden>
-        <p class="ai-option__desc">Открытый CLI-агент, ближе всего по возможностям к Claude Code. Поддерживает более 75 провайдеров моделей — не привязан к одной компании.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Свобода выбора модели и провайдера — можно сменить в любой момент без переустановки.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Молодой проект: меньше отшлифован и протестирован, чем коммерческие аналоги.</p>
-      </div>
-    </div>
+    <!-- OpenCode убран из продажи 08.10.2026: у него не было входа ни при
+         установке, ни из бота — клиент получал модель, которую не мог
+         подключить сам (входа по паролю на сервере у него нет). Движок в
+         боте остаётся для тех, у кого он уже стоит. -->
 
     <div class="ai-option ai-option--kimi" data-model="kimi">
       <div class="ai-option__row">
@@ -894,7 +873,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=59" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=59" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=60" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=60" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -984,11 +963,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=59" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=60" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=59"></script>
+<script src="app.js?v=60"></script>
 </body>
 </html>
