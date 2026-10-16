@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=67">
+<link rel="stylesheet" href="style.css?v=68">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=67" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=67" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=67" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=68" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=68" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=68" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=67" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=68" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -284,8 +284,9 @@
       </li>
     </ul>
     <p class="pricing-card__note">
-      Сервер вы покупаете сами у любого VPS-хостера (см. следующие шаги —
-      подскажем, какой взять) и оплачиваете напрямую ему, счёта от нас не
+      Сервер вы покупаете сами у любого VPS-хостера с локацией за пределами
+      России (см. следующие шаги — подскажем, какой взять) и оплачиваете
+      напрямую ему, счёта от нас не
       будет. Подписку на ИИ вы тоже оформляете на себя — так требуют
       правила самих разработчиков ИИ: ваши переписки и файлы не
       смешиваются ни с чьими. Мы занимаемся только разовым подключением и
@@ -857,8 +858,9 @@
       <!-- Это только фолбэк: реальный текст ставит renderServerScreen()
            в app.js — там же лежит и предупреждение о том, что этот экран
            противоречит модели «всё включено» и пока не переписан. -->
-      Купите сервер (VPS): обязательно Ubuntu 24, локация любая. Когда
-      сервер готов, впишите его данные из панели хостинга ниже.
+      Купите сервер (VPS): обязательно Ubuntu 24, локация — не Россия
+      (Нидерланды, Финляндия, Германия, Казахстан). Когда сервер готов,
+      впишите его данные из панели хостинга ниже.
     </p>
   </section>
 
@@ -883,7 +885,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=67" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=67" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=68" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=68" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -983,11 +985,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=67" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=68" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=67"></script>
+<script src="app.js?v=68"></script>
 </body>
 </html>
