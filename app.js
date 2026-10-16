@@ -103,6 +103,8 @@ const wizardState = {
   // Оплачено ли сопровождение помощником (через кнопку на «Оплате» или
   // доплатой на экранах инструкции). Гейтит апселл-блок на botfather/server.
   assistant: false,
+  // Открыта ли оплата «Помощи с установкой» (кнопка на botfather/server).
+  installHelp: false,
   // Подтверждена ли оплата. Ставится ТОЛЬКО по ответу бэкенда на
   // /order-status — то есть по order.paid, который в свою очередь ставит
   // только вебхук Продамуса со сошедшейся HMAC-подписью. Визард ничего не
@@ -152,6 +154,10 @@ const ASSISTANT_SURCHARGE = 20000;
 function computeAssistantSurcharge() {
   return ASSISTANT_SURCHARGE;
 }
+
+// «Помощь с установкой» — только ввод данных для установки, без месяца
+// сопровождения. Держать в паре с INSTALL_HELP_FEE в concierge-bot/index.js.
+const INSTALL_HELP_FEE = 5000;
 
 const TOKEN_RE = /^\d+:[A-Za-z0-9_-]+$/;
 const IP_RE = /^\d{1,3}(\.\d{1,3}){3}$/;
@@ -214,10 +220,14 @@ let currentIndex = 0;
 // при первой сборке DOM.
 const onEnter = {
   payment: renderPaymentScreen,
-  botfather: () => renderAssistantUpsell('botfather'),
+  botfather: () => {
+    renderAssistantUpsell('botfather');
+    renderInstallHelp('botfather');
+  },
   server: () => {
     renderServerScreen();
     renderAssistantUpsell('server');
+    renderInstallHelp('server');
   },
 };
 
@@ -609,9 +619,9 @@ function renderPaymentScreen() {
   startPaymentPolling();
 }
 
-// Общий путь для обеих кнопок оплаты и для доплаты за помощника на экранах
-// инструкции. kind: 'base' | 'assistant'. topUpForOrder задаётся только для
-// доплаты уже оплатившим базу — тогда заказ на одну наценку.
+// Общий путь для обеих кнопок оплаты и для доплат на экранах инструкции.
+// kind: 'base' | 'assistant' | 'install-help'. topUpForOrder задаётся
+// только для доплаты уже оплатившим базу — тогда заказ на одну наценку.
 async function startPayment({ kind, topUpForOrder = null, onError }) {
   const isAssistant = kind === 'assistant';
 
@@ -633,6 +643,7 @@ async function startPayment({ kind, topUpForOrder = null, onError }) {
       aiModels: [...wizardState.aiModels],
     };
     if (isAssistant) body.assistant = true;
+    if (kind === 'install-help') body.installHelp = true;
     if (topUpForOrder) body.topUpForOrder = topUpForOrder;
 
     const res = await fetch(CREATE_PAYMENT_ENDPOINT, {
@@ -668,7 +679,9 @@ async function startPayment({ kind, topUpForOrder = null, onError }) {
     // связь» тут вводило в заблуждение: со связью у человека всё в порядке.
     onError(err.message === 'payment_link_failed'
       ? 'Оплата временно недоступна — мы уже разбираемся. Попробуйте снова через пару минут: нажмите кнопку оплаты ещё раз.'
-      : 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте снова.');
+      : err.message === 'install_help_requires_connection'
+        ? 'Помощь с установкой оформляется только вместе с оплаченным подключением.'
+        : 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте снова.');
     return false;
   }
 }
@@ -744,6 +757,59 @@ function renderAssistantUpsell(screen) {
   const box = document.getElementById(`assistant-upsell-${screen}`);
   if (!box) return;
   const show = wizardState.paid && !wizardState.assistant;
+  box.hidden = !show;
+  if (show && typeof box._reset === 'function') box._reset();
+}
+
+// ─── «Помощь с установкой» на экранах с данными ────────────────────────
+// Отдельная от помощника услуга подешевле: специалист помогает только с
+// вводом данных для установки (токен бота, доступ к серверу). Продаётся
+// только вместе с подключением — кнопка видна оплатившему базу, и бэкенд
+// сам проверяет, что базовый заказ оплачен. Тому, кто взял помощника, не
+// показываем: там это уже входит.
+function setupInstallHelp(screen) {
+  const box = document.getElementById(`install-help-${screen}`);
+  if (!box) return;
+  const btn = document.getElementById(`install-help-btn-${screen}`);
+  const label = document.getElementById(`install-help-btn-${screen}-label`);
+  const note = document.getElementById(`install-help-note-${screen}`);
+  const idleLabel = () => `Помощь с установкой — ${formatRub(INSTALL_HELP_FEE)}`;
+
+  box._reset = () => {
+    btn.disabled = false;
+    label.textContent = idleLabel();
+    note.hidden = true;
+  };
+
+  btn.addEventListener('click', async () => {
+    tap();
+    note.hidden = true;
+    btn.disabled = true;
+    label.textContent = 'Готовим ссылку…';
+    const ok = await startPayment({
+      kind: 'install-help',
+      topUpForOrder: wizardState.orderId || 'unknown',
+      onError: (msg) => {
+        note.hidden = false;
+        note.textContent = msg;
+        btn.disabled = false;
+        label.textContent = idleLabel();
+      },
+    });
+    if (ok) {
+      wizardState.installHelp = true;
+      label.textContent = 'Ссылка на оплату открыта';
+      note.hidden = false;
+      note.textContent = 'После оплаты специалист напишет вам в чат и поможет с установкой.';
+    }
+  });
+}
+['botfather', 'server'].forEach(setupInstallHelp);
+
+function renderInstallHelp(screen) {
+  const box = document.getElementById(`install-help-${screen}`);
+  if (!box) return;
+  const show = wizardState.paid && !wizardState.assistant && !wizardState.installHelp;
   box.hidden = !show;
   if (show && typeof box._reset === 'function') box._reset();
 }

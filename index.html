@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=65">
+<link rel="stylesheet" href="style.css?v=66">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=65" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=65" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=65" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=66" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=66" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=66" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=65" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=66" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -723,8 +723,9 @@
     </button>
     <p class="payment-assistant-hint">
       «С помощником» — то же подключение, но живой человек созванивается
-      с вами и проводит по шагам (создание бота, покупка сервера). Дороже,
-      автоматическая установка при этом работает так же.
+      с вами и проводит по шагам (создание бота, покупка сервера), плюс
+      месяц сопровождения с помощником. Дороже на 20 000 ₽, автоматическая
+      установка при этом работает так же.
     </p>
     <span class="field__error" id="payment-pay-error" hidden>Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.</span>
     <!-- Живой статус оплаты. Текст ставит renderPaymentStatus() в app.js по
@@ -803,12 +804,24 @@
   <div class="assistant-upsell" id="assistant-upsell-botfather" hidden>
     <p class="assistant-upsell__text">
       Не хотите делать это сами? Подключим с персональным помощником —
-      человек свяжется и проведёт вас по всем шагам.
+      человек свяжется и проведёт вас по всем шагам, плюс месяц
+      сопровождения с помощником.
     </p>
     <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-botfather" type="button">
       <span id="assistant-upsell-btn-botfather-label">Подключить с помощником</span>
     </button>
     <p class="assistant-upsell__note" id="assistant-upsell-note-botfather" hidden></p>
+  </div>
+
+  <div class="assistant-upsell" id="install-help-botfather" hidden>
+    <p class="assistant-upsell__text">
+      Застряли на этом шаге? Специалист поможет с установкой: подскажет,
+      что и куда ввести, чтобы ассистент встал на ваш сервер.
+    </p>
+    <button class="btn-primary btn-primary--outline" id="install-help-btn-botfather" type="button">
+      <span id="install-help-btn-botfather-label">Помощь с установкой</span>
+    </button>
+    <p class="assistant-upsell__note" id="install-help-note-botfather" hidden></p>
   </div>
 
   <footer class="passport__footer">
@@ -872,7 +885,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=65" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=65" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=66" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=66" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -881,12 +894,24 @@
   <div class="assistant-upsell" id="assistant-upsell-server" hidden>
     <p class="assistant-upsell__text">
       Не хотите делать это сами? Подключим с персональным помощником —
-      человек свяжется и проведёт вас по всем шагам.
+      человек свяжется и проведёт вас по всем шагам, плюс месяц
+      сопровождения с помощником.
     </p>
     <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-server" type="button">
       <span id="assistant-upsell-btn-server-label">Подключить с помощником</span>
     </button>
     <p class="assistant-upsell__note" id="assistant-upsell-note-server" hidden></p>
+  </div>
+
+  <div class="assistant-upsell" id="install-help-server" hidden>
+    <p class="assistant-upsell__text">
+      Застряли на этом шаге? Специалист поможет с установкой: подскажет,
+      что и куда ввести, чтобы ассистент встал на ваш сервер.
+    </p>
+    <button class="btn-primary btn-primary--outline" id="install-help-btn-server" type="button">
+      <span id="install-help-btn-server-label">Помощь с установкой</span>
+    </button>
+    <p class="assistant-upsell__note" id="install-help-note-server" hidden></p>
   </div>
 
   <footer class="passport__footer">
@@ -962,11 +987,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=65" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=66" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=65"></script>
+<script src="app.js?v=66"></script>
 </body>
 </html>
