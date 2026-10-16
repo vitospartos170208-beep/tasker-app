@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=66">
+<link rel="stylesheet" href="style.css?v=67">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=66" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=66" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=66" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=67" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=67" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=67" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=66" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=67" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -801,27 +801,25 @@
     <span class="field__error" id="token-error" hidden>Это не похоже на токен (пример: 123456789:AAF2xk...). Проверьте и вставьте ещё раз.</span>
   </label>
 
-  <div class="assistant-upsell" id="assistant-upsell-botfather" hidden>
-    <p class="assistant-upsell__text">
-      Не хотите делать это сами? Подключим с персональным помощником —
-      человек свяжется и проведёт вас по всем шагам, плюс месяц
-      сопровождения с помощником.
-    </p>
-    <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-botfather" type="button">
-      <span id="assistant-upsell-btn-botfather-label">Подключить с помощником</span>
-    </button>
-    <p class="assistant-upsell__note" id="assistant-upsell-note-botfather" hidden></p>
-  </div>
-
-  <div class="assistant-upsell" id="install-help-botfather" hidden>
-    <p class="assistant-upsell__text">
-      Застряли на этом шаге? Специалист поможет с установкой: подскажет,
-      что и куда ввести, чтобы ассистент встал на ваш сервер.
-    </p>
-    <button class="btn-primary btn-primary--outline" id="install-help-btn-botfather" type="button">
-      <span id="install-help-btn-botfather-label">Помощь с установкой</span>
-    </button>
-    <p class="assistant-upsell__note" id="install-help-note-botfather" hidden></p>
+  <!-- Помощь за деньги, одним блоком: сначала дешёвая «Помощь с
+       установкой», затем помощник с месяцем сопровождения. Видимость —
+       renderHelpOffer() в app.js (только оплатившим подключение). -->
+  <div class="assistant-upsell" id="help-offer-botfather" hidden>
+    <p class="help-offer__title">Нужна помощь с установкой?</p>
+    <div class="help-offer__option" id="install-help-botfather">
+      <p class="assistant-upsell__text">Специалист подскажет, что и куда ввести.</p>
+      <button class="btn-primary btn-primary--outline" id="install-help-btn-botfather" type="button">
+        <span id="install-help-btn-botfather-label">Помощь с установкой</span>
+      </button>
+      <p class="assistant-upsell__note" id="install-help-note-botfather" hidden></p>
+    </div>
+    <div class="help-offer__option" id="assistant-upsell-botfather">
+      <p class="assistant-upsell__text">Помощник проведёт по всем шагам, плюс месяц сопровождения.</p>
+      <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-botfather" type="button">
+        <span id="assistant-upsell-btn-botfather-label">С помощником</span>
+      </button>
+      <p class="assistant-upsell__note" id="assistant-upsell-note-botfather" hidden></p>
+    </div>
   </div>
 
   <footer class="passport__footer">
@@ -885,33 +883,31 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=66" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=66" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=67" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=67" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
   <span class="field__error" id="server-submit-error" hidden>Не получилось отправить данные — проверьте связь и попробуйте ещё раз.</span>
 
-  <div class="assistant-upsell" id="assistant-upsell-server" hidden>
-    <p class="assistant-upsell__text">
-      Не хотите делать это сами? Подключим с персональным помощником —
-      человек свяжется и проведёт вас по всем шагам, плюс месяц
-      сопровождения с помощником.
-    </p>
-    <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-server" type="button">
-      <span id="assistant-upsell-btn-server-label">Подключить с помощником</span>
-    </button>
-    <p class="assistant-upsell__note" id="assistant-upsell-note-server" hidden></p>
-  </div>
-
-  <div class="assistant-upsell" id="install-help-server" hidden>
-    <p class="assistant-upsell__text">
-      Застряли на этом шаге? Специалист поможет с установкой: подскажет,
-      что и куда ввести, чтобы ассистент встал на ваш сервер.
-    </p>
-    <button class="btn-primary btn-primary--outline" id="install-help-btn-server" type="button">
-      <span id="install-help-btn-server-label">Помощь с установкой</span>
-    </button>
-    <p class="assistant-upsell__note" id="install-help-note-server" hidden></p>
+  <!-- Помощь за деньги, одним блоком: сначала дешёвая «Помощь с
+       установкой», затем помощник с месяцем сопровождения. Видимость —
+       renderHelpOffer() в app.js (только оплатившим подключение). -->
+  <div class="assistant-upsell" id="help-offer-server" hidden>
+    <p class="help-offer__title">Нужна помощь с установкой?</p>
+    <div class="help-offer__option" id="install-help-server">
+      <p class="assistant-upsell__text">Специалист подскажет, что и куда ввести.</p>
+      <button class="btn-primary btn-primary--outline" id="install-help-btn-server" type="button">
+        <span id="install-help-btn-server-label">Помощь с установкой</span>
+      </button>
+      <p class="assistant-upsell__note" id="install-help-note-server" hidden></p>
+    </div>
+    <div class="help-offer__option" id="assistant-upsell-server">
+      <p class="assistant-upsell__text">Помощник проведёт по всем шагам, плюс месяц сопровождения.</p>
+      <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-server" type="button">
+        <span id="assistant-upsell-btn-server-label">С помощником</span>
+      </button>
+      <p class="assistant-upsell__note" id="assistant-upsell-note-server" hidden></p>
+    </div>
   </div>
 
   <footer class="passport__footer">
@@ -987,11 +983,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=66" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=67" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=66"></script>
+<script src="app.js?v=67"></script>
 </body>
 </html>

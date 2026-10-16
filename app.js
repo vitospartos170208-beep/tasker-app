@@ -203,7 +203,8 @@ const PAYMENT_POLL_MS = 4000;
 const PAYMENT_POLL_MAX_MS = 15 * 60 * 1000;
 
 function formatRub(n) {
-  return `${n.toLocaleString('ru-RU')} ₽`;
+  // Неразрывный пробел: «₽» не уезжает на отдельную строку в узких кнопках.
+  return `${n.toLocaleString('ru-RU')} ₽`;
 }
 
 // ─── Router между разделами ─────────────────────────────────────────────
@@ -220,14 +221,10 @@ let currentIndex = 0;
 // при первой сборке DOM.
 const onEnter = {
   payment: renderPaymentScreen,
-  botfather: () => {
-    renderAssistantUpsell('botfather');
-    renderInstallHelp('botfather');
-  },
+  botfather: () => renderHelpOffer('botfather'),
   server: () => {
     renderServerScreen();
-    renderAssistantUpsell('server');
-    renderInstallHelp('server');
+    renderHelpOffer('server');
   },
 };
 
@@ -721,7 +718,7 @@ function setupAssistantUpsell(screen) {
 
   box._reset = () => {
     btn.disabled = false;
-    label.textContent = `Подключить с помощником — доплатить ${formatRub(computeAssistantSurcharge())}`;
+    label.textContent = `С помощником — ${formatRub(computeAssistantSurcharge())}`;
     note.hidden = true;
   };
 
@@ -737,7 +734,7 @@ function setupAssistantUpsell(screen) {
         note.hidden = false;
         note.textContent = msg;
         btn.disabled = false;
-        label.textContent = `Подключить с помощником — доплатить ${formatRub(computeAssistantSurcharge())}`;
+        label.textContent = `С помощником — ${formatRub(computeAssistantSurcharge())}`;
       },
     });
     if (ok) {
@@ -812,6 +809,17 @@ function renderInstallHelp(screen) {
   const show = wizardState.paid && !wizardState.assistant && !wizardState.installHelp;
   box.hidden = !show;
   if (show && typeof box._reset === 'function') box._reset();
+}
+
+// Оба варианта живут в одном блоке (сначала 5 000, затем помощник) — блок
+// виден, пока виден хоть один из них.
+function renderHelpOffer(screen) {
+  renderInstallHelp(screen);
+  renderAssistantUpsell(screen);
+  const wrap = document.getElementById(`help-offer-${screen}`);
+  if (!wrap) return;
+  const parts = [`install-help-${screen}`, `assistant-upsell-${screen}`].map((id) => document.getElementById(id));
+  wrap.hidden = parts.every((el) => !el || el.hidden);
 }
 
 paymentNextBtn.addEventListener('click', () => {

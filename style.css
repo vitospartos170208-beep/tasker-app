@@ -1139,9 +1139,14 @@ body {
    server). Показывается только после оплаты базовой цены — см.
    renderAssistantUpsell() в app.js. Отбит от формы, чтобы читался как
    отдельное предложение, а не ещё одно поле. */
+/* display только при :not([hidden]) — иначе блок не прятался атрибутом
+   hidden (тот же приём, что у .screen выше). */
+.assistant-upsell:not([hidden]) {
+  display: flex;
+}
+
 .assistant-upsell {
   flex: none;
-  display: flex;
   flex-direction: column;
   gap: 8px;
   margin-top: 14px;
@@ -1156,6 +1161,25 @@ body {
   font-size: 0.85rem;
   line-height: 1.45;
   color: var(--ink-soft);
+}
+
+.help-offer__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.help-offer__option:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.help-offer__option + .help-offer__option {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
 }
 
 .assistant-upsell__note {
