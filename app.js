@@ -667,41 +667,32 @@ async function startPayment({ kind, topUpForOrder = null, onError }) {
     // выдал (16.10.2026: магазин в Продамусе отвечал 503). «Проверьте
     // связь» тут вводило в заблуждение: со связью у человека всё в порядке.
     onError(err.message === 'payment_link_failed'
-      ? 'Оплата временно недоступна — мы уже разбираемся. Попробуйте, пожалуйста, чуть позже.'
-      : 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.');
+      ? 'Оплата временно недоступна — мы уже разбираемся. Попробуйте снова через пару минут: нажмите кнопку оплаты ещё раз.'
+      : 'Не удалось создать ссылку на оплату — проверьте связь и попробуйте снова.');
     return false;
   }
 }
 
-paymentPayBtn.addEventListener('click', async () => {
+// renderPaymentScreen() прячет ошибку (при входе на экран старая не нужна),
+// поэтому показываем её уже ПОСЛЕ перерисовки. Раньше было наоборот: текст
+// появлялся и тут же скрывался, и при сбое Продамуса 16.10.2026 кнопка
+// выглядела так, будто просто не нажимается.
+async function onPayClick(kind, btn, label) {
   tap();
   paymentPayError.hidden = true;
-  paymentPayBtn.disabled = true;
-  paymentPayBtnLabel.textContent = 'Готовим ссылку…';
-  await startPayment({
-    kind: 'base',
-    onError: (msg) => {
-      paymentPayError.hidden = false;
-      paymentPayError.textContent = msg;
-    },
-  });
+  btn.disabled = true;
+  label.textContent = 'Готовим ссылку…';
+  let error = null;
+  await startPayment({ kind, onError: (msg) => { error = msg; } });
   renderPaymentScreen();
-});
+  if (error) {
+    paymentPayError.textContent = error;
+    paymentPayError.hidden = false;
+  }
+}
 
-paymentAssistantBtn.addEventListener('click', async () => {
-  tap();
-  paymentPayError.hidden = true;
-  paymentAssistantBtn.disabled = true;
-  paymentAssistantBtnLabel.textContent = 'Готовим ссылку…';
-  await startPayment({
-    kind: 'assistant',
-    onError: (msg) => {
-      paymentPayError.hidden = false;
-      paymentPayError.textContent = msg;
-    },
-  });
-  renderPaymentScreen();
-});
+paymentPayBtn.addEventListener('click', () => onPayClick('base', paymentPayBtn, paymentPayBtnLabel));
+paymentAssistantBtn.addEventListener('click', () => onPayClick('assistant', paymentAssistantBtn, paymentAssistantBtnLabel));
 
 // ─── Апселл «с персональным помощником» на экранах инструкции ──────────
 // Виден только тому, кто оплатил базовую цену и не брал помощника (см.
