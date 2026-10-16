@@ -123,10 +123,8 @@ const wizardState = {
 // SETUP_FEE — разовая оплата за подключение под ключ, включает и
 // поддержку (отдельно её больше докупить нельзя и не нужно — раньше
 // такая возможность была, теперь целиком внутри этой суммы).
-// KIMI_ONLY_SETUP_FEE — скидка для тех, кто ставит агента только на
-// Kimi: его подписка для клиента ощутимо дешевле Claude/ChatGPT, и
-// разница отражена уже на этапе подключения, а не только в ежемесячных
-// расходах клиента (см. текст на экране «РАСХОДЫ»).
+// Ставка одна для любой модели ИИ: скидка за Kimi-only (10 000 ₽, у
+// помощника +5 000 ₽) отменена 16.10.2026.
 // MONTHLY_DISPLAY — не наш платёж и не число, которое где-то считается:
 // сервер (VPS) клиент покупает и оплачивает сам напрямую хостеру
 // (см. renderServerScreen), подписку на ИИ — сам себе у разработчика
@@ -135,21 +133,14 @@ const wizardState = {
 // Суммы продублированы текстом на экранах «РАСХОДЫ» и «Оплата» — меняете
 // здесь, правьте и разметку, иначе визард покажет разные цифры рядом.
 const SETUP_FEE = 30000;
-const KIMI_ONLY_SETUP_FEE = 10000;
 const MONTHLY_DISPLAY = '≈400 ₽/мес + подписка(и) на ИИ';
 
-// Скидка применяется, только если Kimi — вообще единственная выбранная
-// модель: смешанный выбор (Kimi + что-то ещё) всё равно ставит и
-// более дорогую модель тоже, и её реальная стоимость подписки никуда не
-// девается — скидывать цену подключения в этом случае неверно.
-//
 // На экране «Функции Ассистента» модель ещё не выбрана (тот экран раньше
 // в screenOrder, чем «ai-model»), поэтому сумму там больше и не
 // показываем — она считается на экране «Оплата», когда выбор уже сделан
 // (см. renderPaymentScreen).
 function computeSetupFee() {
-  const onlyKimi = wizardState.aiModels.size === 1 && wizardState.aiModels.has('kimi');
-  return onlyKimi ? KIMI_ONLY_SETUP_FEE : SETUP_FEE;
+  return SETUP_FEE;
 }
 
 // Наценка за подключение с живым помощником — человек проводит клиента по
@@ -158,10 +149,8 @@ function computeSetupFee() {
 // concierge-bot/index.js — сумму к оплате всё равно считает бэкенд, тут
 // число нужно только для подписи на кнопке.
 const ASSISTANT_SURCHARGE = 20000;
-const ASSISTANT_SURCHARGE_KIMI = 5000;
 function computeAssistantSurcharge() {
-  const onlyKimi = wizardState.aiModels.size === 1 && wizardState.aiModels.has('kimi');
-  return onlyKimi ? ASSISTANT_SURCHARGE_KIMI : ASSISTANT_SURCHARGE;
+  return ASSISTANT_SURCHARGE;
 }
 
 const TOKEN_RE = /^\d+:[A-Za-z0-9_-]+$/;
