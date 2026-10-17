@@ -194,6 +194,27 @@ const CREATE_PAYMENT_ENDPOINT = 'https://api.proha.site/create-payment';
 // { initData, orderId }, отдаёт { ok, found, paid, amount }.
 const ORDER_STATUS_ENDPOINT = 'https://api.proha.site/order-status';
 
+// Отметка «человек дошёл до экрана N» — чтобы видеть, на каком шаге
+// уходят те, кто открыл анкету, но не дошёл до оплаты (17.10.2026: без
+// неё не видно никого, кто не создал заказ). Принимает { initData, screen },
+// пишет только chat_id, экран и время. Ошибки глотаются: отметка не должна
+// мешать самой анкете.
+const WIZARD_EVENT_ENDPOINT = 'https://api.proha.site/wizard-event';
+const trackedScreens = new Set();
+
+function trackScreen(name) {
+  if (trackedScreens.has(name) || !tg || !tg.initData) return;
+  trackedScreens.add(name);
+  try {
+    fetch(WIZARD_EVENT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ initData: tg.initData, screen: name }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch {}
+}
+
 // Опрос статуса: раз в 4 секунды, но не дольше 15 минут — платёж, который
 // не подтвердился за это время, скорее всего не состоялся, и крутить опрос
 // бесконечно незачем. Лимит на бэкенде 60 запросов в минуту на IP (отдельный
@@ -233,6 +254,7 @@ function showScreen(name) {
     el.hidden = el.dataset.screen !== name;
   });
   if (onEnter[name]) onEnter[name]();
+  trackScreen(name);
   if (tg && tg.BackButton) {
     if (name === 'intro') {
       tg.BackButton.hide();
@@ -259,6 +281,9 @@ if (tg && tg.BackButton) {
     }
   });
 }
+
+// Первый экран виден сразу из разметки, без showScreen — отмечаем отдельно.
+trackScreen('intro');
 
 function tap() {
   if (tg && tg.HapticFeedback) {
