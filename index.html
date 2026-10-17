@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=68">
+<link rel="stylesheet" href="style.css?v=69">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=68" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=68" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=68" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=69" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=69" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=69" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -203,7 +203,7 @@
       проходит через агента, — только помогаем один раз всё настроить.
       Все остальные риски, не перечисленные выше явно, тоже по умолчанию
       лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=68" target="_blank" rel="noopener">договоре оферты</a>.
+      в <a href="offer.html?v=69" target="_blank" rel="noopener">договоре оферты</a>.
     </p>
   </section>
 
@@ -263,8 +263,8 @@
     </ul>
     <p class="pricing-card__note">
       Сюда входит и поддержка дальше — отдельно её докупать не нужно и
-      нельзя, платёж один. Цена одна для любой модели ИИ: Claude, ChatGPT
-      или Kimi. Библиотеки навыков тоже входят в эту сумму — все сразу,
+      нельзя, платёж один. Цена одна для любой модели ИИ: Claude или
+      ChatGPT. Библиотеки навыков тоже входят в эту сумму — все сразу,
       без доплаты за отдельные функции. Их список вы увидите на следующем
       шаге.
     </p>
@@ -630,6 +630,9 @@
          подключить сам (входа по паролю на сервере у него нет). Движок в
          боте остаётся для тех, у кого он уже стоит. -->
 
+    <!-- Kimi временно убран из выбора 17.10.2026 (решение владельца).
+         Движок в боте и вход по ключу остаются для уже подключённых;
+         вернуть — раскомментировать карточку и упоминание в pricing-card.
     <div class="ai-option ai-option--kimi" data-model="kimi">
       <div class="ai-option__row">
         <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-kimi">
@@ -655,6 +658,7 @@
         <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Оплата картой из России не проще, чем у остальных (нужна зарубежная карта — как и у Claude/Codex), плюс данные идут на серверы Moonshot.</p>
       </div>
     </div>
+    -->
 
   </section>
 
@@ -885,7 +889,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=68" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=68" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=69" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=69" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -985,11 +989,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=68" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=69" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=68"></script>
+<script src="app.js?v=69"></script>
 </body>
 </html>
