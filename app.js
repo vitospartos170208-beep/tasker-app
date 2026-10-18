@@ -635,7 +635,7 @@ function renderPaymentScreen() {
     paymentAssistantBtnLabel.textContent =
       wizardState.paymentUrl && wizardState.orderKind === 'assistant'
         ? linkOpen
-        : `С помощником — ${formatRub(withAssistant)}`;
+        : `Подключение ассистента с техническим помощником + месяц поддержки — ${formatRub(withAssistant)}`;
   }
 
   renderPaymentStatus();
@@ -744,7 +744,7 @@ function setupAssistantUpsell(screen) {
 
   box._reset = () => {
     btn.disabled = false;
-    label.textContent = `С помощником — ${formatRub(computeAssistantSurcharge())}`;
+    label.textContent = `Помощь с установкой + месяц поддержки — ${formatRub(computeAssistantSurcharge())}`;
     note.hidden = true;
   };
 
@@ -760,7 +760,7 @@ function setupAssistantUpsell(screen) {
         note.hidden = false;
         note.textContent = msg;
         btn.disabled = false;
-        label.textContent = `С помощником — ${formatRub(computeAssistantSurcharge())}`;
+        label.textContent = `Помощь с установкой + месяц поддержки — ${formatRub(computeAssistantSurcharge())}`;
       },
     });
     if (ok) {

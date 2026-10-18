@@ -1197,3 +1197,8 @@ body {
   line-height: 1.45;
   color: var(--ink-soft);
 }
+
+/* Длинная подпись второй кнопки оплаты переносится — держим строки по центру. */
+.payment-pay-btn span {
+  text-align: center;
+}

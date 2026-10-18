@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=71">
+<link rel="stylesheet" href="style.css?v=72">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=71" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=71" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=71" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=72" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=72" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=72" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -531,7 +531,7 @@
         <path d="M1.5 7 L26.5 7" stroke="currentColor" stroke-width="1.6"/>
         <path d="M4.5 14 L10.5 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
-      <span id="payment-assistant-btn-label">С помощником</span>
+      <span id="payment-assistant-btn-label">Подключение ассистента с техническим помощником + месяц поддержки</span>
     </button>
     <span class="field__error" id="payment-pay-error" hidden>Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.</span>
     <!-- Живой статус оплаты. Текст ставит renderPaymentStatus() в app.js по
@@ -609,22 +609,15 @@
     <span class="field__error" id="token-error" hidden>Это не похоже на ключ (пример: 123456789:AAF2xk...). Проверьте и вставьте ещё раз.</span>
   </label>
 
-  <!-- Помощь за деньги, одним блоком: сначала дешёвая «Помощь с
-       установкой», затем помощник с месяцем сопровождения. Видимость —
-       renderHelpOffer() в app.js (только оплатившим подключение). -->
+  <!-- Помощь за деньги, одним блоком: одна кнопка «Помощь с установкой + месяц
+       поддержки» (kind assistant, 5 900 ₽); «Помощь с установкой» за 5 000 ₽ снята
+       18.10.2026. Видимость — renderHelpOffer() в app.js (только оплатившим). -->
   <div class="assistant-upsell" id="help-offer-botfather" hidden>
     <p class="help-offer__title">Нужна помощь с установкой?</p>
-    <div class="help-offer__option" id="install-help-botfather">
-      <p class="assistant-upsell__text">Специалист подскажет, что и куда ввести.</p>
-      <button class="btn-primary btn-primary--outline" id="install-help-btn-botfather" type="button">
-        <span id="install-help-btn-botfather-label">Помощь с установкой</span>
-      </button>
-      <p class="assistant-upsell__note" id="install-help-note-botfather" hidden></p>
-    </div>
     <div class="help-offer__option" id="assistant-upsell-botfather">
-      <p class="assistant-upsell__text">Помощник проведёт по всем шагам, плюс месяц сопровождения.</p>
+      <p class="assistant-upsell__text">Специалист проведёт по всем шагам установки, плюс месяц поддержки.</p>
       <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-botfather" type="button">
-        <span id="assistant-upsell-btn-botfather-label">С помощником</span>
+        <span id="assistant-upsell-btn-botfather-label">Помощь с установкой + месяц поддержки</span>
       </button>
       <p class="assistant-upsell__note" id="assistant-upsell-note-botfather" hidden></p>
     </div>
@@ -695,28 +688,21 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=71" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=71" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=72" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=72" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
   <span class="field__error" id="server-submit-error" hidden>Не получилось отправить данные — проверьте связь и попробуйте ещё раз.</span>
 
-  <!-- Помощь за деньги, одним блоком: сначала дешёвая «Помощь с
-       установкой», затем помощник с месяцем сопровождения. Видимость —
-       renderHelpOffer() в app.js (только оплатившим подключение). -->
+  <!-- Помощь за деньги, одним блоком: одна кнопка «Помощь с установкой + месяц
+       поддержки» (kind assistant, 5 900 ₽); «Помощь с установкой» за 5 000 ₽ снята
+       18.10.2026. Видимость — renderHelpOffer() в app.js (только оплатившим). -->
   <div class="assistant-upsell" id="help-offer-server" hidden>
     <p class="help-offer__title">Нужна помощь с подключением сервера?</p>
-    <div class="help-offer__option" id="install-help-server">
-      <p class="assistant-upsell__text">Специалист подскажет, что и куда ввести.</p>
-      <button class="btn-primary btn-primary--outline" id="install-help-btn-server" type="button">
-        <span id="install-help-btn-server-label">Помощь с установкой</span>
-      </button>
-      <p class="assistant-upsell__note" id="install-help-note-server" hidden></p>
-    </div>
     <div class="help-offer__option" id="assistant-upsell-server">
-      <p class="assistant-upsell__text">Помощник проведёт по всем шагам, плюс месяц сопровождения.</p>
+      <p class="assistant-upsell__text">Специалист проведёт по всем шагам установки, плюс месяц поддержки.</p>
       <button class="btn-primary btn-primary--outline" id="assistant-upsell-btn-server" type="button">
-        <span id="assistant-upsell-btn-server-label">С помощником</span>
+        <span id="assistant-upsell-btn-server-label">Помощь с установкой + месяц поддержки</span>
       </button>
       <p class="assistant-upsell__note" id="assistant-upsell-note-server" hidden></p>
     </div>
@@ -795,11 +781,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=71" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=72" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=71"></script>
+<script src="app.js?v=72"></script>
 </body>
 </html>
