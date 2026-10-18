@@ -387,6 +387,15 @@ body {
   border-radius: var(--r-sm);
 }
 
+.pricing-list__or {
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
 .pricing-list__name {
   font-size: 0.86rem;
   font-weight: 600;

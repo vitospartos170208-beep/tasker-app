@@ -122,9 +122,10 @@ const wizardState = {
 // PRODUCT.md: «each customer runs on their own VPS with their own Claude
 // subscription»; «всё включено» этому прямо противоречило).
 //
-// SETUP_FEE — разовая оплата за подключение под ключ, включает и
-// поддержку (отдельно её больше докупить нельзя и не нужно — раньше
-// такая возможность была, теперь целиком внутри этой суммы).
+// SETUP_FEE — разовая оплата за подключение под ключ. Техническая
+// поддержка в неё НЕ входит (с 18.10.2026): 5 900 ₽/мес отдельно —
+// сейчас только текстом на экранах «Оплата» и «ВАЖНО ПРОЧИТАТЬ»,
+// кнопки оплаты под неё нет.
 // Ставка одна для любой модели ИИ: скидка за Kimi-only (10 000 ₽, у
 // помощника +5 000 ₽) отменена 16.10.2026.
 // MONTHLY_DISPLAY — не наш платёж и не число, которое где-то считается:
@@ -150,7 +151,7 @@ function computeSetupFee() {
 // это доплата за сопровождение. Держать в паре с ASSISTANT_SURCHARGE* в
 // concierge-bot/index.js — сумму к оплате всё равно считает бэкенд, тут
 // число нужно только для подписи на кнопке.
-const ASSISTANT_SURCHARGE = 20000;
+const ASSISTANT_SURCHARGE = 5900;
 function computeAssistantSurcharge() {
   return ASSISTANT_SURCHARGE;
 }
@@ -342,7 +343,7 @@ const addonsNextBtn = document.getElementById('addons-next-btn');
 // обязан уйти полным. Бэкенд всё равно подставляет полный список сам
 // (см. handleProvision в concierge-bot) — это страховка от закэшированного
 // Mini App, а не единственный источник правды.
-document.querySelectorAll('.addon-option').forEach((option) => {
+document.querySelectorAll('.addon-option[data-addon]').forEach((option) => {
   wizardState.addons.add(option.dataset.addon);
 });
 
@@ -887,7 +888,6 @@ const portInput = document.getElementById('port-input');
 const portError = document.getElementById('port-error');
 const passwordInput = document.getElementById('password-input');
 const pdnConsentInput = document.getElementById('pdn-consent-input');
-const serverIntroText = document.getElementById('server-intro-text');
 const serverNextBtn = document.getElementById('server-next-btn');
 const serverNextBtnLabel = document.getElementById('server-next-btn-label');
 const serverSubmitError = document.getElementById('server-submit-error');
@@ -904,14 +904,8 @@ const serverSubmitError = document.getElementById('server-submit-error');
 // Теперь во всём визарде одна история: клиент покупает VPS сам, см.
 // MONTHLY_DISPLAY и текст экрана «РАСХОДЫ».
 function renderServerScreen() {
-  serverIntroText.textContent =
-    // Локация — не Россия (17.10.2026): из РФ Telegram заблокирован, через
-    // релей фото, голосовые и документы не проходят (ответы обрываются на
-    // ~20 КБ), а Claude и ChatGPT с российских адресов могут не работать.
-    'Купите сервер (VPS): 8 ГБ ОЗУ, обязательно Ubuntu 24, локация — не Россия ' +
-    '(Нидерланды, Финляндия, Германия, Казахстан). Такие локации есть и у российских хостеров, ' +
-    'оплачиваются российской картой. Из России Telegram и ИИ-модели работают с перебоями. ' +
-    'Когда сервер готов, впишите его данные из панели хостинга ниже.';
+  // Текст экрана — статичный, в index.html (#server-intro-text): в нём
+  // ссылка на хостера, textContent её бы стёр.
   validateServerForm();
 }
 

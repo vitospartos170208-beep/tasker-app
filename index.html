@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=70">
+<link rel="stylesheet" href="style.css?v=71">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=70" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=70" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=70" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=71" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=71" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=71" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -130,9 +130,7 @@
 
 <!-- Экран рисков — сразу после знакомства, до РАСХОДОВ, чтобы человек
      принял это решение раньше, чем увидит сумму (не наоборот: "уже
-     потратился — какая разница, что подписал"). Тот же .pricing-card
-     компонент, что и на экране РАСХОДЫ, только с акцентом --danger вместо
-     нейтрального doc-label. Чекбокс — тот же паттерн, что #pdn-consent-input
+     потратился — какая разница, что подписал"). Чекбокс — тот же паттерн, что #pdn-consent-input
      на экране "server": явное подтверждение весомее, чем просто текст,
      который можно проскроллить не читая. Юридически это не замена offer.html
      (там раздел 5 "Ограничение ответственности"), а более явное и заметное
@@ -157,55 +155,22 @@
     <h1 class="passport__title passport__title--compact">ВАЖНО ПРОЧИТАТЬ</h1>
   </header>
 
-  <section class="pricing-card pricing-card--danger" aria-label="Утечка данных">
-    <span class="doc-label doc-label--danger">УТЕЧКА ДАННЫХ</span>
-    <p class="pricing-card__text">
-      Сервер — ваш: вы покупаете его сами и остаётесь его единственным
-      владельцем. Чтобы поставить ассистента без единой команды в терминале,
-      на шаге установки вы даёте нам разовый доступ по SSH: пароль уходит по
-      защищённому каналу прямо на наш сервер установки, используется один раз
-      и не сохраняется. В конце установки вход по паролю на сервере
-      отключается совсем, а для обновлений и поддержки остаётся наш SSH-ключ
-      — как удалить и его, написано на последнем шаге.
-    </p>
-    <p class="pricing-card__note">
-      Поэтому риски, связанные с утечкой информации именно с вашего
-      сервера, — на вашей стороне, а не на нашей: кому вы передали пароль,
-      как настроен доступ, что вы храните на сервере дальше. Мы подключаем
-      ассистента один раз и не отвечаем за то, что происходит с сервером
-      после установки.
+  <!-- Текст экрана — дословно от владельца продукта (18.10.2026), заменил
+       три карточки «Утечка данных / Доступ к ИИ-моделям / Разовая услуга».
+       Список — тот же .steps, что на экране botfather. -->
+  <section class="intro">
+    <p class="intro__text">
+      Моей ценностью является честность, поэтому я вас предупреждаю:
     </p>
   </section>
 
-  <section class="pricing-card pricing-card--danger" aria-label="Доступ к ИИ-моделям">
-    <span class="doc-label doc-label--danger">ДОСТУП К ИИ-МОДЕЛЯМ</span>
-    <p class="pricing-card__text">
-      Claude и часть других ИИ-моделей официально не работают в России и
-      могут в любой момент ограничить, заблокировать или изменить условия
-      доступа — это решение самих ИИ-платформ, не наше.
-    </p>
-    <p class="pricing-card__note">
-      Подписку на ИИ-модель вы оформляете на себя лично (см. РАСХОДЫ
-      дальше), и потеря или нестабильность этого подключения — тоже риск
-      на вашей стороне. Мы можем помочь перенастроить агента на другую
-      модель, но не гарантируем непрерывную работу конкретной ИИ-платформы.
-    </p>
-  </section>
-
-  <section class="pricing-card" aria-label="Разовая услуга">
-    <span class="doc-label">РАЗОВАЯ УСЛУГА</span>
-    <p class="pricing-card__text">
-      PROha подключает вам агента один раз — это не подписка на хранение
-      или владение вашими данными с нашей стороны.
-    </p>
-    <p class="pricing-card__note">
-      Мы не выступаем оператором или хранителем информации, которая
-      проходит через агента, — только помогаем один раз всё настроить.
-      Все остальные риски, не перечисленные выше явно, тоже по умолчанию
-      лежат на вас как на владельце сервера и подписок. Полные условия —
-      в <a href="offer.html?v=70" target="_blank" rel="noopener">договоре оферты</a>.
-    </p>
-  </section>
+  <ol class="steps" aria-label="Предупреждения">
+    <li class="steps__item"><span class="steps__num">1</span><span class="steps__text">Сервер — это память ассистента. Никому не передавайте данные о вашем сервере.</span></li>
+    <li class="steps__item"><span class="steps__num">2</span><span class="steps__text">На сервере тоже бывают технические работы.</span></li>
+    <li class="steps__item"><span class="steps__num">3</span><span class="steps__text">Согласно 152-ФЗ, персональные данные граждан РФ не должны храниться на зарубежных серверах, поэтому я рекомендую хранить их на российских сервисах (вам подскажет ассистент).</span></li>
+    <li class="steps__item"><span class="steps__num">4</span><span class="steps__text">ИИ-модели официально не работают в России, их могут заблокировать либо изменить условия доступа.</span></li>
+    <li class="steps__item"><span class="steps__num">5</span><span class="steps__text">Я проведу вас к подключению ассистента одноразово. Ежемесячная техническая поддержка оплачивается дополнительно.</span></li>
+  </ol>
 
   <label class="field field--consent">
     <input type="checkbox" id="risks-consent-input">
@@ -233,7 +198,9 @@
      решению владельца продукта, ровно из-за противоречия с тем, как
      реально работает установка.
      ВНИМАНИЕ при правках: суммы на этом экране обязаны совпадать с
-     SETUP_FEE/MONTHLY_DISPLAY в app.js. -->
+     SETUP_FEE/ASSISTANT_SURCHARGE/MONTHLY_DISPLAY в app.js.
+     Текст — от владельца продукта 18.10.2026; карточка «Без привязки»
+     снята с экрана (обещание остаётся в оферте, раздел 2.1). -->
 <section class="screen" data-screen="pricing" hidden>
 
   <header class="passport__header passport__header--plain">
@@ -253,62 +220,32 @@
     <h1 class="passport__title passport__title--compact">РАСХОДЫ</h1>
   </header>
 
-  <section class="pricing-card" aria-label="Разовая оплата">
-    <span class="doc-label">ОДИН РАЗ</span>
+  <section class="pricing-card" aria-label="Подключение">
     <ul class="pricing-list">
       <li class="pricing-list__row">
-        <span class="pricing-list__name">Подключение агента под ключ</span>
+        <span class="pricing-list__name">Самостоятельное подключение агента</span>
         <span class="pricing-list__price">30 000 ₽</span>
       </li>
+      <li class="pricing-list__or" aria-hidden="true">или</li>
+      <li class="pricing-list__row">
+        <span class="pricing-list__name">Подключение агента с техническим помощником</span>
+        <span class="pricing-list__price">35 900 ₽</span>
+      </li>
     </ul>
-    <p class="pricing-card__note">
-      Сюда входит и поддержка дальше — отдельно её докупать не нужно и
-      нельзя, платёж один. Цена одна для любой модели ИИ: Claude или
-      ChatGPT. Библиотеки навыков тоже входят в эту сумму — все сразу,
-      без доплаты за отдельные функции. Их список вы увидите на следующем
-      шаге.
-    </p>
   </section>
 
-  <section class="pricing-card" aria-label="Ежемесячная оплата">
-    <span class="doc-label">КАЖДЫЙ МЕСЯЦ</span>
-    <p class="pricing-card__text">Нам вы больше ничего не платите. Два счёта — не от нас:</p>
+  <section class="pricing-card" aria-label="Дополнительные расходы">
+    <span class="doc-label">ДОПОЛНИТЕЛЬНЫЕ РАСХОДЫ</span>
     <ul class="pricing-list">
       <li class="pricing-list__row">
-        <span class="pricing-list__name">Сервер (VPS)</span>
-        <span class="pricing-list__price">от ≈400 ₽/мес</span>
+        <span class="pricing-list__name">Сервер</span>
+        <span class="pricing-list__price">от 400 ₽/мес</span>
       </li>
       <li class="pricing-list__row">
         <span class="pricing-list__name">Подписка на ИИ</span>
         <span class="pricing-list__price">по тарифу модели</span>
       </li>
     </ul>
-    <p class="pricing-card__note">
-      Сервер вы покупаете сами у любого VPS-хостера с локацией за пределами
-      России (см. следующие шаги — подскажем, какой взять) и оплачиваете
-      напрямую ему, счёта от нас не
-      будет. Подписку на ИИ вы тоже оформляете на себя — так требуют
-      правила самих разработчиков ИИ: ваши переписки и файлы не
-      смешиваются ни с чьими. Мы занимаемся только разовым подключением и
-      поддержкой дальше.
-    </p>
-  </section>
-
-  <!-- Снятие возражения «а если я привяжусь, а вы пропадёте или поднимете
-       цену». Обещание не декоративное — оно закреплено разделом 2.1
-       публичной оферты (offer.html). Менять формулировку здесь только
-       вместе с офертой. -->
-  <section class="pricing-card" aria-label="Отсутствие привязки">
-    <span class="doc-label">БЕЗ ПРИВЯЗКИ</span>
-    <p class="pricing-card__text">
-      Захотите уйти — заберёте агента с собой.
-    </p>
-    <p class="pricing-card__note">
-      Сервер и так изначально ваш, но и всё остальное (доступы, файлы
-      агента) по вашему требованию передаём полностью, и ассистент
-      продолжает работать уже без нас. Бесплатно, в любой момент. Это
-      записано в публичной оферте, а не просто обещано на словах.
-    </p>
   </section>
 
   <footer class="passport__footer">
@@ -341,10 +278,9 @@
     <h1 class="passport__title passport__title--compact">Функции Ассистента</h1>
   </header>
 
-  <section class="intro">
-    <p class="intro__text" id="addons-note">Купив и подключив Ассистента, вы получите:</p>
-  </section>
-
+  <!-- 18.10.2026: на экране только YouTube и «И другое» (решение
+       владельца). Остальные карточки сняты с показа; библиотеки ставятся
+       все равно — бэкенд берёт полный ALL_ADDONS, не эту разметку. -->
   <section class="addon-options" aria-label="Функции Ассистента">
 
     <div class="addon-option" data-addon="youtube-full">
@@ -363,162 +299,27 @@
         </button>
       </div>
       <div class="addon-option__panel" id="addon-panel-youtube-full" hidden>
-        <p class="addon-option__desc">Сценарий, автомонтаж и публикация — от идеи до ролика на канале</p>
-        <p class="addon-option__note">
-          Важно знать заранее: подключение канала — разовая привязка вашего
-          Google-аккаунта, и Google может показать предупреждение
-          «приложение не проверено» — это нормально, не ошибка, просто
-          подтвердите вход. Готовый ролик рендерится на вашем сервере не
-          мгновенно — для этой функции стоит взять сервер помощнее
-          базового. Разбор чужого ролика — это разбор структуры и приёмов
-          (что удерживает внимание), а не копирование его содержания.
-        </p>
+        <p class="addon-option__desc">Сценарий, автомонтаж и публикация — от идеи до монетизации.</p>
       </div>
     </div>
 
-    <div class="addon-option" data-addon="content-analysis">
+    <div class="addon-option">
       <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-content-analysis">
+        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-more">
           <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M16.5 16.5 L22 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="14" cy="14" r="9" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M14 9.5 L14 18.5 M9.5 14 L18.5 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
           <span class="addon-option__head">
-            <span class="addon-option__name">Разбор чужого контента</span>
+            <span class="addon-option__name">И другое</span>
           </span>
           <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
       </div>
-      <div class="addon-option__panel" id="addon-panel-content-analysis" hidden>
-        <p class="addon-option__desc">Анализ роликов и постов конкурентов</p>
-      </div>
-    </div>
-
-    <div class="addon-option" data-addon="motion-graphics">
-      <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-motion-graphics">
-          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
-          <rect x="9" y="9" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/>
-          </svg>
-          <span class="addon-option__head">
-            <span class="addon-option__name">Анимации и моушн-графика</span>
-          </span>
-          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="addon-option__panel" id="addon-panel-motion-graphics" hidden>
-        <p class="addon-option__desc">Движущаяся графика для роликов</p>
-      </div>
-    </div>
-
-    <div class="addon-option" data-addon="web-dev">
-      <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-web-dev">
-          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect x="5" y="7" width="18" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M5 11 L23 11" stroke="currentColor" stroke-width="1.6"/>
-          <circle cx="8" cy="9" r="0.8" fill="currentColor"/>
-          <circle cx="11" cy="9" r="0.8" fill="currentColor"/>
-          </svg>
-          <span class="addon-option__head">
-            <span class="addon-option__name">Разработка и сайты</span>
-          </span>
-          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="addon-option__panel" id="addon-panel-web-dev" hidden>
-        <p class="addon-option__desc">Лендинги и сайты под ключ</p>
-      </div>
-    </div>
-
-    <div class="addon-option" data-addon="social-content">
-      <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-social-content">
-          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect x="4" y="5" width="20" height="18" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M8 10.5 L20 10.5 M8 14.5 L17 14.5 M8 18.5 L20 18.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          </svg>
-          <span class="addon-option__head">
-            <span class="addon-option__name">Текст и контент для соцсетей</span>
-          </span>
-          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="addon-option__panel" id="addon-panel-social-content" hidden>
-        <p class="addon-option__desc">Посты, подписи, сценарии</p>
-      </div>
-    </div>
-
-    <div class="addon-option" data-addon="video-editing">
-      <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-video-editing">
-          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <rect x="5" y="7" width="18" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M8 7 L8 21 M20 7 L20 21" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M5 11 L8 11 M5 17 L8 17 M20 11 L23 11 M20 17 L23 17" stroke="currentColor" stroke-width="1.6"/>
-          </svg>
-          <span class="addon-option__head">
-            <span class="addon-option__name">Монтаж видео</span>
-          </span>
-          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="addon-option__panel" id="addon-panel-video-editing" hidden>
-        <p class="addon-option__desc">Обрезка, склейка, титры, музыка</p>
-      </div>
-    </div>
-
-    <div class="addon-option" data-addon="market-research">
-      <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-market-research">
-          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <path d="M5 22 L23 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          <rect x="7" y="15" width="3.5" height="7" stroke="currentColor" stroke-width="1.6"/>
-          <rect x="13.25" y="11" width="3.5" height="11" stroke="currentColor" stroke-width="1.6"/>
-          <rect x="19.5" y="7" width="3.5" height="15" stroke="currentColor" stroke-width="1.6"/>
-          </svg>
-          <span class="addon-option__head">
-            <span class="addon-option__name">Исследование рынка и конкурентов</span>
-          </span>
-          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="addon-option__panel" id="addon-panel-market-research" hidden>
-        <p class="addon-option__desc">Кто конкуренты и что у них работает</p>
-      </div>
-    </div>
-
-    <div class="addon-option" data-addon="seo-check">
-      <div class="addon-option__row">
-        <button class="addon-option__toggle" type="button" aria-expanded="false" aria-controls="addon-panel-seo-check">
-          <svg class="addon-option__icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
-          <path d="M16.5 16.5 L22 22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M8 11 L10.2 13.2 L14.5 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="addon-option__head">
-            <span class="addon-option__name">Проверка сайта (SEO)</span>
-          </span>
-          <svg class="addon-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-      <div class="addon-option__panel" id="addon-panel-seo-check" hidden>
-        <p class="addon-option__desc">Аудит сайта на ошибки и позиции</p>
+      <div class="addon-option__panel" id="addon-panel-more" hidden>
+        <p class="addon-option__desc">Вы можете обучить его любому навыку.</p>
       </div>
     </div>
 
@@ -566,7 +367,6 @@
   </header>
 
   <section class="intro">
-    <p class="intro__text">Выберите одну или несколько моделей — агент подключит все сразу, а какой пользоваться прямо сейчас, вы переключите позже в самом боте, без переустановки. За каждую выбранную модель вы платите напрямую её разработчику (см. предыдущий шаг). Нажмите на название, чтобы прочитать о модели, затем отметьте галочкой.</p>
     <p class="intro__text">Подписка на любую из моделей оплачивается зарубежной картой. Купить зарубежную карту можно здесь: <a href="https://t.me/FlowbitFinance_bot?start=ref_F657323" target="_blank" rel="noopener">@FlowbitFinance_bot</a></p>
   </section>
 
@@ -577,14 +377,14 @@
         <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-claude">
           <span class="ai-option__badge" aria-hidden="true"></span>
           <span class="ai-option__head">
-            <span class="ai-option__name">Claude Code</span>
+            <span class="ai-option__name">Claude</span>
             <span class="ai-option__vendor">Anthropic</span>
           </span>
           <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <label class="ai-option__select" aria-label="Выбрать «Claude Code»">
+        <label class="ai-option__select" aria-label="Выбрать «Claude»">
           <input class="ai-option__input" type="checkbox" value="claude">
           <svg class="ai-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -592,9 +392,12 @@
         </label>
       </div>
       <div class="ai-option__panel" id="ai-panel-claude" hidden>
-        <p class="ai-option__desc">Официальный CLI-агент от Anthropic. Работает прямо в терминале на вашем сервере, видит и правит код по всему проекту сразу — сильнее всех справляется со сложными, многошаговыми задачами.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Держит в памяти огромный объём за раз (контекст до 1 млн токенов) — реже теряет нить в больших проектах.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Дороже конкурентов по цене токенов при активном ежедневном использовании.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Более структурный</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Лучше память</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Лучше подходит для сложных аналитических задач</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">−</span>Дороже других моделей</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">−</span>Уступает по качеству генерации картинок</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">−</span>Чаще блокируется, чем другие модели</p>
       </div>
     </div>
 
@@ -603,14 +406,14 @@
         <button class="ai-option__toggle" type="button" aria-expanded="false" aria-controls="ai-panel-codex">
           <span class="ai-option__badge" aria-hidden="true"></span>
           <span class="ai-option__head">
-            <span class="ai-option__name">Codex CLI</span>
-            <span class="ai-option__vendor">OpenAI</span>
+            <span class="ai-option__name">Codex</span>
+            <span class="ai-option__vendor">ChatGPT · OpenAI</span>
           </span>
           <svg class="ai-option__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 7.5 L10 12.5 L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <label class="ai-option__select" aria-label="Выбрать «Codex CLI»">
+        <label class="ai-option__select" aria-label="Выбрать «Codex»">
           <input class="ai-option__input" type="checkbox" value="codex">
           <svg class="ai-option__check" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M4 10.5 L8 14.5 L16 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -618,9 +421,12 @@
         </label>
       </div>
       <div class="ai-option__panel" id="ai-panel-codex" hidden>
-        <p class="ai-option__desc">Терминальный агент от OpenAI на основе GPT. Выполняет код в изолированной песочнице — риск случайно сломать что-то на сервере ниже, чем у большинства аналогов.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">Плюс</span>Дешевле по токенам в 2,5–4 раза и особенно силён на терминальных/серверных задачах.</p>
-        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">Минус</span>Слабее держит очень большой контекст на масштабных многофайловых переделках.</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Дешевле</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Генерирует визуал лучше остальных</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Лучше пишет тексты</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Практически не блокируется</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--pro">+</span>Можно сбросить лимиты</p>
+        <p class="ai-option__pros"><span class="ai-option__pros-label ai-option__pros-label--con">−</span>Меняет условия подключения</p>
       </div>
     </div>
 
@@ -702,10 +508,11 @@
 
   <section class="intro">
     <p class="intro__text">
-      Эта услуга не бесплатна. Нам вы платите один раз — за подключение
-      под ключ вместе с поддержкой дальше. Сервер и подписку на ИИ
-      оплачиваете сами и напрямую (см. экран «РАСХОДЫ») — нам эти два
-      счёта не приходят.
+      Выберите удобный для вас способ подключения ИИ-ассистента.
+    </p>
+    <p class="intro__text">
+      <strong>Ежемесячная техническая поддержка — 5 900 ₽/мес</strong>,
+      оплачивается дополнительно.
     </p>
   </section>
 
@@ -726,12 +533,6 @@
       </svg>
       <span id="payment-assistant-btn-label">С помощником</span>
     </button>
-    <p class="payment-assistant-hint">
-      «С помощником» — то же подключение, но живой человек созванивается
-      с вами и проводит по шагам (создание бота, покупка сервера), плюс
-      месяц сопровождения с помощником. Дороже на 20 000 ₽, автоматическая
-      установка при этом работает так же.
-    </p>
     <span class="field__error" id="payment-pay-error" hidden>Не удалось создать ссылку на оплату — проверьте связь и попробуйте ещё раз.</span>
     <!-- Живой статус оплаты. Текст ставит renderPaymentStatus() в app.js по
          ответу бэкенда на /order-status — тому же order.paid, от которого
@@ -775,22 +576,24 @@
         </button>
       </div>
     </div>
-    <h1 class="passport__title passport__title--compact">Создайте своего бота</h1>
+    <h1 class="passport__title passport__title--compact">Начнём создавать</h1>
   </header>
 
   <section class="intro">
     <p class="intro__text">
-      Агент живёт в вашем собственном Telegram-боте: не в общем, а в том,
-      которым владеете только вы. Создать его можно за минуту через
-      официального @BotFather.
+      Ваш ИИ-ассистент будет жить в Telegram — для него нужно создать бота.
+      Давайте создадим его за минуту через BotFather.
     </p>
   </section>
 
   <ol class="steps" aria-label="Шаги создания бота">
-    <li class="steps__item"><span class="steps__num">1</span><span class="steps__text">Откройте <strong>@BotFather</strong></span></li>
-    <li class="steps__item"><span class="steps__num">2</span><span class="steps__text">Отправьте команду <code>/newbot</code></span></li>
-    <li class="steps__item"><span class="steps__num">3</span><span class="steps__text">Придумайте имя и username — латиницей, оканчивается на <code>bot</code></span></li>
-    <li class="steps__item"><span class="steps__num">4</span><span class="steps__text">Скопируйте выданный токен и вставьте его ниже</span></li>
+    <li class="steps__item"><span class="steps__num">1</span><span class="steps__text">Зайдите в <strong>BotFather</strong> (бот в Telegram).</span></li>
+    <li class="steps__item"><span class="steps__num">2</span><span class="steps__text">В нижнем левом углу нажмите кнопку <strong>Open</strong>.</span></li>
+    <li class="steps__item"><span class="steps__num">3</span><span class="steps__text">Нажмите <strong>+ Create a New Bot</strong>.</span></li>
+    <li class="steps__item"><span class="steps__num">4</span><span class="steps__text">В графе <strong>Bot Name</strong> напишите имя своего ассистента. В графе <strong>t.me/</strong> напишите любое название латиницей и добавьте в конце <code>_bot</code>.</span></li>
+    <li class="steps__item"><span class="steps__num">5</span><span class="steps__text">Добавьте ассистенту фотографию — это его аватарка в Telegram.</span></li>
+    <li class="steps__item"><span class="steps__num">6</span><span class="steps__text">Нажмите <strong>Create Bot</strong>.</span></li>
+    <li class="steps__item"><span class="steps__num">7</span><span class="steps__text">Зайдите в этого бота и скопируйте ключ, нажав синюю кнопку <strong>Copy</strong>.</span></li>
   </ol>
 
   <a class="btn-primary btn-primary--outline" href="https://t.me/BotFather" target="_blank" rel="noopener">
@@ -801,9 +604,9 @@
   </a>
 
   <label class="field" id="token-field">
-    <span class="field__label doc-label">ТОКЕН БОТА</span>
+    <span class="field__label doc-label">Вставьте ключ из BotFather</span>
     <input class="field__input" id="token-input" type="text" inputmode="text" autocomplete="off" placeholder="123456789:AAF2xk...">
-    <span class="field__error" id="token-error" hidden>Это не похоже на токен (пример: 123456789:AAF2xk...). Проверьте и вставьте ещё раз.</span>
+    <span class="field__error" id="token-error" hidden>Это не похоже на ключ (пример: 123456789:AAF2xk...). Проверьте и вставьте ещё раз.</span>
   </label>
 
   <!-- Помощь за деньги, одним блоком: сначала дешёвая «Помощь с
@@ -859,12 +662,15 @@
 
   <section class="intro">
     <p class="intro__text" id="server-intro-text">
-      <!-- Это только фолбэк: реальный текст ставит renderServerScreen()
-           в app.js — там же лежит и предупреждение о том, что этот экран
-           противоречит модели «всё включено» и пока не переписан. -->
-      Купите сервер (VPS): обязательно Ubuntu 24, локация — не Россия
-      (Нидерланды, Финляндия, Германия, Казахстан). Когда сервер готов,
-      впишите его данные из панели хостинга ниже.
+      <!-- Локация — не Россия (17.10.2026): из РФ Telegram заблокирован,
+           через релей фото, голосовые и документы не проходят (ответы
+           обрываются на ~20 КБ), а Claude и ChatGPT с российских адресов
+           могут не работать. Текст живёт только здесь — раньше его
+           перезаписывал renderServerScreen() в app.js. -->
+      Купите сервер (VPS): 8 ГБ ОЗУ, обязательно Ubuntu 24, локация — любая
+      страна, кроме России. Рекомендую арендовать сервер на
+      <a href="https://rdp-onedash.ru/" target="_blank" rel="noopener">OneDash</a>.
+      Когда сервер готов, впишите его данные из панели хостинга ниже.
     </p>
   </section>
 
@@ -889,7 +695,7 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=70" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=70" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=71" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=71" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
@@ -899,7 +705,7 @@
        установкой», затем помощник с месяцем сопровождения. Видимость —
        renderHelpOffer() в app.js (только оплатившим подключение). -->
   <div class="assistant-upsell" id="help-offer-server" hidden>
-    <p class="help-offer__title">Нужна помощь с установкой?</p>
+    <p class="help-offer__title">Нужна помощь с подключением сервера?</p>
     <div class="help-offer__option" id="install-help-server">
       <p class="assistant-upsell__text">Специалист подскажет, что и куда ввести.</p>
       <button class="btn-primary btn-primary--outline" id="install-help-btn-server" type="button">
@@ -989,11 +795,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=70" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=71" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=70"></script>
+<script src="app.js?v=71"></script>
 </body>
 </html>
