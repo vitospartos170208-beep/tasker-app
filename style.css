@@ -1202,3 +1202,13 @@ body {
 .payment-pay-btn span {
   text-align: center;
 }
+
+/* Длинный плюс/минус переносится под текст, а не под значок. */
+.ai-option__pros {
+  display: flex;
+  align-items: baseline;
+}
+
+.ai-option__pros-label {
+  flex: none;
+}
