@@ -27,7 +27,7 @@
      по их СОБСТВЕННОМУ адресу даже когда html открывается заново по новому
      URL — cache-buster у html не трогает кэш подключённых файлов, если у
      них нет своего. Бампать оба числа вместе при каждой визуальной правке. -->
-<link rel="stylesheet" href="style.css?v=74">
+<link rel="stylesheet" href="style.css?v=75">
 </head>
 <body>
 <!--
@@ -66,9 +66,9 @@
      Панель одна общая, координаты в CSS подобраны под её реальное место
      в строке (одинаковое на любом экране, шапка везде той же высоты). -->
 <div class="app-menu__panel" id="app-menu-panel" hidden>
-  <a href="privacy.html?v=74" target="_blank" rel="noopener">Политика обработки персональных данных</a>
-  <a href="consent.html?v=74" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
-  <a href="offer.html?v=74" target="_blank" rel="noopener">Публичная оферта</a>
+  <a href="privacy.html?v=75" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="consent.html?v=75" target="_blank" rel="noopener">Согласие на обработку персональных данных</a>
+  <a href="offer.html?v=75" target="_blank" rel="noopener">Публичная оферта</a>
 </div>
 
 <section class="screen" data-screen="intro">
@@ -229,7 +229,7 @@
       <li class="pricing-list__or" aria-hidden="true">или</li>
       <li class="pricing-list__row">
         <span class="pricing-list__name">Подключение агента с техническим помощником</span>
-        <span class="pricing-list__price">35 900 ₽</span>
+        <span class="pricing-list__price">50 000 ₽</span>
       </li>
     </ul>
   </section>
@@ -669,7 +669,7 @@
       Выберите удобный для вас способ подключения ИИ-ассистента.
     </p>
     <p class="intro__text">
-      <strong>Ежемесячная техническая поддержка — 5&nbsp;900&nbsp;₽/мес</strong>,
+      <strong>Ежемесячная техническая поддержка — 15&nbsp;000&nbsp;₽/мес</strong>,
       оплачивается дополнительно.
     </p>
   </section>
@@ -768,7 +768,7 @@
   </label>
 
   <!-- Помощь за деньги, одним блоком: одна кнопка «Помощь с установкой + месяц
-       поддержки» (kind assistant, 5 900 ₽); «Помощь с установкой» за 5 000 ₽ снята
+       поддержки» (kind assistant, 20 000 ₽ = 15 000 месяц поддержки + 5 000 помощь); «Помощь с установкой» за 5 000 ₽ отдельно снята
        18.10.2026. Видимость — renderHelpOffer() в app.js (только оплатившим). -->
   <div class="assistant-upsell" id="help-offer-botfather" hidden>
     <p class="help-offer__title">Нужна помощь с установкой?</p>
@@ -846,14 +846,14 @@
   <label class="field field--consent">
     <input type="checkbox" id="pdn-consent-input">
     <span class="field__consent-text">
-      Даю <a href="consent.html?v=74" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=74" target="_blank" rel="noopener">политику</a>
+      Даю <a href="consent.html?v=75" target="_blank" rel="noopener">согласие на обработку персональных данных</a> и принимаю <a href="privacy.html?v=75" target="_blank" rel="noopener">политику</a>
     </span>
   </label>
 
   <span class="field__error" id="server-submit-error" hidden>Не получилось отправить данные — проверьте связь и попробуйте ещё раз.</span>
 
   <!-- Помощь за деньги, одним блоком: одна кнопка «Помощь с установкой + месяц
-       поддержки» (kind assistant, 5 900 ₽); «Помощь с установкой» за 5 000 ₽ снята
+       поддержки» (kind assistant, 20 000 ₽ = 15 000 месяц поддержки + 5 000 помощь); «Помощь с установкой» за 5 000 ₽ отдельно снята
        18.10.2026. Видимость — renderHelpOffer() в app.js (только оплатившим). -->
   <div class="assistant-upsell" id="help-offer-server" hidden>
     <p class="help-offer__title">Нужна помощь с подключением сервера?</p>
@@ -939,11 +939,11 @@
      визарда (152-ФЗ ст. 18.1: должна быть в подвале КАЖДОЙ страницы, не
      только рядом с чекбоксом согласия на экране 'server'). -->
 <p class="global-privacy-link">
-  <a href="privacy.html?v=74" target="_blank" rel="noopener">Политика обработки персональных данных</a>
+  <a href="privacy.html?v=75" target="_blank" rel="noopener">Политика обработки персональных данных</a>
 </p>
 
 </main>
 
-<script src="app.js?v=74"></script>
+<script src="app.js?v=75"></script>
 </body>
 </html>
